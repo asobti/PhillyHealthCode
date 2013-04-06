@@ -15,4 +15,10 @@ public class TestApi {
 		task.execute(params);
 		
 	}
+	
+	public void test2() {
+		RecipeFilter filter = new RecipeFilter();
+		String url = "http://vitaminme.notimplementedexception.me/recipes";
+		url += "?filter=" + filter.toString();
+	}
 }
