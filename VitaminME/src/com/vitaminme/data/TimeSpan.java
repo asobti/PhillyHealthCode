@@ -9,6 +9,10 @@ public class TimeSpan
 	{
 		this.seconds = seconds;
 	}
+	
+	public TimeSpan() {
+		this.seconds = 0;
+	}
 
 	public int getHours()
 	{
@@ -43,7 +47,7 @@ public class TimeSpan
 			res = this.getHours() + "h";
 
 		if (this.getMinutes() > 0)
-			res = this.getMinutes() + "m";
+			res = this.getMinutes() + "min";
 
 		if (this.getSeconds() > 0)
 			res = this.getSeconds() + "s";

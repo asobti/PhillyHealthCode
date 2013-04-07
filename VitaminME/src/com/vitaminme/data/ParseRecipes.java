@@ -87,11 +87,11 @@ public class ParseRecipes implements CallBackable {
 			try {
 				recipe.cookingTime = new TimeSpan(match.getInt("totalTimeInSeconds"));
 			} catch (Exception e) {
-				
+				recipe.cookingTime = new TimeSpan();
 			}
 			
 			try {
-				recipe.sourceDisplayName =  match.getString("sourceDisplayName");
+				recipe.source =  new RecipeSource(match.getString("sourceDisplayName"));
 			} catch (Exception e) {
 				
 			}

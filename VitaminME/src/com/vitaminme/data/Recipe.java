@@ -7,13 +7,17 @@ import java.util.List;
 public class Recipe
 {
 	public String id;
-	public HashMap<ImageSize, String> images;
-	public String url;
 	public String name;
+	
+	public HashMap<ImageSize, String> images = new HashMap<ImageSize, String>();
+		
 	public List<String> courses;
 	public TimeSpan cookingTime;
-	public List<String> ingredients;
-	public String sourceDisplayName;
+	public List<String> ingredients = new ArrayList<String>();
+	public RecipeSource source;
+	public List<RecipeNutrient> nutrients = new ArrayList<RecipeNutrient>();
+	public RecipeNutrient energy;
+	public int servingSize;
 	
 	public String getNotes() {
 		String notes = "";

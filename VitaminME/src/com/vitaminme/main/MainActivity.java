@@ -9,6 +9,7 @@ import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseNutrients;
+import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.recipelist.RecipeList;
 
 import android.os.Bundle;
@@ -44,26 +45,25 @@ public class MainActivity extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-	{	
+	{
 		super.onCreate(savedInstanceState);
 		setTitle("Vitamin.ME");
 		setContentView(R.layout.activity_main);
-		
+
+		Intent intent = new Intent(MainActivity.this, RecipeDetails.class);
+		// startActivity(intent);
+
 		mDialog = new ProgressDialog(MainActivity.this);
 		mDialog.setMessage("Loading...");
 		mDialog.setCancelable(false);
 		mDialog.show();
-		
+
 		ApiCallParams params = new ApiCallParams();
 		params.url = "http://vitaminme.notimplementedexception.me/nutrients";
 		params.callBackObject = new ParseNutrients(MainActivity.this);
 
 		ApiCallTask task = new ApiCallTask();
 		task.execute(params);
-//		Intent intent = new Intent(MainActivity.this,
-//				RecipeList.class);
-//		intent.putExtra("Nutrients", nutrients);
-//		startActivity(intent);
 
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -132,7 +132,14 @@ public class MainActivity extends Activity
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3)
 			{
-				MainActivity.this.adapter.getFilter().filter(cs);
+				try
+				{
+					MainActivity.this.adapter.getFilter().filter(cs);
+				}
+				catch(Exception ex)
+				{
+					System.out.println("page 1 ontextchanged: " + ex.getMessage());
+				}
 			}
 
 			@Override
@@ -180,7 +187,7 @@ public class MainActivity extends Activity
 		}
 		if (list == "")
 		{
-			list = "no nutrients selected";
+			list = "No nutrients selected";
 		}
 		box.setMessage(list);
 		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener()

@@ -10,83 +10,143 @@ import org.json.JSONObject;
 import android.app.Activity;
 
 import com.vitaminme.api.*;
+import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.recipelist.RecipeList;
 
-public class ParseRecipe implements CallBackable {
+public class ParseRecipe implements CallBackable
+{
 	// change RecipeList to whatever Matt's activity is called
 	// and all references of it through this file
-	private RecipeList caller;
-	
-	public ParseRecipe(RecipeList caller) {
-		this.caller = caller;
+	private RecipeDetails caller;
+
+	public ParseRecipe(RecipeDetails recipe)
+	{
+		this.caller = recipe;
 	}
-	
+
 	@Override
-	public void callback(ApiResponse apiResponse) {
+	public void callback(ApiResponse apiResponse)
+	{
 		JSONObject jsonObject = apiResponse.jsonObj;
 		Recipe recipe = new Recipe();
 		Pagination pag = new Pagination();
+		System.out.println("Parse Recipe callback");
 		
-		try {
-			// get pagination data
-			pag.num_results = jsonObject.getInt("num_results");
-			pag.total_pages = jsonObject.getInt("total_pages");
-			pag.page_results = jsonObject.getInt("page_results");
-			
+		// get basic info
+		try
+		{
 			// get recipe info
 			recipe.id = jsonObject.getString("id");
-			recipe.name = jsonObject.getString("recipeName");
-		} catch (Exception e) {
-			
+			recipe.name = jsonObject.getString("name");
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
 		}
 		
+		// get courses
 		recipe.courses = new ArrayList<String>();
-		JSONArray courses = null;
-		
-		try {
-			courses = jsonObject.getJSONArray("course");
+		try
+		{
+			JSONObject attributes = jsonObject.getJSONObject("attributes");
+			JSONArray courses = attributes.getJSONArray("course");
 			
-			for(int j = 0; j < courses.length(); j++) {
-				try {
-					recipe.courses.add((String)courses.get(j));
-				} catch (Exception e) {
-					
+			for(int i = 0; i < courses.length(); i++) {
+				recipe.courses.add((String)courses.get(i));
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		
+		// get cooking time
+		try
+		{
+			recipe.cookingTime = new TimeSpan(
+					jsonObject.getInt("totalTimeInSeconds"));
+		}
+		catch (Exception e)
+		{
+			recipe.cookingTime = new TimeSpan();
+			System.out.println(e.getMessage());
+		}
+		
+		// get source information
+		try	
+		{
+			recipe.source = new RecipeSource(jsonObject.getJSONObject("source"));
+		}
+		catch (Exception e)
+		{
+
+		}
+		
+		// get ingredients
+		JSONArray ingredients = null;
+		try
+		{
+			ingredients = jsonObject.getJSONArray("ingredientLines");
+			
+			for (int k = 0; k < ingredients.length(); k++)
+			{
+				try
+				{
+					recipe.ingredients.add((String) ingredients.get(k));
+				}
+				catch (Exception e)
+				{
+
 				}
 			}
-		} catch (Exception e) {	
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}		
+		
+		
+		// get images		
+		try
+		{
+			JSONArray images = jsonObject.getJSONArray("images");
+			JSONObject hostedImages = images.getJSONObject(0);
+			recipe.images.put(ImageSize.SMALL, hostedImages.getString("hostedSmallUrl"));
+			recipe.images.put(ImageSize.LARGE, hostedImages.getString("hostedLargeUrl"));
+		}
+		catch (JSONException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		try {
-			recipe.cookingTime = new TimeSpan(jsonObject.getInt("totalTimeInSeconds"));
-		} catch (Exception e) {
-			
-		}
-		
-		try {
-			recipe.sourceDisplayName =  jsonObject.getString("sourceDisplayName");
-		} catch (Exception e) {
-			
-		}
-		
-		JSONArray ingredients = null;
-		
-		try {
-			ingredients = jsonObject.getJSONArray("ingredients");
-		} catch (Exception e) {
-			
-		}
-		
-		recipe.ingredients = new ArrayList<String>();
-		
-		for(int k = 0; k < ingredients.length(); k++) {
-			try {
-				recipe.ingredients.add((String)ingredients.get(k));
-			} catch (Exception e) {
+		// get nutrient info
+		try
+		{
+			JSONArray nutrients = jsonObject.getJSONArray("nutritionEstimates");
+			for(int i = 0; i < nutrients.length(); i++) {
+				JSONObject nutEst = nutrients.getJSONObject(i);
 				
+				if (nutEst.getString("description").equalsIgnoreCase("energy")) {
+					recipe.energy = new RecipeNutrient(nutEst);
+				} else {
+					recipe.nutrients.add(new RecipeNutrient(nutEst));
+				}
 			}
-		}			
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
 		
-		// caller.callback(recipe, pag);
+		// get serving size
+		try {
+			recipe.servingSize = jsonObject.getInt("numberOfServings");
+		} catch (Exception e) {
+			recipe.servingSize = 0;
+			System.out.println(e.getMessage());
+		}
+		caller.callback(recipe, pag);
 	}
 
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        style="@style/layout_f_w"
+        android:stretchColumns="*" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            style="@style/layout_wrap"
+            android:background="@color/back_gray" >
+
+            <!-- First Tab -->
+
+            <LinearLayout
+                android:id="@+id/first_text"
+                style="@style/layout_f_w"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/left"
+                    style="@style/text_title"
+                    android:text=" NUTRITION    " />
+            </LinearLayout>
+
+            <!-- Second Tab -->
+
+            <LinearLayout
+                android:id="@+id/second_text"
+                style="@style/layout_f_w"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/center"
+                    style="@style/text_title"
+                    android:text="      RECIPE " />
+            </LinearLayout>
+
+            <!-- Third Tab -->
+
+            <LinearLayout
+                android:id="@+id/third_text"
+                style="@style/layout_f_w"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/right"
+                    style="@style/text_title"
+                    android:text="    INSTRUCTIONS" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+    <!-- Include Tab Indicator -->
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/indicator" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

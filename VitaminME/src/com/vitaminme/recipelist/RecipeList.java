@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vitaminme.main.R;
+import com.vitaminme.recipe.RecipeDetails;
 
 public class RecipeList extends Activity
 {
@@ -72,7 +73,7 @@ public class RecipeList extends Activity
 	boolean runningBG = false;
 	int FirstVisibleItem = 0;
 	int TotalNumResults = 1;
-	List<Nutrient> nutrients = new ArrayList<Nutrient>();
+	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -118,14 +119,14 @@ public class RecipeList extends Activity
 				images.add(r.images.get(r.images.keySet().toArray()[0]));
 			recipeNames.add(r.name);
 			// System.out.println("name: " + r.name);
-			notes.add(r.sourceDisplayName);
+			notes.add(r.source.sourceName);
 			ids.add(r.id);
 		}
 
 		((ListView) listView).setAdapter(itemAdapter);
 
 		itemAdapter.notifyDataSetChanged();
-		setTitle("Recipe List: " + TotalNumResults + " items found");
+
 		if (counter != 0)
 		{
 			listView.setSelection(FirstVisibleItem);
@@ -156,6 +157,9 @@ public class RecipeList extends Activity
 			{
 				vibe.vibrate(30);
 				System.out.println("Clicked: " + ids.get(position));
+				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
+				intent.putExtra("recipe_id", ids.get(position));
+				startActivity(intent);
 			}
 		});
 
@@ -225,6 +229,14 @@ public class RecipeList extends Activity
 
 		System.out.println("counter: " + counter);
 
+		setTitle("Recipe List: " + TotalNumResults + " items found");
+
+		if (pagination.num_results == 0)
+		{
+			Toast.makeText(RecipeList.this, "No results found",
+					Toast.LENGTH_LONG).show();
+		}
+
 		if (counter < pagination.num_results)
 		{
 			System.out.println("num_recipe: " + recipes.size());
@@ -235,58 +247,6 @@ public class RecipeList extends Activity
 		}
 
 	}
-
-	// private class GetRecipes extends AsyncTask<Void, Void, String>
-	// {
-	// private ProgressDialog mDialog;
-	// private Context context;
-	//
-	// public GetRecipes(Activity activity)
-	// {
-	// context = activity;
-	// mDialog = new ProgressDialog(context);
-	// }
-	//
-	// @Override
-	// protected String doInBackground(Void... params)
-	// {
-	// try
-	// {
-	// // for (int i = 0; i < 5; i++)
-	// // {
-	// // // System.out.println("URL: " + imageUrls[i]);
-	// // URL url = new URL(imageUrls[i]);
-	// // Bitmap bitmap = BitmapFactory.decodeStream(url
-	// // .openConnection().getInputStream());
-	// // }
-	//
-	//
-	// }
-	// catch (Exception e)
-	// {
-	// Log.e("VitaminME", "ERROR in AsyncTask: " + e.toString());
-	// e.printStackTrace();
-	// }
-	// return "";
-	// }
-	//
-	// protected void onPreExecute()
-	// {
-	// mDialog.setMessage("Loading...");
-	// mDialog.setCancelable(false);
-	// mDialog.show();
-	// runningBG = true;
-	// }
-	//
-	// protected void onPostExecute(String str)
-	// {
-	// Log.i("VitaminME", "onPostExecute launched");
-	// runningBG = false;
-	// populating();
-	// if (mDialog.isShowing())
-	// mDialog.dismiss();
-	// }
-	// }
 
 	class ItemAdapter extends BaseAdapter
 	{
@@ -396,10 +356,12 @@ public class RecipeList extends Activity
 		case android.R.id.home:
 			// This is called when the Home (Up) button is pressed
 			// in the Action Bar.
-			Intent parentActivityIntent = new Intent(this, MainActivity.class);
-			parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-					| Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(parentActivityIntent);
+			// Intent parentActivityIntent = new Intent(this,
+			// MainActivity.class);
+			// parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+			// | Intent.FLAG_ACTIVITY_NEW_TASK);
+			// startActivity(parentActivityIntent);
+			onBackPressed();
 			finish();
 			return true;
 		}

@@ -3,4 +3,6 @@
     android:id="@android:id/list"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#ecebe7" />
+    android:background="#ecebe7"
+    android:divider="@color/light_gray"
+    android:dividerHeight="1dip" />

@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_marginTop="4dp"
         android:layout_toLeftOf="@+id/plus_icon"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
@@ -19,27 +20,26 @@
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/minus_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignBottom="@+id/nutrient_name"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="7dp"
-        android:layout_marginRight="15dp"
-        android:background="#ecebe7"
-        android:scaleType="centerCrop"
-        android:src="@drawable/minus_icon_empty" />
-
-    <ImageButton
         android:id="@+id/plus_icon"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignTop="@+id/minus_icon"
-        android:layout_marginBottom="7dp"
-        android:layout_marginRight="15dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/minus_icon"
         android:background="#ecebe7"
+        android:padding="12dp"
         android:scaleType="centerCrop"
         android:src="@drawable/plus_icon_empty" />
+
+    <ImageButton
+        android:id="@+id/minus_icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:background="#ecebe7"
+        android:padding="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/minus_icon_empty" />
 
 </RelativeLayout>

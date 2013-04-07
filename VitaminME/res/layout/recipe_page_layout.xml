@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:fillViewport="true" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".SecondActivity" >
+
+        <ImageView
+            android:id="@+id/recipeImage"
+            android:layout_width="fill_parent"
+            android:layout_height="240dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="recipe_image_main"
+            android:focusableInTouchMode="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/burger" />
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_alignBottom="@+id/recipeImage"
+            android:background="@drawable/gradient" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/recipeImage"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingBottom="4dp"
+            android:paddingLeft="4dp"
+            android:singleLine="true"
+            android:text="textView1"
+            android:textColor="@color/white"
+            android:textSize="26sp" />
+
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow1"
+            android:layout_centerHorizontal="true"
+            android:clickable="true"
+            android:divider="@color/background_gray"
+            android:dividerHeight="0dp"
+            android:paddingTop="6dp" >
+        </ListView>
+
+        <TextView
+            android:id="@+id/ingredientsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/clock_icon"
+            android:paddingBottom="2dp"
+            android:paddingLeft="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="8dp"
+            android:text="INGREDIENTS"
+            android:textColor="@color/spotify"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/courseType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@+id/plate_icon"
+            android:layout_alignTop="@+id/plate_icon"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cookingTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/clock_icon"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@+id/clock_icon"
+            android:paddingLeft="10dp"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/clock_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/plate_icon"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/clock_icon" />
+
+        <ImageView
+            android:id="@+id/plate_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_below="@+id/recipeImage"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_toLeftOf="@+id/cookingTime"
+            android:cropToPadding="false"
+            android:scaleType="fitXY"
+            android:src="@drawable/utencils_icon" />
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/ingredientsTitle"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
+    </RelativeLayout>
+
+</ScrollView>

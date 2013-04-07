@@ -41,6 +41,7 @@ public class ApiCallTask extends AsyncTask<ApiCallParams, Void, ApiResponse>{
 	protected ApiResponse doInBackground(ApiCallParams... params) {
 		param =  params[0];
 		String response = downloadUrl(param.url);
+		
 		JSONObject jsonObj = null;
 		try {
 			 jsonObj = new JSONObject(response);
