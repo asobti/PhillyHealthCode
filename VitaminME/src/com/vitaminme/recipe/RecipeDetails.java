@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
@@ -96,7 +97,7 @@ public class RecipeDetails extends FragmentActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.recipe, menu);
 		return true;
 	}
 
@@ -167,6 +168,9 @@ public class RecipeDetails extends FragmentActivity
 			onBackPressed();
 			finish();
 			return true;
+		case R.id.add_favorite:
+			Toast.makeText(getBaseContext(),"Added to favorites (not really)", 
+	                Toast.LENGTH_SHORT).show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

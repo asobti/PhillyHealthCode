@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 		x.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				vib.vibrate(30);
+				vib.vibrate(20);
 				inputSearch.setText("");
 			}
 		});
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				boolean next = false;
-				vib.vibrate(30);
+				vib.vibrate(20);
 				// PopUp();
 				// Toast.makeText(getBaseContext(), "next activity",
 				// Toast.LENGTH_SHORT).show();
@@ -108,7 +108,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				vib.vibrate(30);
+				vib.vibrate(20);
 				PopUpSelection();
 
 			}

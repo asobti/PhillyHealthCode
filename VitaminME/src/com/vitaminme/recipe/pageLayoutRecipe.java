@@ -1,33 +1,26 @@
 package com.vitaminme.recipe;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.MeasureSpec;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vitaminme.data.ImageSize;
 import com.vitaminme.data.Recipe;
@@ -38,19 +31,19 @@ public class pageLayoutRecipe extends Fragment
 	private Context context;
 	Recipe recipe;
 	private RecipeSelectedAdapter adapter;
-
+	private Vibrator vib;
 	ImageView mainImage;
 
 	public static Fragment newInstance(Context context)
 	{
 		pageLayoutRecipe f = new pageLayoutRecipe();
-
 		return f;
 	}
 
-	public void constructor(Recipe recipe)
+	public void constructor(Recipe recipe, Context context)
 	{
 		this.recipe = recipe;
+		this.context = context;
 	}
 
 	@Override
@@ -59,7 +52,7 @@ public class pageLayoutRecipe extends Fragment
 	{
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.recipe_page_layout, null);
-
+		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		ListView list = (ListView) vg.findViewById(R.id.list);
 		TextView recipeName = (TextView) vg.findViewById(R.id.textView1);
 		TextView courseType = (TextView) vg.findViewById(R.id.courseType);
@@ -69,7 +62,17 @@ public class pageLayoutRecipe extends Fragment
 				.findViewById(R.id.clock_icon);
 		ImageView courseTypeImage = (ImageView) vg
 				.findViewById(R.id.plate_icon);
+		ImageButton favorite = (ImageButton) vg.findViewById(R.id.favorite_icon);
+		favorite.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
 
+				vib.vibrate(20);
+				Toast.makeText(context, "Added to Favorites (not really)",
+							Toast.LENGTH_SHORT).show();
+			}
+		});
 		recipeName.setSelected(true);
 
 		adapter = new RecipeSelectedAdapter(getActivity(), recipe.ingredients);
@@ -90,7 +93,6 @@ public class pageLayoutRecipe extends Fragment
 		list.setLayoutParams(params);
 		list.requestLayout();
 
-		// String recipe = "Burger and Fries";
 		recipeName.setTextColor(Color.WHITE);
 		recipeName.setText(recipe.name);
 

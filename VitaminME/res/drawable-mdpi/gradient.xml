@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:shape="rectangle" >
 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:shape="rectangle" >
-
-	<gradient
-		android:startColor="#00000000"
-		android:centerColor="#870D0D0D"
-		android:endColor="#FF0D0D0D"
-		android:angle="270"/>
-
+    <gradient
+        android:angle="270"
+        android:centerColor="#4C575757"
+        android:endColor="#FF141414"
+        android:startColor="#00FFFFFF"
+        android:type="linear" />
 
 </shape>

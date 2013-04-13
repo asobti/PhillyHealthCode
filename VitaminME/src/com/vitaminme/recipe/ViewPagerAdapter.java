@@ -32,7 +32,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 			break;
 		case 1:
 			f = pageLayoutRecipe.newInstance(_context);
-			((pageLayoutRecipe) f).constructor(recipe);
+			((pageLayoutRecipe) f).constructor(recipe, _context);
 			break;
 		case 2:
 			f = pageLayoutCook.newInstance(_context);

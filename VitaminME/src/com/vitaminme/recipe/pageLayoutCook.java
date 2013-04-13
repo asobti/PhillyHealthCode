@@ -81,7 +81,7 @@ public class pageLayoutCook extends Fragment
 
 		});
 		wv.getSettings().setBuiltInZoomControls(false);
-		wv.getSettings().setSupportZoom(false);
+		wv.getSettings().supportZoom();
 		wv.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		wv.getSettings().setAllowFileAccess(true);
 		wv.getSettings().setDomStorageEnabled(true);

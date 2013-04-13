@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public class RecipeNutrientAdapter extends ArrayAdapter<RecipeNutrient> {
 		else {
 			per = nut.getPercentVal();
 			percentSign.setText("");
+			percent.setTextColor(Color.GRAY);
 		}
 
 		percent.setText(per);
