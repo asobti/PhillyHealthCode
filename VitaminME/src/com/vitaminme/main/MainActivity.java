@@ -31,8 +31,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 
 	private ListView lv;
 	private Vibrator vib;
@@ -44,8 +43,7 @@ public class MainActivity extends Activity
 	ProgressDialog mDialog;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle("Vitamin.ME");
 		setContentView(R.layout.activity_main);
@@ -70,42 +68,35 @@ public class MainActivity extends Activity
 		lv = (ListView) findViewById(R.id.list_view);
 		inputSearch = (EditText) findViewById(R.id.inputSearch);
 		ImageButton x = (ImageButton) findViewById(R.id.x_button);
-		x.setOnClickListener(new OnClickListener()
-		{
+		x.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				vib.vibrate(30);
 				inputSearch.setText("");
 			}
 		});
 
 		ImageButton check = (ImageButton) findViewById(R.id.go_button);
-		check.setOnClickListener(new OnClickListener()
-		{
+		check.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				boolean next = false;
 				vib.vibrate(30);
 				// PopUp();
 				// Toast.makeText(getBaseContext(), "next activity",
 				// Toast.LENGTH_SHORT).show();
-				for (Nutrient n : nutrients)
-				{
+				for (Nutrient n : nutrients) {
 					if (n.value == 1 || n.value == -1)
 						next = true;
 				}
 
-				if (next)
-				{
+				if (next) {
 					Intent intent = new Intent(MainActivity.this,
 							RecipeList.class);
 					intent.putExtra("Nutrients", nutrients);
 					startActivity(intent);
-				}
-				else
+				} else
 					Toast.makeText(getBaseContext(), "Nothing selected",
 							Toast.LENGTH_SHORT).show();
 
@@ -113,88 +104,70 @@ public class MainActivity extends Activity
 		});
 
 		ImageButton list = (ImageButton) findViewById(R.id.list_button);
-		list.setOnClickListener(new OnClickListener()
-		{
+		list.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				vib.vibrate(30);
 				PopUpSelection();
 
 			}
 		});
 
-		inputSearch.addTextChangedListener(new TextWatcher()
-		{
+		inputSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
-					int arg3)
-			{
-				try
-				{
+					int arg3) {
+				try {
 					MainActivity.this.adapter.getFilter().filter(cs);
-				}
-				catch(Exception ex)
-				{
-					System.out.println("page 1 ontextchanged: " + ex.getMessage());
+				} catch (Exception ex) {
+					System.out.println("page 1 ontextchanged: "
+							+ ex.getMessage());
 				}
 			}
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3)
-			{
+					int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
 			}
 
 			@Override
-			public void afterTextChanged(Editable arg0)
-			{
+			public void afterTextChanged(Editable arg0) {
 				// TODO Auto-generated method stub
 			}
 		});
 	}
 
-	private void PopUpSelection()
-	{
+	private void PopUpSelection() {
 
 		AlertDialog.Builder box = new AlertDialog.Builder(this);
 		ArrayList<Nutrient> selectedMinus = new ArrayList<Nutrient>();
 		ArrayList<Nutrient> selectedPlus = new ArrayList<Nutrient>();
 		String list = "";
-		for (int i = 0; i < nutrients.size(); i++)
-		{
-			if (nutrients.get(i).value == -1)
-			{
+		for (int i = 0; i < nutrients.size(); i++) {
+			if (nutrients.get(i).value == -1) {
 				selectedMinus.add(nutrients.get(i));
-			}
-			else if (nutrients.get(i).value == 1)
-			{
+			} else if (nutrients.get(i).value == 1) {
 				selectedPlus.add(nutrients.get(i));
 			}
 		}
 		box.setTitle("Selected Nutrients");
-		for (Nutrient n : selectedPlus)
-		{
+		for (Nutrient n : selectedPlus) {
 			list = list + " + " + n.name.toString() + "\n";
 		}
-		for (Nutrient n : selectedMinus)
-		{
+		for (Nutrient n : selectedMinus) {
 			list = list + " - " + n.name.toString() + "\n";
 		}
-		if (list == "")
-		{
+		if (list == "") {
 			list = "No nutrients selected";
 		}
 		box.setMessage(list);
-		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener()
-		{
+		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
 
-			public void onClick(DialogInterface dialog, int which)
-			{
+			public void onClick(DialogInterface dialog, int which) {
 				// do nothing
 			}
 		});
@@ -205,15 +178,13 @@ public class MainActivity extends Activity
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
-	public void callback(ArrayList<Nutrient> nut, Pagination pag)
-	{
+	public void callback(ArrayList<Nutrient> nut, Pagination pag) {
 		if (mDialog.isShowing())
 			mDialog.dismiss();
 		this.nutrients = nut;

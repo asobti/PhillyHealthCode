@@ -122,23 +122,6 @@ public class pageLayoutRecipe extends Fragment
 
 		mainImage.setImageResource(R.drawable.plate_icon);
 		new GetImage().execute(recipe.images.get(ImageSize.LARGE));
-		// try
-		// {
-		//
-		// System.out.println("getting images from url: "
-		// + recipe.images.get(ImageSize.LARGE));
-		// // URL url = new URL(recipe.images.get(ImageSize.LARGE).toString());
-		// // URL url = new URL(
-		// // "http://i2.yummly.com/Smoked-Salmon-Food-Network.l.png");
-		// // mainImage.setImageBitmap(BitmapFactory.decodeStream(url
-		// // .openConnection().getInputStream()));
-		//
-		// }
-		// catch (Exception e)
-		// {
-		// System.out.println("image exception " + e.getMessage());
-		// mainImage.setImageResource(R.drawable.plate_icon);
-		// }
 
 		mainImage.setBackgroundColor(Color.BLACK);
 		return vg;

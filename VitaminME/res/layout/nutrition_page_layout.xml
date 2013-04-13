@@ -1,26 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:id="@+id/scrollview"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:fillViewport="true"
+								 >    
     
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+<RelativeLayout 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="5dp" >
 
-    <View
-        android:id="@+id/border"
+    <TableRow
+        android:id="@+id/boarder_top"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_alignTop="@+id/scrollview"
+        android:background="@color/black">
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/boarder_left"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true" 
+        android:background="@color/black">
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/boarder_right"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"   
+        android:background="@color/black">
+    </TableRow>
+    
+    <TableRow
+        android:id="@+id/boarder_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="5dp"
-        android:background="@drawable/nut_facts_border" />
-
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/black">
+    </TableRow>
+    
     <TextView
         android:id="@+id/nut_facts_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="5dp"
         android:text="Nutrition Facts"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="30dp"
@@ -32,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/nut_facts_header"
         android:layout_below="@+id/nut_facts_header"
-        android:text="Serving Size" />
+        android:text="Serving Size : 1 Portion" />
 
     <TextView
         android:id="@+id/servings_per"
@@ -48,8 +80,8 @@
         android:layout_height="10dp"
         android:layout_below="@+id/servings_per"
         android:layout_marginBottom="4dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_marginTop="4dp"
         android:background="@color/black" >
     </TableRow>
@@ -70,8 +102,8 @@
         android:layout_height="1dp"
         android:layout_below="@+id/amount_per_serving"
         android:layout_marginBottom="4dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_marginTop="4dp"
         android:background="@color/black" >
     </TableRow>
@@ -90,8 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bar_medium"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="14dp"
+        android:layout_alignRight="@+id/bar_light1"
         android:text="Calories from Fat" />
 
     <TableRow
@@ -100,8 +131,8 @@
         android:layout_height="5dp"
         android:layout_below="@+id/calories"
         android:layout_marginBottom="2dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_marginTop="4dp"
         android:background="@color/black" >
     </TableRow>
@@ -110,9 +141,8 @@
         android:id="@+id/daily_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignRight="@+id/bar_light1"
         android:layout_below="@+id/bar_medium"
-        android:layout_marginRight="14dp"
         android:text="% Daily Value" />
 
     <TableRow
@@ -121,8 +151,8 @@
         android:layout_height="1dp"
         android:layout_below="@+id/daily_value"
         android:layout_marginBottom="4dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
         android:layout_marginTop="2dp"
         android:background="@color/black" >
     </TableRow>
@@ -133,8 +163,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bar_light2"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp" >
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="9dp" >
     </ListView>
 
+
 </RelativeLayout>
+</ScrollView>

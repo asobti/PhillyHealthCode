@@ -21,12 +21,23 @@
 		android:layout_marginLeft="6dp"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-    <TextView
+    <TextView
         android:id="@+id/percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="1dp"
+        android:text="%"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/percent_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/percent"
+        android:textStyle="bold"
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
