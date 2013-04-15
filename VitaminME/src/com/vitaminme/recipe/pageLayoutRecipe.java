@@ -62,19 +62,22 @@ public class pageLayoutRecipe extends Fragment
 				.findViewById(R.id.clock_icon);
 		ImageView courseTypeImage = (ImageView) vg
 				.findViewById(R.id.plate_icon);
+		
+		// add favorite icon unimplemented
 		ImageButton favorite = (ImageButton) vg.findViewById(R.id.favorite_icon);
-		favorite.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-
-				vib.vibrate(20);
-				Toast.makeText(context, "Added to Favorites (not really)",
-							Toast.LENGTH_SHORT).show();
-			}
-		});
+		favorite.setVisibility(View.INVISIBLE);
+//		favorite.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//
+//				vib.vibrate(20);
+//				Toast.makeText(context, "Added to Favorites (not really)",
+//							Toast.LENGTH_SHORT).show();
+//			}
+//		});
+		
 		recipeName.setSelected(true);
-
 		adapter = new RecipeSelectedAdapter(getActivity(), recipe.ingredients);
 		list.setAdapter(adapter);
 
