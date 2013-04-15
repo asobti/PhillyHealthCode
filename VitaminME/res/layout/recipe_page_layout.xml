@@ -17,10 +17,11 @@
             android:layout_height="240dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:background="@color/black"
             android:contentDescription="recipe_image_main"
             android:focusableInTouchMode="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/burger" />
+            android:scaleType="center"
+            android:src="@drawable/ic_launcher_vm_2" />
 
         <View
             android:id="@+id/view1"
@@ -73,12 +74,13 @@
             android:id="@+id/courseType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/plate_icon"
             android:layout_below="@+id/view1"
+            android:layout_marginBottom="4dp"
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@+id/plate_icon"
-            android:layout_alignTop="@+id/plate_icon"
             android:paddingLeft="10dp"
-            android:layout_marginBottom="4dp"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <TextView
@@ -86,10 +88,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/clock_icon"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@+id/clock_icon"
             android:paddingLeft="10dp"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView

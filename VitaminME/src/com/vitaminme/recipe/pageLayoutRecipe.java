@@ -25,6 +25,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ImageView.ScaleType;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -109,7 +110,6 @@ public class pageLayoutRecipe extends Fragment
 		else
 			courseType.setText(temp.substring(0, temp.length() - 2));
 
-		courseType.setTextColor(Color.BLACK);
 		// vg.findViewById(R.id.plate_icon).setVisibility(View.INVISIBLE);
 
 		if (recipe.cookingTime.toString().isEmpty()){
@@ -118,29 +118,11 @@ public class pageLayoutRecipe extends Fragment
 		}
 		else
 			cookingTime.setText(recipe.cookingTime.toString());
-		cookingTime.setTextColor(Color.BLACK);
 
-		mainImage.setImageResource(R.drawable.plate_icon);
+//		mainImage.setImageResource(R.drawable.plate_icon);
 		new GetImage().execute(recipe.images.get(ImageSize.LARGE));
-		// try
-		// {
-		//
-		// System.out.println("getting images from url: "
-		// + recipe.images.get(ImageSize.LARGE));
-		// // URL url = new URL(recipe.images.get(ImageSize.LARGE).toString());
-		// // URL url = new URL(
-		// // "http://i2.yummly.com/Smoked-Salmon-Food-Network.l.png");
-		// // mainImage.setImageBitmap(BitmapFactory.decodeStream(url
-		// // .openConnection().getInputStream()));
-		//
-		// }
-		// catch (Exception e)
-		// {
-		// System.out.println("image exception " + e.getMessage());
-		// mainImage.setImageResource(R.drawable.plate_icon);
-		// }
 
-		mainImage.setBackgroundColor(Color.BLACK);
+//		mainImage.setBackgroundColor(Color.BLACK);
 		return vg;
 
 	}
@@ -167,7 +149,10 @@ public class pageLayoutRecipe extends Fragment
 		protected void onPostExecute(Bitmap bm)
 		{
 			if (bm != null)
+			{
 				mainImage.setImageBitmap(bm);
+				mainImage.setScaleType(ScaleType.CENTER_CROP);
+			}
 		}
 
 	}

@@ -1,55 +1,45 @@
 package com.vitaminme.recipelist;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.PauseOnScrollListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
-
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipes;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.MainActivity;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.RecipeDetails;
 
@@ -83,32 +73,37 @@ public class RecipeList extends Activity
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
+		if (counter == 0) // Only show loading screen when empty
+		// screen is loaded onCreate
+		{
+			mDialog = new ProgressDialog(RecipeList.this);
+			mDialog.setMessage("Loading...");
+			mDialog.setCancelable(false);
+			mDialog.show();
+		}
+
 		nutrients = (List<Nutrient>) getIntent().getSerializableExtra(
 				"Nutrients");
 
-		// for (Nutrient n : nutrients)
-		// {
-		// System.out.println("name: " + n.name);
-		// System.out.println("id: " + n.id);
-		// System.out.println("value: " + n.value);
-		// }
 		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().delayBeforeLoading(1000)
+				.cacheOnDisc().showStubImage(R.drawable.ic_stub)
+				.showImageForEmptyUri(R.drawable.ic_stub)
+				.showImageOnFail(R.drawable.ic_error)
+				// .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 				.displayer(new RoundedBitmapDisplayer(20)).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getApplicationContext()).defaultDisplayImageOptions(options)
-				.build();
+				getApplicationContext()).memoryCacheExtraOptions(60, 60)
+				.defaultDisplayImageOptions(options).build();
 		ImageLoader.getInstance().init(config);
 
-		// footerView = ((LayoutInflater) this
-		// .getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
-		// R.layout.listfooter, null, false);
+		footerView = ((LayoutInflater) this
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
+				R.layout.activity_recipe_list_footer, null, false);
 
 		itemAdapter = new ItemAdapter();
 		listView = (ListView) findViewById(android.R.id.list);
 
 		setListeners();
-
 	}
 
 	public void fillListView()
@@ -123,6 +118,9 @@ public class RecipeList extends Activity
 			ids.add(r.id);
 		}
 
+		// System.out.println("Setting footer...");
+		listView.removeFooterView(footerView);
+		listView.addFooterView(footerView);
 		((ListView) listView).setAdapter(itemAdapter);
 
 		itemAdapter.notifyDataSetChanged();
@@ -203,11 +201,6 @@ public class RecipeList extends Activity
 						apiParams.callBackObject = new ParseRecipes(
 								RecipeList.this);
 
-						mDialog = new ProgressDialog(RecipeList.this);
-						mDialog.setMessage("Loading...");
-						mDialog.setCancelable(false);
-						mDialog.show();
-
 						// System.out.println("url: " + apiParams.url);
 
 						ApiCallTask task = new ApiCallTask();
@@ -227,7 +220,7 @@ public class RecipeList extends Activity
 		if (mDialog.isShowing())
 			mDialog.dismiss();
 
-		System.out.println("counter: " + counter);
+		System.out.println("start index/counter: " + counter);
 
 		setTitle("Recipe List: " + TotalNumResults + " items found");
 
@@ -240,10 +233,11 @@ public class RecipeList extends Activity
 		if (counter < pagination.num_results)
 		{
 			System.out.println("num_recipe: " + recipes.size());
+			System.out.println("page_results: " + pagination.page_results);
 			System.out.println("num_results: " + pagination.num_results);
 			recipeList = recipes;
-			fillListView();
 			counter += pagination.page_results;
+			fillListView();
 		}
 
 	}
@@ -262,7 +256,6 @@ public class RecipeList extends Activity
 		@Override
 		public int getCount()
 		{
-			// return imageUrls.length;
 			return recipeNames.size();
 		}
 
@@ -270,15 +263,12 @@ public class RecipeList extends Activity
 		public Object getItem(int position)
 		{
 			return position;
-			// counter += 10;
-			// return recipeNames.get(position);
 		}
 
 		@Override
 		public long getItemId(int position)
 		{
 			return position;
-			// return 0;
 		}
 
 		@Override
@@ -301,7 +291,6 @@ public class RecipeList extends Activity
 				holder = (ViewHolder) view.getTag();
 			}
 
-			System.out.println("name " + recipeNames.get(position));
 			holder.text1.setText(recipeNames.get(position));
 			holder.text1.setSelected(true);
 
@@ -354,18 +343,27 @@ public class RecipeList extends Activity
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			// This is called when the Home (Up) button is pressed
-			// in the Action Bar.
-			// Intent parentActivityIntent = new Intent(this,
-			// MainActivity.class);
-			// parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-			// | Intent.FLAG_ACTIVITY_NEW_TASK);
-			// startActivity(parentActivityIntent);
+		{
 			onBackPressed();
 			finish();
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		case R.id.item_clear_memory_cache:
+		{
+			imageLoader.clearMemoryCache();
+			return true;
+		}
+		case R.id.item_clear_disc_cache:
+		{
+			imageLoader.clearDiscCache();
+			return true;
+		}
+		default:
+		{
+			return super.onOptionsItemSelected(item);
+		}
+		}
+
 	}
 
 	@Override

@@ -43,6 +43,12 @@
             android:label="@string/recipe"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.vitaminme.main.FullscreenActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_fullscreen"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
