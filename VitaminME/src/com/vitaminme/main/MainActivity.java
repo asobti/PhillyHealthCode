@@ -27,7 +27,6 @@ import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.recipelist.RecipeList;
 
 public class MainActivity extends Activity {
@@ -200,7 +199,7 @@ public class MainActivity extends Activity {
 				mDialog.hide();
 			}
 			
-			if (nut != null) {
+			if (nut != null && nut.size() > 0) {
 				nutrients = nut;
 				pag = api.getPaginationObject();
 				
@@ -208,6 +207,8 @@ public class MainActivity extends Activity {
 						R.layout.nutrient_list_item_wbuttons, nutrients);
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
+			} else if (nut.size() == 0) {
+				Toast.makeText(getApplicationContext(), "No nutrients found", Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getApplicationContext(), "There was an error. Please try again", Toast.LENGTH_LONG).show();
 			}

@@ -24,8 +24,7 @@ import org.json.JSONObject;
 
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
-import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.exceptions.APILimitExceededException;
+import com.vitaminme.exceptions.*;
 
 /*
  * This class is responsible for all communications with the API
