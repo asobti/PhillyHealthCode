@@ -79,9 +79,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/plate_icon"
-            android:layout_alignTop="@+id/plate_icon"
             android:paddingLeft="10dp"
-            android:layout_marginBottom="4dp"
             android:textSize="18sp"
 	    android:textColor="@color/black" />
 
