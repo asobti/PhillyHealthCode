@@ -24,11 +24,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.api.ApiCallParams;
-import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
-import com.vitaminme.data.ParseNutrients;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.recipelist.RecipeList;

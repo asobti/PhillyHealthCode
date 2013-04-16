@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -26,6 +25,7 @@ import org.json.JSONObject;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.exceptions.APICallException;
+import com.vitaminme.exceptions.APILimitExceededException;
 
 /*
  * This class is responsible for all communications with the API
@@ -166,6 +166,8 @@ public class ApiAdapter {
 			} catch (JSONException e) {
 				throw new APICallException("Unable to parse API response as valid JSON object");
 			}
+		} else if (status.getStatusCode() == HttpStatus.SC_CONFLICT) {
+			throw new APILimitExceededException("Yummly API Limit Exceeded");
 		} else {
 			throw new APICallException("API responded with status code " + status.getStatusCode());
 		}
