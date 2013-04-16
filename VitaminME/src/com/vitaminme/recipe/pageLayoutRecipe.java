@@ -1,12 +1,7 @@
 package com.vitaminme.recipe;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,24 +11,15 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.vitaminme.data.ImageSize;
 import com.vitaminme.data.Recipe;
@@ -53,9 +39,10 @@ public class pageLayoutRecipe extends Fragment
 		return f;
 	}
 
-	public void constructor(Recipe recipe)
+	public void constructor(Recipe recipe, Context context)
 	{
 		this.recipe = recipe;
+		this.context = context;
 	}
 
 	@Override

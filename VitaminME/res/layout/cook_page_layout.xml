@@ -17,8 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/view1"
         android:layout_centerVertical="true"
-        android:padding="2dip" >
-
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="2dp" >
     </ProgressBar>
 
     <TextView
@@ -29,9 +30,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="2dp"
         android:text="Loading . . ."
+        android:textColor="#000000"
         android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="#000000" />
+        android:textStyle="bold" />
 
     <View
         android:id="@+id/view1"
@@ -39,6 +40,7 @@
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerVertical="true"
+        android:layout_margin="5dp"
         android:background="@drawable/rectang" />
 
 </RelativeLayout>

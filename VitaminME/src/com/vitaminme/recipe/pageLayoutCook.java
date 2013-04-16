@@ -1,11 +1,7 @@
 package com.vitaminme.recipe;
 
-import com.vitaminme.data.Recipe;
-import com.vitaminme.main.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +12,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.vitaminme.data.Recipe;
+import com.vitaminme.main.R;
 
 public class pageLayoutCook extends Fragment
 {
@@ -47,10 +46,6 @@ public class pageLayoutCook extends Fragment
 		Pbar = (ProgressBar) vg.findViewById(R.id.pB1);
 		box = (View) vg.findViewById(R.id.view1);
 		Pbar.bringToFront();
-		// Resources res = getResources();
-		// Rect bounds = Pbar.getProgressDrawable().getBounds();
-		// Pbar.setProgressDrawable(res.getDrawable(R.color.spotify));
-		// Pbar.getProgressDrawable().setBounds(bounds);
 		loadText.bringToFront();
 
 		WebView wv = (WebView) vg.findViewById(R.id.webView1);
@@ -80,9 +75,11 @@ public class pageLayoutCook extends Fragment
 			}
 
 		});
+
 		wv.getSettings().setBuiltInZoomControls(true);
-		wv.getSettings().setDisplayZoomControls(true);
-		wv.getSettings().supportZoom();
+		wv.getSettings().setDisplayZoomControls(false);
+		wv.getSettings().setSupportZoom(true);
+		wv.getSettings().setUseWideViewPort(true);
 		wv.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 		wv.getSettings().setAllowFileAccess(true);
 		wv.getSettings().setDomStorageEnabled(true);

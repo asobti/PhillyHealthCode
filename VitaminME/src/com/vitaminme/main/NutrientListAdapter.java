@@ -1,25 +1,20 @@
 package com.vitaminme.main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-import com.vitaminme.data.Nutrient;
 
 import android.content.Context;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.HapticFeedbackConstants;
 import android.widget.ArrayAdapter;
-import android.widget.Filterable;
 import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.vitaminme.data.Nutrient;
 
 public class NutrientListAdapter extends ArrayAdapter<String> implements
 		Filterable

@@ -62,13 +62,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/clock_icon"
-            android:paddingBottom="2dp"
-            android:paddingLeft="6dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="8dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="6dp"
             android:text="INGREDIENTS"
-            android:textColor="@color/spotify"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/spotify" />
 
         <TextView
             android:id="@+id/courseType"
@@ -81,16 +81,16 @@
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/plate_icon"
             android:paddingLeft="10dp"
-            android:textSize="18sp"
-	    android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/cookingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/clock_icon"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
             android:layout_toRightOf="@+id/clock_icon"
             android:paddingLeft="10dp"
             android:textColor="@color/black"
@@ -111,8 +111,8 @@
             android:id="@+id/plate_icon"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_below="@+id/recipeImage"
             android:layout_alignParentLeft="true"
+            android:layout_below="@+id/recipeImage"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="4dp"
             android:layout_toLeftOf="@+id/cookingTime"
@@ -139,7 +139,6 @@
             android:padding="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/favorite_plus" />
-
     </RelativeLayout>
 
 </ScrollView>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -40,6 +42,7 @@ import com.vitaminme.data.ParseRecipes;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.RecipeDetails;
+import com.vitaminme.userprofiles.UserProfile;
 
 public class RecipeList extends Activity
 {
@@ -93,12 +96,13 @@ public class RecipeList extends Activity
 				.defaultDisplayImageOptions(options).build();
 		ImageLoader.getInstance().init(config);
 
+		itemAdapter = new ItemAdapter();
+		listView = (ListView) findViewById(android.R.id.list);
+
 		footerView = ((LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
 				R.layout.activity_recipe_list_footer, null, false);
-
-		itemAdapter = new ItemAdapter();
-		listView = (ListView) findViewById(android.R.id.list);
+		listView.addFooterView(footerView);
 
 		setListeners();
 	}
@@ -114,8 +118,8 @@ public class RecipeList extends Activity
 			ids.add(r.id);
 		}
 
-		listView.removeFooterView(footerView);
-		listView.addFooterView(footerView);
+		// listView.removeFooterView(footerView);
+		// listView.addFooterView(footerView);
 		((ListView) listView).setAdapter(itemAdapter);
 
 		itemAdapter.notifyDataSetChanged();
@@ -148,7 +152,7 @@ public class RecipeList extends Activity
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id)
 			{
-				vibe.vibrate(30);
+				vibe.vibrate(20);
 				System.out.println("Clicked: " + ids.get(position));
 				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
 				intent.putExtra("recipe_id", ids.get(position));
@@ -348,16 +352,10 @@ public class RecipeList extends Activity
 			finish();
 			return true;
 		}
-		// case R.id.item_clear_memory_cache:
-		// {
-		// imageLoader.clearMemoryCache();
-		// return true;
-		// }
-		// case R.id.item_clear_disc_cache:
-		// {
-		// imageLoader.clearDiscCache();
-		// return true;
-		// }
+		case R.id.user_profile:
+			// open user profile
+			Intent intent = new Intent(this, UserProfile.class);
+			startActivity(intent);
 		default:
 		{
 			return super.onOptionsItemSelected(item);

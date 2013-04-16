@@ -1,17 +1,14 @@
 package com.vitaminme.data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-
-import com.vitaminme.api.*;
+import com.vitaminme.api.ApiResponse;
+import com.vitaminme.api.CallBackable;
 import com.vitaminme.recipe.RecipeDetails;
-import com.vitaminme.recipelist.RecipeList;
 
 public class ParseRecipe implements CallBackable
 {

@@ -1,6 +1,7 @@
 package com.vitaminme.data;
 
-import com.vitaminme.api.*;
+import com.vitaminme.api.ApiCallParams;
+import com.vitaminme.api.ApiCallTask;
 
 
 public class TestApi {

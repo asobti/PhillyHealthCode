@@ -1,16 +1,9 @@
 package com.vitaminme.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
@@ -20,14 +13,11 @@ import android.widget.Toast;
 
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
-import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipe;
-import com.vitaminme.data.ParseRecipes;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.MainActivity;
 import com.vitaminme.main.R;
-import com.vitaminme.recipelist.RecipeList;
+import com.vitaminme.userprofiles.UserProfile;
 
 public class RecipeDetails extends FragmentActivity
 {
@@ -159,19 +149,18 @@ public class RecipeDetails extends FragmentActivity
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			// This is called when the Home (Up) button is pressed
-			// in the Action Bar.
-			Intent parentActivityIntent = new Intent(this, RecipeList.class);
-			// parentActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-			// | Intent.FLAG_ACTIVITY_NEW_TASK);
-			// startActivity(parentActivityIntent);
 			onBackPressed();
 			finish();
 			return true;
 		case R.id.add_favorite:
-			Toast.makeText(getBaseContext(),"Added to favorites (not really)", 
-	                Toast.LENGTH_SHORT).show();
+			Toast.makeText(getBaseContext(), "Added to favorites (not really)",
+					Toast.LENGTH_SHORT).show();
+		case R.id.user_profile:
+			// open user profile
+			Intent intent = new Intent(this, UserProfile.class);
+			startActivity(intent);
+		default:
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 }

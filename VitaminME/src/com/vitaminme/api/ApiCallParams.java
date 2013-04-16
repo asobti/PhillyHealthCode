@@ -1,6 +1,5 @@
 package com.vitaminme.api;
 
-import android.app.ProgressDialog;
 
 public class ApiCallParams {
 

@@ -2,6 +2,7 @@ package com.vitaminme.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;

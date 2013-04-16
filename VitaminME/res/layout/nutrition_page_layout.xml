@@ -1,173 +1,171 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
     android:id="@+id/scrollview"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
-    android:fillViewport="true"
-								 >    
-    
-<RelativeLayout 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:padding="5dp" >
+    android:fillViewport="true" >
 
-    <TableRow
-        android:id="@+id/boarder_top"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_alignTop="@+id/scrollview"
-        android:background="@color/black">
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/boarder_left"
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true" 
-        android:background="@color/black">
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/boarder_right"
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_alignParentRight="true"   
-        android:background="@color/black">
-    </TableRow>
-    
-    <TableRow
-        android:id="@+id/boarder_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/black">
-    </TableRow>
-    
-    <TextView
-        android:id="@+id/nut_facts_header"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="9dp"
-        android:layout_marginTop="5dp"
-        android:text="Nutrition Facts"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:padding="5dp" >
 
-    <TextView
-        android:id="@+id/serving_size"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/nut_facts_header"
-        android:layout_below="@+id/nut_facts_header"
-        android:text="Serving Size : 1 Portion" />
+        <TableRow
+            android:id="@+id/boarder_top"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_alignTop="@+id/scrollview"
+            android:background="@color/black" >
+        </TableRow>
 
-    <TextView
-        android:id="@+id/servings_per"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/serving_size"
-        android:layout_below="@+id/serving_size"
-        android:text="Serving per Recipe" />
+        <TableRow
+            android:id="@+id/boarder_left"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@color/black" >
+        </TableRow>
 
-    <TableRow
-        android:id="@+id/bar_heavy_top"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@+id/servings_per"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/black" >
-    </TableRow>
+        <TableRow
+            android:id="@+id/boarder_right"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/black" >
+        </TableRow>
 
-    <TextView
-        android:id="@+id/amount_per_serving"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/serving_size"
-        android:layout_below="@+id/bar_heavy_top"
-        android:text="Amount Per Serving"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        <TableRow
+            android:id="@+id/boarder_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/black" >
+        </TableRow>
 
-    <TableRow
-        android:id="@+id/bar_light1"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/amount_per_serving"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/black" >
-    </TableRow>
+        <TextView
+            android:id="@+id/nut_facts_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="5dp"
+            android:text="Nutrition Facts"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/calories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/bar_light1"
-        android:layout_below="@+id/bar_light1"
-        android:text="Calories"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/serving_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/nut_facts_header"
+            android:layout_below="@+id/nut_facts_header"
+            android:text="Serving Size : 1 Portion" />
 
-    <TextView
-        android:id="@+id/calories_from_fat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bar_medium"
-        android:layout_alignRight="@+id/bar_light1"
-        android:text="Calories from Fat" />
+        <TextView
+            android:id="@+id/servings_per"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/serving_size"
+            android:layout_below="@+id/serving_size"
+            android:text="Serving per Recipe" />
 
-    <TableRow
-        android:id="@+id/bar_medium"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_below="@+id/calories"
-        android:layout_marginBottom="2dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="4dp"
-        android:background="@color/black" >
-    </TableRow>
+        <TableRow
+            android:id="@+id/bar_heavy_top"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_below="@+id/servings_per"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/black" >
+        </TableRow>
 
-    <TextView
-        android:id="@+id/daily_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/bar_light1"
-        android:layout_below="@+id/bar_medium"
-        android:text="% Daily Value" />
+        <TextView
+            android:id="@+id/amount_per_serving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/serving_size"
+            android:layout_below="@+id/bar_heavy_top"
+            android:text="Amount Per Serving"
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
-    <TableRow
-        android:id="@+id/bar_light2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/daily_value"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginTop="2dp"
-        android:background="@color/black" >
-    </TableRow>
+        <TableRow
+            android:id="@+id/bar_light1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/amount_per_serving"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/black" >
+        </TableRow>
 
-    <ListView
-        android:id="@+id/nutrient_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/bar_light2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="9dp" >
-    </ListView>
+        <TextView
+            android:id="@+id/calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/bar_light1"
+            android:layout_below="@+id/bar_light1"
+            android:text="Calories"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/calories_from_fat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/bar_medium"
+            android:layout_alignRight="@+id/bar_light1"
+            android:text="Calories from Fat" />
 
-</RelativeLayout>
+        <TableRow
+            android:id="@+id/bar_medium"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/calories"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/black" >
+        </TableRow>
+
+        <TextView
+            android:id="@+id/daily_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/bar_light1"
+            android:layout_below="@+id/bar_medium"
+            android:text="% Daily Value" />
+
+        <TableRow
+            android:id="@+id/bar_light2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/daily_value"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/black" >
+        </TableRow>
+
+        <ListView
+            android:id="@+id/nutrient_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bar_light2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp" >
+        </ListView>
+    </RelativeLayout>
+
 </ScrollView>

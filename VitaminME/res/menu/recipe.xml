@@ -1,16 +1,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item
+    <!--
+         <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-    
+    -->
     <item
         android:id="@+id/add_favorite"
+        android:icon="@drawable/favorite_plus"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Add to Favorites"/>
+    <item
+        android:id="@+id/user_profile"
         android:orderInCategory="1"
         android:showAsAction="never"
-        android:icon="@drawable/favorite_plus"
-        android:title="Add to Favorites"/>
+        android:title="@string/menu_item_user_profile"/>
 
 </menu>
