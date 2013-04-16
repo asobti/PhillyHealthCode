@@ -5,6 +5,13 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+	<item
+        android:id="@+id/user_profile"
+        android:orderInCategory="1"
+        android:showAsAction="never"
+        android:title="@string/menu_item_user_profile"/>
+	
     <!--
           <item
         android:id="@+id/item_clear_memory_cache"

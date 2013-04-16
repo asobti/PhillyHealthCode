@@ -44,10 +44,9 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.vitaminme.main.FullscreenActivity"
+            android:name="com.vitaminme.settings.SettingsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_fullscreen"
-            android:theme="@style/FullscreenTheme" >
+            android:label="@string/title_settings" >
         </activity>
     </application>
 

@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Settings" >
+
+    <TextView
+        android:id="@+id/commonDietsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:text="COMMON DIETS"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/spotify" />
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/commonDietsTitle"
+        android:background="@color/spotify"
+        android:visibility="visible" >
+    </TableRow>
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tableRow1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:entries="@array/common_diets_list" />
+
+    <TextView
+        android:id="@+id/ignoreIngredientsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/spinner1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:text="IGNORE INGREDIENTS"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/spotify" />
+
+    <TableRow
+        android:id="@+id/tableRow2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/ignoreIngredientsTitle"
+        android:background="@color/spotify"
+        android:visibility="visible" >
+    </TableRow>
+
+    <ListView
+        android:id="@+id/excludes_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tableRow2" 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp">
+
+    </ListView>
+
+</RelativeLayout>
