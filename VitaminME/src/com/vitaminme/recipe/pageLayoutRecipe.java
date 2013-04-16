@@ -1,7 +1,12 @@
 package com.vitaminme.recipe;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,10 +16,12 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -23,6 +30,7 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,10 +53,9 @@ public class pageLayoutRecipe extends Fragment
 		return f;
 	}
 
-	public void constructor(Recipe recipe, Context context)
+	public void constructor(Recipe recipe)
 	{
 		this.recipe = recipe;
-		this.context = context;
 	}
 
 	@Override
@@ -57,7 +64,7 @@ public class pageLayoutRecipe extends Fragment
 	{
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.recipe_page_layout, null);
-		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+
 		ListView list = (ListView) vg.findViewById(R.id.list);
 		TextView recipeName = (TextView) vg.findViewById(R.id.textView1);
 		TextView courseType = (TextView) vg.findViewById(R.id.courseType);
@@ -150,7 +157,7 @@ public class pageLayoutRecipe extends Fragment
 			{
 				Log.e("vitaminme", "ERROR in AsyncTask: " + e.toString());
 				e.printStackTrace();
-				mainImage.setImageResource(R.drawable.plate_icon);
+				mainImage.setImageResource(R.drawable.ic_launcher_vm_2);
 			}
 			return null;
 		}
