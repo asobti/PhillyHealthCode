@@ -1,13 +1,13 @@
 package com.vitaminme.data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.vitaminme.api.*;
+import com.vitaminme.api.ApiResponse;
+import com.vitaminme.api.CallBackable;
 import com.vitaminme.main.MainActivity;
 
 public class ParseNutrients implements CallBackable {

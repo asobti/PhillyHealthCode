@@ -2,24 +2,15 @@ package com.vitaminme.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import com.vitaminme.api.ApiCallParams;
-import com.vitaminme.api.ApiCallTask;
-import com.vitaminme.data.Nutrient;
-import com.vitaminme.data.Pagination;
-import com.vitaminme.data.ParseNutrients;
-import com.vitaminme.recipe.RecipeDetails;
-import com.vitaminme.recipelist.RecipeList;
-
-import android.os.Bundle;
-import android.os.Vibrator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -30,6 +21,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.vitaminme.api.ApiCallParams;
+import com.vitaminme.api.ApiCallTask;
+import com.vitaminme.data.Nutrient;
+import com.vitaminme.data.Pagination;
+import com.vitaminme.data.ParseNutrients;
+import com.vitaminme.recipe.RecipeDetails;
+import com.vitaminme.recipelist.RecipeList;
 
 public class MainActivity extends Activity {
 

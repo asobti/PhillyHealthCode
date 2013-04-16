@@ -1,16 +1,9 @@
 package com.vitaminme.recipe;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
@@ -20,12 +13,9 @@ import android.widget.Toast;
 
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
-import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipe;
-import com.vitaminme.data.ParseRecipes;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.MainActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.recipelist.RecipeList;
 
