@@ -70,7 +70,7 @@ public class RecipeDetails extends FragmentActivity
 	public void callback(Recipe recipe, Pagination pagination)
 	{
 		// runningBG = false;
-		// TotalNumResults = pagination.num_results;
+		// totalNumResults = pagination.num_results;
 
 		// System.out.println("counter: " + counter);
 

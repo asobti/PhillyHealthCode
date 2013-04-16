@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,14 +25,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
@@ -45,24 +43,24 @@ import com.vitaminme.recipe.RecipeDetails;
 
 public class RecipeList extends Activity
 {
-	protected ImageLoader imageLoader = ImageLoader.getInstance();
-	ListView listView;
+	ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
-	List<Recipe> recipeList;
-	ProgressDialog mDialog;
+	ListView listView;
+	View footerView;
+	ItemAdapter itemAdapter;
 
-	ArrayList<String> urls = new ArrayList<String>();
+	ProgressDialog progressDialog;
+	int startIndex = 0;
+	int count = 20;
+	boolean runningBG = false;
+	int firstVisibleItem = 0;
+	int totalNumResults = 1;
+
+	List<Recipe> recipeList;
 	List<String> images = new ArrayList<String>();
 	List<String> recipeNames = new ArrayList<String>();
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
-
-	int counter = 0;
-	View footerView;
-	ItemAdapter itemAdapter;
-	boolean runningBG = false;
-	int FirstVisibleItem = 0;
-	int TotalNumResults = 1;
 	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
 
 	@Override
@@ -73,13 +71,13 @@ public class RecipeList extends Activity
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
-		if (counter == 0) // Only show loading screen when empty
+		if (startIndex == 0) // Only show loading screen when empty
 		// screen is loaded onCreate
 		{
-			mDialog = new ProgressDialog(RecipeList.this);
-			mDialog.setMessage("Loading...");
-			mDialog.setCancelable(false);
-			mDialog.show();
+			progressDialog = new ProgressDialog(RecipeList.this);
+			progressDialog.setMessage("Loading...");
+			progressDialog.setCancelable(false);
+			progressDialog.show();
 		}
 
 		nutrients = (List<Nutrient>) getIntent().getSerializableExtra(
@@ -89,8 +87,7 @@ public class RecipeList extends Activity
 				.cacheOnDisc().showStubImage(R.drawable.ic_stub)
 				.showImageForEmptyUri(R.drawable.ic_stub)
 				.showImageOnFail(R.drawable.ic_error)
-				// .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-				.displayer(new RoundedBitmapDisplayer(20)).build();
+				.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getApplicationContext()).memoryCacheExtraOptions(60, 60)
 				.defaultDisplayImageOptions(options).build();
@@ -113,29 +110,27 @@ public class RecipeList extends Activity
 			if (r.images.keySet().size() > 0)
 				images.add(r.images.get(r.images.keySet().toArray()[0]));
 			recipeNames.add(r.name);
-			// System.out.println("name: " + r.name);
 			notes.add(r.source.sourceName);
 			ids.add(r.id);
 		}
 
-		// System.out.println("Setting footer...");
 		listView.removeFooterView(footerView);
 		listView.addFooterView(footerView);
 		((ListView) listView).setAdapter(itemAdapter);
 
 		itemAdapter.notifyDataSetChanged();
 
-		if (counter != 0)
+		if (startIndex != 0)
 		{
-			listView.setSelection(FirstVisibleItem);
+			listView.setSelection(firstVisibleItem);
 			listView.post(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					if (counter - 10 != 0)
+					if (startIndex - 10 != 0)
 					{
-						listView.smoothScrollToPosition(counter
+						listView.smoothScrollToPosition(startIndex
 								- recipeList.size());
 					}
 				}
@@ -169,15 +164,17 @@ public class RecipeList extends Activity
 			}
 
 			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount)
+			public void onScroll(AbsListView view,
+					int firstVisibleItemInScreen, int visibleItemCount,
+					int totalItemCount)
 			{
 
-				int lastInScreen = firstVisibleItem + visibleItemCount;
+				int lastInScreen = firstVisibleItemInScreen + visibleItemCount;
 
-				if (lastInScreen == totalItemCount && counter < TotalNumResults)
+				if (lastInScreen == totalItemCount
+						&& startIndex < totalNumResults)
 				{
-					FirstVisibleItem = firstVisibleItem;
+					firstVisibleItem = firstVisibleItemInScreen;
 					if (!runningBG)
 					{
 						// new GetRecipes(RecipeList.this).execute();
@@ -197,11 +194,10 @@ public class RecipeList extends Activity
 								apiParams.url.length() - 3);
 
 						apiParams.url += "%5D%7D";
-						apiParams.url += "&start=" + counter;
+						apiParams.url += "&start=" + startIndex;
+						apiParams.url += "&count=" + count;
 						apiParams.callBackObject = new ParseRecipes(
 								RecipeList.this);
-
-						// System.out.println("url: " + apiParams.url);
 
 						ApiCallTask task = new ApiCallTask();
 						runningBG = true;
@@ -216,28 +212,33 @@ public class RecipeList extends Activity
 	public void callback(List<Recipe> recipes, Pagination pagination)
 	{
 		runningBG = false;
-		TotalNumResults = pagination.num_results;
-		if (mDialog.isShowing())
-			mDialog.dismiss();
+		totalNumResults = pagination.num_results;
+		if (progressDialog.isShowing())
+			progressDialog.dismiss();
 
-		System.out.println("start index/counter: " + counter);
+		System.out.println("start index: " + startIndex);
 
-		setTitle("Recipe List: " + TotalNumResults + " items found");
+		setTitle("Recipe List: " + totalNumResults + " items found");
 
-		if (pagination.num_results == 0)
+		if (totalNumResults == 0)
 		{
 			Toast.makeText(RecipeList.this, "No results found",
 					Toast.LENGTH_LONG).show();
 		}
 
-		if (counter < pagination.num_results)
+		if (startIndex < totalNumResults)
 		{
 			System.out.println("num_recipe: " + recipes.size());
 			System.out.println("page_results: " + pagination.page_results);
-			System.out.println("num_results: " + pagination.num_results);
+			System.out.println("num_results: " + totalNumResults);
 			recipeList = recipes;
-			counter += pagination.page_results;
+			startIndex += pagination.page_results;
 			fillListView();
+		}
+		if (startIndex >= totalNumResults) // If startIndex larger after
+											// increment
+		{
+			listView.removeFooterView(footerView);
 		}
 
 	}
@@ -249,7 +250,6 @@ public class RecipeList extends Activity
 		private class ViewHolder
 		{
 			public TextView text1;
-			public TextView text2;
 			public ImageView image;
 		}
 
@@ -348,16 +348,16 @@ public class RecipeList extends Activity
 			finish();
 			return true;
 		}
-		case R.id.item_clear_memory_cache:
-		{
-			imageLoader.clearMemoryCache();
-			return true;
-		}
-		case R.id.item_clear_disc_cache:
-		{
-			imageLoader.clearDiscCache();
-			return true;
-		}
+		// case R.id.item_clear_memory_cache:
+		// {
+		// imageLoader.clearMemoryCache();
+		// return true;
+		// }
+		// case R.id.item_clear_disc_cache:
+		// {
+		// imageLoader.clearDiscCache();
+		// return true;
+		// }
 		default:
 		{
 			return super.onOptionsItemSelected(item);

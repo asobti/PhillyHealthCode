@@ -12,7 +12,6 @@
         android:layout_margin="3dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop" >
-
     </ImageView>
 
     <TextView
