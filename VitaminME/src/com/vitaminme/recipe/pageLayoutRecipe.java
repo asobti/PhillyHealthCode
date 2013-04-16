@@ -15,8 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -112,7 +118,6 @@ public class pageLayoutRecipe extends Fragment
 		else
 			courseType.setText(temp.substring(0, temp.length() - 2));
 
-		courseType.setTextColor(Color.BLACK);
 		// vg.findViewById(R.id.plate_icon).setVisibility(View.INVISIBLE);
 
 		if (recipe.cookingTime.toString().isEmpty()){
@@ -121,12 +126,11 @@ public class pageLayoutRecipe extends Fragment
 		}
 		else
 			cookingTime.setText(recipe.cookingTime.toString());
-		cookingTime.setTextColor(Color.BLACK);
 
-		mainImage.setImageResource(R.drawable.plate_icon);
+//		mainImage.setImageResource(R.drawable.plate_icon);
 		new GetImage().execute(recipe.images.get(ImageSize.LARGE));
 
-		mainImage.setBackgroundColor(Color.BLACK);
+//		mainImage.setBackgroundColor(Color.BLACK);
 		return vg;
 
 	}
@@ -153,7 +157,10 @@ public class pageLayoutRecipe extends Fragment
 		protected void onPostExecute(Bitmap bm)
 		{
 			if (bm != null)
+			{
 				mainImage.setImageBitmap(bm);
+				mainImage.setScaleType(ScaleType.CENTER_CROP);
+			}
 		}
 
 	}
