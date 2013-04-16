@@ -243,8 +243,7 @@ public class RecipeList extends Activity
 
 		private class ViewHolder
 		{
-			public TextView text1;
-			public TextView text2;
+			public TextView text1;			
 			public ImageView image;
 		}
 

@@ -1,16 +1,13 @@
 package com.vitaminme.recipe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.vitaminme.data.Recipe;
 import com.vitaminme.data.RecipeNutrient;
-import com.vitaminme.main.NutrientListAdapter;
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.pageLayoutNutrition;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;

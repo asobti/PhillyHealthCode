@@ -7,8 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-
 import com.vitaminme.api.*;
 import com.vitaminme.recipelist.RecipeList;
 

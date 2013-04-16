@@ -3,9 +3,7 @@ package com.vitaminme.recipe;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.main.R;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,8 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class pageLayoutCook extends Fragment
-{
-	private Context context;
+{	
 	ProgressBar Pbar;
 	TextView loadText;
 	View box;
