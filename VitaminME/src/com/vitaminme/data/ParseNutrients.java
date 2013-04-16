@@ -55,7 +55,7 @@ public class ParseNutrients implements CallBackable {
 		}
 		
 		
-		this.caller.callback(nutrients, pag);
+		// this.caller.callback(nutrients, pag);
 		
 		
 	}

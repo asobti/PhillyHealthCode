@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -22,11 +23,13 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseNutrients;
+import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.recipelist.RecipeList;
 
@@ -39,28 +42,16 @@ public class MainActivity extends Activity {
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
-	ProgressDialog mDialog;
+	Pagination pag;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle("Vitamin.ME");
 		setContentView(R.layout.activity_main);
-
-		Intent intent = new Intent(MainActivity.this, RecipeDetails.class);
-		// startActivity(intent);
-
-		mDialog = new ProgressDialog(MainActivity.this);
-		mDialog.setMessage("Loading...");
-		mDialog.setCancelable(false);
-		mDialog.show();
-
-		ApiCallParams params = new ApiCallParams();
-		params.url = "http://vitaminme.notimplementedexception.me/nutrients";
-		params.callBackObject = new ParseNutrients(MainActivity.this);
-
-		ApiCallTask task = new ApiCallTask();
-		task.execute(params);
+		
+		// execute async task
+		new getNutrients().execute();
 
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -82,9 +73,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				boolean next = false;
 				vib.vibrate(20);
-				// PopUp();
-				// Toast.makeText(getBaseContext(), "next activity",
-				// Toast.LENGTH_SHORT).show();
+				
 				for (Nutrient n : nutrients) {
 					if (n.value == 1 || n.value == -1)
 						next = true;
@@ -181,17 +170,52 @@ public class MainActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
-	}
-
-	public void callback(ArrayList<Nutrient> nut, Pagination pag) {
-		if (mDialog.isShowing())
-			mDialog.dismiss();
-		this.nutrients = nut;
-		adapter = new NutrientListAdapter(this,
-				R.layout.nutrient_list_item_wbuttons, nutrients);
-		lv.setAdapter(adapter);
-		lv.setTextFilterEnabled(true);
-
+	}	
+	
+	private final class getNutrients extends AsyncTask<Void, Void, ArrayList<Nutrient>> {
+		
+		private ProgressDialog mDialog;
+		private final ApiAdapter api = ApiAdapter.getInstance();
+		
+		@Override
+		protected void onPreExecute() {
+			mDialog = new ProgressDialog(MainActivity.this);
+			mDialog.setMessage("Loading...");
+			mDialog.setCancelable(false);
+			mDialog.show();
+		}
+		
+		@Override
+		protected ArrayList<Nutrient> doInBackground(Void... arg0) {			
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("count", "100");
+			
+			try {				
+				return api.getNutrients(params);
+			} catch (APICallException e) {
+				return null;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(final ArrayList<Nutrient> nut) {
+			if (mDialog.isShowing()) {
+				mDialog.hide();
+			}
+			
+			if (nut != null) {
+				nutrients = nut;
+				pag = api.getPaginationObject();
+				
+				adapter = new NutrientListAdapter(MainActivity.this,
+						R.layout.nutrient_list_item_wbuttons, nutrients);
+				lv.setAdapter(adapter);
+				lv.setTextFilterEnabled(true);
+			} else {
+				Toast.makeText(getApplicationContext(), "There was an error. Please try again", Toast.LENGTH_LONG).show();
+			}
+		}
+		
 	}
 
 }

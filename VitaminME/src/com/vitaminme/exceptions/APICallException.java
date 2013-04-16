@@ -11,7 +11,7 @@ public class APICallException extends VitaminMeException {
 		super(message);
 	}
 	
-	public APICallException(String message, Throwable clause) {
-		super(message, clause);
+	public APICallException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

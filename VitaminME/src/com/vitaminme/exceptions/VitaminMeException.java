@@ -14,7 +14,7 @@ public abstract class VitaminMeException extends Exception {
 		super(message);
 	}
 	
-	public VitaminMeException(String message, Throwable clause) {
-		super(message, clause);
+	public VitaminMeException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }
