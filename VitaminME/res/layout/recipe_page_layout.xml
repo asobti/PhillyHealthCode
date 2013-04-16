@@ -75,21 +75,26 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/plate_icon"
             android:layout_below="@+id/view1"
+            android:layout_marginBottom="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/plate_icon"
-            android:paddingLeft="4dp"
-            android:textSize="18sp" />
+            android:layout_alignTop="@+id/plate_icon"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="4dp"
+            android:textSize="18sp"
+	    android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/cookingTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/clock_icon"
+            android:layout_marginTop="2dp"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
             android:layout_toRightOf="@+id/clock_icon"
-            android:paddingLeft="4dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/black"
             android:textSize="18sp" />
 
         <ImageView
