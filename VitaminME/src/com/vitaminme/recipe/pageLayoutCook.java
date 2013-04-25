@@ -91,5 +91,4 @@ public class pageLayoutCook extends Fragment
 		return vg;
 
 	}
-
 }

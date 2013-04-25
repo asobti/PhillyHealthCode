@@ -117,5 +117,5 @@ public class ParseRecipes implements CallBackable {
 		
 		caller.callback(recipes, pag);
 	}
-
 }
+

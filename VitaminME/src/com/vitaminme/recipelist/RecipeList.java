@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Nutrient;
@@ -370,6 +372,26 @@ public class RecipeList extends Activity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	private class getRecipes extends AsyncTask<Void, Void, ArrayList<Recipe>> {
+		private ApiAdapter api;
+		
+		@Override
+		protected void onPreExecute() {
+			api = ApiAdapter.getInstance();
+		}
+
+		@Override
+		protected ArrayList<Recipe> doInBackground(Void... arg0) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(ArrayList<Recipe> rec) {
+			
+		}
 	}
 
 }
