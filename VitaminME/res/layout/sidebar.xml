@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background_gray"
+    android:clickable="true"
+    android:fillViewport="true" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".SecondActivity" >
+
+        <TextView
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:text="HOME" />
+
+        <TextView
+            android:id="@+id/searchBy"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home"
+            android:background="@color/gray"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:text="SEARCH BY"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@+id/searchBy"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
+
+        <!--
+        <TextView
+            android:id="@+id/nutrients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow1"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:text="Nutrients"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nutrients"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:text="Ingredients"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+        -->
+
+        <ListView
+            android:id="@+id/listView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow1"
+            android:entries="@array/searchBy"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/listView1"
+            android:background="@color/gray"
+            android:paddingBottom="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="3dp"
+            android:text="USER"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_below="@+id/user"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
+
+        <ListView
+            android:id="@+id/listView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tableRow2"
+            android:entries="@array/user"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+    </RelativeLayout>
+
+</ScrollView>
