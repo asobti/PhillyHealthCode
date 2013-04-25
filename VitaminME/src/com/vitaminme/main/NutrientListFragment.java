@@ -3,11 +3,9 @@ package com.vitaminme.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.vitaminme.api.ApiCallParams;
-import com.vitaminme.api.ApiCallTask;
+import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
-import com.vitaminme.data.Pagination;
-import com.vitaminme.data.ParseNutrients;
+import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.recipelist.RecipeList;
 
 import android.app.Activity;
@@ -16,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
@@ -25,13 +24,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class NutrientListFragment extends Fragment
 {
@@ -56,18 +53,8 @@ public class NutrientListFragment extends Fragment
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.fragment_nutrient_list, null);
 
-		mDialog = new ProgressDialog(activity);
-		mDialog.setMessage("Loading...");
-		mDialog.setCancelable(false);
-		mDialog.show();
-
-		ApiCallParams params = new ApiCallParams();
-		params.url = "http://vitaminme.notimplementedexception.me/nutrients";
-		// params.callBackObject = new ParseNutrients(activity);
-
-		ApiCallTask task = new ApiCallTask();
-//		task.execute(params);
-
+		new getNutrients().execute();
+		
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
 		lv = (ListView) vg.findViewById(R.id.list_view);
@@ -209,22 +196,62 @@ public class NutrientListFragment extends Fragment
 
 	}
 
-	public void callback(ArrayList<Nutrient> nut, Pagination pag)
-	{
-		if (mDialog.isShowing())
-			mDialog.dismiss();
-		this.nutrients = nut;
-		adapter = new NutrientListAdapter(activity,
-				R.layout.nutrient_list_item_wbuttons, nutrients);
-		lv.setAdapter(adapter);
-		lv.setTextFilterEnabled(true);
-
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState)
 	{
 		super.onActivityCreated(savedInstanceState);
+	}
+	
+	private final class getNutrients extends AsyncTask<Void, Void, ArrayList<Nutrient>> {
+
+		private ProgressDialog mDialog;
+		private final ApiAdapter api = ApiAdapter.getInstance();
+
+		@Override
+		protected void onPreExecute() {
+			mDialog = new ProgressDialog(activity);
+			mDialog.setMessage("Loading...");
+			mDialog.setCancelable(false);
+			mDialog.show();
+		}
+
+		@Override
+		protected ArrayList<Nutrient> doInBackground(Void... arg0) {			
+			HashMap<String, String> params = new HashMap<String, String>();
+			params.put("count", "100");
+
+			try {				
+				return api.getNutrients(params);
+			} catch (APICallException e) {
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(final ArrayList<Nutrient> nut) {
+			if (mDialog.isShowing()) {
+				mDialog.hide();
+			}
+
+			if (nut != null && nut.size() > 0) {
+				if (mDialog.isShowing())
+					mDialog.dismiss();
+				
+				nutrients = nut;
+				adapter = new NutrientListAdapter(activity,
+						R.layout.nutrient_list_item_wbuttons, nutrients);
+				
+				lv.setAdapter(adapter);
+				lv.setTextFilterEnabled(true);
+			} else if (nut.size() == 0) {
+				// @Mayank: not sure what the context should be for the toast
+				// Toast.makeText(getApplicationContext(), "No nutrients found", Toast.LENGTH_LONG).show();
+			} else {
+				// @Mayank: not sure what the context should be for the toast
+				// Toast.makeText(getApplicationContext(), "There was an error. Please try again", Toast.LENGTH_LONG).show();
+			}
+		}
+
 	}
 
 }

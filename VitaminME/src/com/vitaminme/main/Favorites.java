@@ -1,8 +1,6 @@
 package com.vitaminme.main;
 
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 
 public class Favorites extends BaseActivity
 {
