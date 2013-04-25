@@ -13,5 +13,13 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_test">Test</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_fragment_home">Home</string>
+    <string name="title_fragment_search_nutrients">Search by Nutrients</string>
+    <string name="title_fragment_search_ingredients">Search by Ingredients</string>
+    <string name="title_fragment_search_recipe_name">Search by Recipe Name</string>
+    <string name="title_activity_favorites">Favorites</string>
 
 </resources>
