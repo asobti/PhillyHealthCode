@@ -1,7 +1,5 @@
 package com.vitaminme.main;
 
-import com.slidingmenu.lib.SlidingMenu;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +13,7 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_nutrient_list);
-		
+
 		Intent intent = new Intent(MainActivity.this, Home.class);
 		startActivity(intent);
 	}
