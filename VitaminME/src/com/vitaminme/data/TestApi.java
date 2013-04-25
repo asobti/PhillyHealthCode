@@ -18,8 +18,8 @@ public class TestApi {
 	}
 	
 	public void test2() {
+		@SuppressWarnings("unused")
 		RecipeFilter filter = new RecipeFilter();
-		String url = "http://vitaminme.notimplementedexception.me/recipes";
-		url += "?filter=" + filter.toString();
+		// "?filter=" + filter.toString();
 	}
 }

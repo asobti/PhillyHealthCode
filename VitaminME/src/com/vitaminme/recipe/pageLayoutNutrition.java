@@ -71,7 +71,7 @@ public class pageLayoutNutrition extends Fragment
 		listView.setAdapter(adapter);
 
 		int totalHeight = 0;
-		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+		MeasureSpec.makeMeasureSpec(listView.getWidth(),
 				MeasureSpec.AT_MOST);
 		Log.v("mytag", "adapter view count : " + adapter.getCount());
 		for (int i = 0; i < adapter.getCount(); i++)

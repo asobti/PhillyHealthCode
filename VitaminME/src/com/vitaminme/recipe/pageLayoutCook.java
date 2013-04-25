@@ -18,7 +18,6 @@ import com.vitaminme.main.R;
 
 public class pageLayoutCook extends Fragment
 {
-	private Context context;
 	ProgressBar Pbar;
 	TextView loadText;
 	View box;
