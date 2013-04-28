@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.exceptions.*;
@@ -76,6 +77,38 @@ public class ApiAdapter {
 		}
 		
 		return nutrients;
+	}
+	
+	public ArrayList<Ingredient> getIngredients(HashMap<String, String> params) throws APICallException {
+		JSONObject response;
+		String url = this.endpoint + "ingredients" + this.buildQueryString(params);		
+		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+		
+		try {
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+			
+			for (int i = 0; i < arr.length(); i++) {
+				try {
+					Ingredient ing = new Ingredient(arr.getJSONObject(i));
+					ingredients.add(ing);
+				} catch (JSONException e) {
+					// unable to parse this particular object
+					// ignore and continue
+					continue;
+				}
+			}
+			
+			this.pag = parsePaginationInfo(response);
+			
+		} catch (APICallException e) {
+			throw e;
+		} catch (Exception e) {
+			// some other exception occurred. Wrap it as an APICallException and re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+		
+		return ingredients;
 	}
 	
 	/*
