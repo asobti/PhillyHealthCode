@@ -30,8 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class NutrientListFragment extends Fragment
-{
+public class NutrientListFragment extends Fragment {
 	private ListView lv;
 	private Vibrator vib;
 
@@ -40,13 +39,12 @@ public class NutrientListFragment extends Fragment
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
 	ProgressDialog mDialog;
-
+	ImageButton x;
 	Activity activity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
-	{
+			Bundle savedInstanceState) {
 		activity = getActivity();
 		activity.setTitle(R.string.title_fragment_search_nutrients);
 
@@ -59,42 +57,36 @@ public class NutrientListFragment extends Fragment
 
 		lv = (ListView) vg.findViewById(R.id.list_view);
 		inputSearch = (EditText) vg.findViewById(R.id.inputSearch);
-		ImageButton x = (ImageButton) vg.findViewById(R.id.x_button);
-		x.setOnClickListener(new OnClickListener()
-		{
+		x = (ImageButton) vg.findViewById(R.id.x_button);
+		x.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				vib.vibrate(20);
 				inputSearch.setText("");
+				x.setVisibility(View.INVISIBLE);
 			}
 		});
 
 		ImageButton check = (ImageButton) vg.findViewById(R.id.go_button);
-		check.setOnClickListener(new OnClickListener()
-		{
+		check.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				boolean next = false;
 				vib.vibrate(20);
 				// PopUp();
 				// Toast.makeText(getBaseContext(), "next activity",
 				// Toast.LENGTH_SHORT).show();
-				for (Nutrient n : nutrients)
-				{
+				for (Nutrient n : nutrients) {
 					if (n.value == 1 || n.value == -1)
 						next = true;
 				}
 
-				if (next)
-				{
+				if (next) {
 					Intent intent = new Intent(activity, RecipeList.class);
 					intent.putExtra("Nutrients", nutrients);
 					startActivity(intent);
-				}
-				else
+				} else
 					Toast.makeText(activity.getBaseContext(),
 							"Nothing selected", Toast.LENGTH_SHORT).show();
 
@@ -102,31 +94,29 @@ public class NutrientListFragment extends Fragment
 		});
 
 		ImageButton list = (ImageButton) vg.findViewById(R.id.list_button);
-		list.setOnClickListener(new OnClickListener()
-		{
+		list.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				vib.vibrate(20);
 				PopUpSelection();
 
 			}
 		});
 
-		inputSearch.addTextChangedListener(new TextWatcher()
-		{
+		inputSearch.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
-					int arg3)
-			{
-				try
-				{
-					adapter.getFilter().filter(cs);
-				}
-				catch (Exception ex)
-				{
+					int arg3) {
+				try {
+					if (inputSearch.getText().toString().equals("")) {
+						x.setVisibility(View.INVISIBLE);
+					} else {
+						x.setVisibility(View.VISIBLE);
+					}
+					NutrientListFragment.this.adapter.getFilter().filter(cs);
+				} catch (Exception ex) {
 					System.out.println("page 1 ontextchanged: "
 							+ ex.getMessage());
 				}
@@ -134,15 +124,13 @@ public class NutrientListFragment extends Fragment
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3)
-			{
+					int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
 			}
 
 			@Override
-			public void afterTextChanged(Editable arg0)
-			{
+			public void afterTextChanged(Editable arg0) {
 				// TODO Auto-generated method stub
 			}
 		});
@@ -150,51 +138,40 @@ public class NutrientListFragment extends Fragment
 		return vg;
 	}
 
-	public void onStart()
-	{
+	public void onStart() {
 		super.onStart();
 		// Toast.makeText(activity.getApplicationContext(), "started",
 		// Toast.LENGTH_LONG).show();
 		// new getNutrients().execute();
 	}
 
-	private void PopUpSelection()
-	{
+	private void PopUpSelection() {
 
 		AlertDialog.Builder box = new AlertDialog.Builder(activity);
 		ArrayList<Nutrient> selectedMinus = new ArrayList<Nutrient>();
 		ArrayList<Nutrient> selectedPlus = new ArrayList<Nutrient>();
 		String list = "";
-		for (int i = 0; i < nutrients.size(); i++)
-		{
-			if (nutrients.get(i).value == -1)
-			{
+		for (int i = 0; i < nutrients.size(); i++) {
+			if (nutrients.get(i).value == -1) {
 				selectedMinus.add(nutrients.get(i));
-			}
-			else if (nutrients.get(i).value == 1)
-			{
+			} else if (nutrients.get(i).value == 1) {
 				selectedPlus.add(nutrients.get(i));
 			}
 		}
 		box.setTitle("Selected Nutrients");
-		for (Nutrient n : selectedPlus)
-		{
+		for (Nutrient n : selectedPlus) {
 			list = list + " + " + n.name.toString() + "\n";
 		}
-		for (Nutrient n : selectedMinus)
-		{
+		for (Nutrient n : selectedMinus) {
 			list = list + " - " + n.name.toString() + "\n";
 		}
-		if (list == "")
-		{
+		if (list == "") {
 			list = "No nutrients selected";
 		}
 		box.setMessage(list);
-		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener()
-		{
+		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
 
-			public void onClick(DialogInterface dialog, int which)
-			{
+			public void onClick(DialogInterface dialog, int which) {
 				// do nothing
 			}
 		});
@@ -205,21 +182,18 @@ public class NutrientListFragment extends Fragment
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 	}
 
 	private final class getNutrients extends
-			AsyncTask<Void, Void, ArrayList<Nutrient>>
-	{
+			AsyncTask<Void, Void, ArrayList<Nutrient>> {
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute()
-		{
+		protected void onPreExecute() {
 			mDialog = new ProgressDialog(activity);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -227,31 +201,25 @@ public class NutrientListFragment extends Fragment
 		}
 
 		@Override
-		protected ArrayList<Nutrient> doInBackground(Void... arg0)
-		{
+		protected ArrayList<Nutrient> doInBackground(Void... arg0) {
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("count", "100");
 
-			try
-			{
+			try {
 				return api.getNutrients(params);
-			}
-			catch (APICallException e)
-			{
+			} catch (APICallException e) {
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Nutrient> nut)
-		{
+		protected void onPostExecute(final ArrayList<Nutrient> nut) {
 			// if (mDialog.isShowing())
 			// {
 			// mDialog.hide();
 			// }
 
-			if (nut != null && nut.size() > 0)
-			{
+			if (nut != null && nut.size() > 0) {
 				nutrients = nut;
 				adapter = new NutrientListAdapter(activity,
 						R.layout.nutrient_list_item_wbuttons, nutrients);
@@ -259,21 +227,15 @@ public class NutrientListFragment extends Fragment
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
 
-			}
-			else if (nut == null)
-			{
+			} else if (nut == null) {
 				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(activity, "No network found", Toast.LENGTH_LONG)
 						.show();
-			}
-			else if (nut.size() == 0)
-			{
+			} else if (nut.size() == 0) {
 				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(activity, "No nutrients found",
 						Toast.LENGTH_LONG).show();
-			}
-			else
-			{
+			} else {
 				Toast.makeText(activity,
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();
