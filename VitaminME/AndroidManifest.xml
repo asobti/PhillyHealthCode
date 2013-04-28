@@ -44,7 +44,8 @@
         </activity>
         <activity
             android:name="com.vitaminme.userprofiles.UserProfile"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/user_profile" >
         </activity>
     </application>
