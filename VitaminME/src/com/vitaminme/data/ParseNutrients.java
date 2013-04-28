@@ -8,13 +8,13 @@ import org.json.JSONObject;
 
 import com.vitaminme.api.ApiResponse;
 import com.vitaminme.api.CallBackable;
-import com.vitaminme.main.MainActivity;
+import com.vitaminme.main.NutrientListFragment;
 
 public class ParseNutrients implements CallBackable {
 
-	private MainActivity caller;
+	private NutrientListFragment caller;
 	
-	public ParseNutrients(MainActivity caller){
+	public ParseNutrients(NutrientListFragment caller){
 		this.caller = caller;
 	}
 	@Override

@@ -36,7 +36,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import com.vitaminme.main.MainActivity;
+import com.vitaminme.main.NutrientListFragment;
 import com.vitaminme.main.R;
 
 public class UserProfile extends Activity {
