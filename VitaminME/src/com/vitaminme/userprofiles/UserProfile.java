@@ -14,13 +14,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
-public class UserProfile extends Activity
+public class UserProfile extends BaseActivity
 {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
@@ -73,12 +74,12 @@ public class UserProfile extends Activity
 	{
 		switch (item.getItemId())
 		{
-		case android.R.id.home:
-		{
-			onBackPressed();
-			finish();
-			return true;
-		}
+		// case android.R.id.home:
+		// {
+		// onBackPressed();
+		// finish();
+		// return true;
+		// }
 		case R.id.save:
 			// Save user profile
 			Toast.makeText(UserProfile.this, "Saved!", Toast.LENGTH_LONG)

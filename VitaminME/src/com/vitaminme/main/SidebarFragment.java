@@ -1,6 +1,7 @@
 package com.vitaminme.main;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.vitaminme.userprofiles.UserProfile;
 
 import android.app.Activity;
 import android.content.Context;
@@ -41,11 +42,10 @@ public class SidebarFragment extends Fragment
 			{
 				vibe.vibrate(20);
 				String itemName = homeText.getText().toString();
-				Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-						.show();
+//				Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
+//						.show();
 
 				switchFragment(itemName);
-
 			}
 
 		});
@@ -58,10 +58,10 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				System.out.println("Clicked: " + position);
+				// System.out.println("Clicked: " + position);
 				String itemName = parent.getItemAtPosition(position).toString();
-				Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-						.show();
+				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
+				// .show();
 
 				switchFragment(itemName);
 			}
@@ -75,10 +75,10 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				System.out.println("Clicked: " + position);
-				Toast.makeText(getActivity(),
-						parent.getItemAtPosition(position).toString(),
-						Toast.LENGTH_LONG).show();
+				// System.out.println("Clicked: " + position);
+				// Toast.makeText(getActivity(),
+				// parent.getItemAtPosition(position).toString(),
+				// Toast.LENGTH_LONG).show();
 				String itemName = parent.getItemAtPosition(position).toString();
 				switchFragment(itemName);
 			}
@@ -95,62 +95,103 @@ public class SidebarFragment extends Fragment
 	}
 
 	// Switch fragment or call new intents
-	private void switchFragment(String fragmentName)
+	private void switchFragment(String fragmentItemName)
 	{
 		if (getActivity() == null)
 			return;
 
 		final Activity activity = getActivity();
 
-		if (fragmentName.equalsIgnoreCase("home"))
+		if (fragmentItemName.equals("Home"))
 		{
 			if (activity instanceof Home)
 			{
-				activity.setTitle("Home");
-				((FragmentActivity) activity).getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.content_frame, new HomeFragment())
-						.commit();
+				if (activity
+						.getTitle()
+						.toString()
+						.equals(getResources().getString(
+								R.string.title_fragment_home)))
+				{
 
-				closeSidebar(activity);
+					closeSidebar(activity);
+				}
+				else
+				{
+					// activity.setTitle("Home");
+					((FragmentActivity) activity).getSupportFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_frame, new HomeFragment())
+							.commit();
+
+					closeSidebar(activity);
+				}
 			}
 			else
 			{
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra("fragmentName", "home");
+				intent.putExtra("fragmentName",
+						getResources().getString(R.string.name_fragment_home));
 				activity.startActivity(intent);
 			}
 		}
-		else if (fragmentName.equalsIgnoreCase("nutrients"))
+		else if (fragmentItemName.equals("Nutrients"))
 		{
 			if (activity instanceof Home)
 			{
-				activity.setTitle("Nutrient List");
-				((FragmentActivity) activity)
-						.getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.content_frame, new NutrientListFragment())
-						.commit();
-				closeSidebar(activity);
+				if (activity
+						.getTitle()
+						.toString()
+						.equals(getResources().getString(
+								R.string.name_fragment_search_nutrients)))
+				{
+
+					closeSidebar(activity);
+				}
+				else
+				{
+					((FragmentActivity) activity)
+							.getSupportFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_frame,
+									new NutrientListFragment()).commit();
+					closeSidebar(activity);
+				}
 			}
 			else
 			{
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra("fragmentName", "nutrients");
+				intent.putExtra(
+						"fragmentName",
+						getResources().getString(
+								R.string.name_fragment_search_nutrients));
 				activity.startActivity(intent);
 			}
 		}
-		else if (fragmentName.equalsIgnoreCase("favorites"))
+		else if (fragmentItemName.equals("Favorites"))
 		{
 			if (!(activity instanceof Favorites))
 			{
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, Favorites.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("User Profile"))
+		{
+			if (!(activity instanceof UserProfile))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, UserProfile.class);
 				activity.startActivity(intent);
 			}
 			else

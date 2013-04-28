@@ -54,7 +54,7 @@ public class NutrientListFragment extends Fragment
 				R.layout.fragment_nutrient_list, null);
 
 		new getNutrients().execute();
-		
+
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
 		lv = (ListView) vg.findViewById(R.id.list_view);
@@ -150,6 +150,14 @@ public class NutrientListFragment extends Fragment
 		return vg;
 	}
 
+	public void onStart()
+	{
+		super.onStart();
+		// Toast.makeText(activity.getApplicationContext(), "started",
+		// Toast.LENGTH_LONG).show();
+		// new getNutrients().execute();
+	}
+
 	private void PopUpSelection()
 	{
 
@@ -201,14 +209,17 @@ public class NutrientListFragment extends Fragment
 	{
 		super.onActivityCreated(savedInstanceState);
 	}
-	
-	private final class getNutrients extends AsyncTask<Void, Void, ArrayList<Nutrient>> {
+
+	private final class getNutrients extends
+			AsyncTask<Void, Void, ArrayList<Nutrient>>
+	{
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(activity);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -216,42 +227,61 @@ public class NutrientListFragment extends Fragment
 		}
 
 		@Override
-		protected ArrayList<Nutrient> doInBackground(Void... arg0) {			
+		protected ArrayList<Nutrient> doInBackground(Void... arg0)
+		{
 			HashMap<String, String> params = new HashMap<String, String>();
 			params.put("count", "100");
 
-			try {				
+			try
+			{
 				return api.getNutrients(params);
-			} catch (APICallException e) {
+			}
+			catch (APICallException e)
+			{
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Nutrient> nut) {
-			if (mDialog.isShowing()) {
-				mDialog.hide();
-			}
+		protected void onPostExecute(final ArrayList<Nutrient> nut)
+		{
+			// if (mDialog.isShowing())
+			// {
+			// mDialog.hide();
+			// }
 
-			if (nut != null && nut.size() > 0) {
-				if (mDialog.isShowing())
-					mDialog.dismiss();
-				
+			if (nut != null && nut.size() > 0)
+			{
 				nutrients = nut;
 				adapter = new NutrientListAdapter(activity,
 						R.layout.nutrient_list_item_wbuttons, nutrients);
-				
+
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
-			} else if (nut.size() == 0) {
-				// @Mayank: not sure what the context should be for the toast
-				// Toast.makeText(getApplicationContext(), "No nutrients found", Toast.LENGTH_LONG).show();
-			} else {
-				// @Mayank: not sure what the context should be for the toast
-				// Toast.makeText(getApplicationContext(), "There was an error. Please try again", Toast.LENGTH_LONG).show();
-			}
-		}
 
+			}
+			else if (nut == null)
+			{
+				// @Mayank: not sure what the context should be for the toast
+				Toast.makeText(activity, "No network found", Toast.LENGTH_LONG)
+						.show();
+			}
+			else if (nut.size() == 0)
+			{
+				// @Mayank: not sure what the context should be for the toast
+				Toast.makeText(activity, "No nutrients found",
+						Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				Toast.makeText(activity,
+						"There was an error. Please try again",
+						Toast.LENGTH_LONG).show();
+			}
+
+			if (mDialog.isShowing())
+				mDialog.dismiss();
+		}
 	}
 
 }

@@ -16,10 +16,11 @@ import com.vitaminme.api.ApiCallTask;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipe;
 import com.vitaminme.data.Recipe;
+import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.userprofiles.UserProfile;
 
-public class RecipeDetails extends FragmentActivity
+public class RecipeDetails extends BaseActivity
 {
 
 	private ViewPager myViewPager;
@@ -29,7 +30,7 @@ public class RecipeDetails extends FragmentActivity
 	ProgressDialog mDialog;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.page_layout);
@@ -148,10 +149,10 @@ public class RecipeDetails extends FragmentActivity
 	{
 		switch (item.getItemId())
 		{
-		case android.R.id.home:
-			onBackPressed();
-			finish();
-			return true;
+		// case android.R.id.home:
+		// onBackPressed();
+		// finish();
+		// return true;
 		case R.id.add_favorite:
 			Toast.makeText(getBaseContext(), "Added to favorites (not really)",
 					Toast.LENGTH_SHORT).show();
