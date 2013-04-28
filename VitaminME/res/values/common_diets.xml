@@ -3,5 +3,7 @@
     <string-array name="common_diets_list">
         <item>Vegatarian</item>
         <item>Vegan</item>
+        <item>Gluten Free</item>
+        <item>Lactose Intolarant</item>
     </string-array>
 </resources>
