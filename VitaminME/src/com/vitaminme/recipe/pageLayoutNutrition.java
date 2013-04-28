@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -69,29 +70,34 @@ public class pageLayoutNutrition extends Fragment
 		ListView listView = (ListView) vg.findViewById(R.id.nutrient_list);
 		adapter = new RecipeNutrientAdapter(context, nutrients);
 		listView.setAdapter(adapter);
-
-		int totalHeight = 0;
-		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
-				MeasureSpec.AT_MOST);
-		Log.v("mytag", "adapter view count : " + adapter.getCount());
-		for (int i = 0; i < adapter.getCount(); i++)
-		{
-			// View listItem = adapter.getView(i, null, listView);
-			// listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-			// Log.v("mytag", "measured height " +
-			// listItem.getMeasuredHeight());
-			totalHeight += 30;
-		}
-
-		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight;
-		listView.setLayoutParams(params);
-		listView.requestLayout();
+		setListViewHeight(listView);
 		title.setFocusableInTouchMode(true);
 		title.requestFocus();
 
 		return vg;
 
+	}
+	
+	public static void setListViewHeight(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = 0;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			Log.v("mytag", "nutrient item getmeasuredheight = " + listItem.getMeasuredHeight());
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 }

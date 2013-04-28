@@ -27,8 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tableRow2"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="8dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="7dp"
             android:layout_toRightOf="@id/commonDietsTitle"
             android:entries="@array/common_diets_list" />
 
@@ -73,11 +73,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/spinner1"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="70dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="4dp"
+            android:textSize="16sp"
             android:ems="10"
-            android:hint="Search ingredients to add..." >
+            android:hint="All Ingredients..." >
 
             <requestFocus />
         </AutoCompleteTextView>
@@ -85,7 +86,7 @@
         <Button
             android:id="@+id/addIgnoreButton"
             android:layout_width="44dp"
-            android:layout_height="32dp"
+            android:layout_height="30dp"
             android:layout_alignRight="@+id/searchBar"
             android:layout_below="@+id/spinner1"
             android:layout_marginRight="4dp"
@@ -106,7 +107,7 @@
             android:background="@android:color/transparent"
             android:padding="4dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/info_icon" />
+            android:src="@drawable/info_circle_icon" />
 
         <TextView
             android:id="@+id/userDataTitle"
@@ -143,7 +144,7 @@
             android:background="@android:color/transparent"
             android:padding="4dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/info_icon" />
+            android:src="@drawable/info_circle_icon" />
 
         <TextView
             android:id="@+id/userHeightTitle"
@@ -205,8 +206,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/infoIconUserData"
             android:layout_alignTop="@+id/editHeight"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
             android:text="inches"
             android:visibility="invisible" />
 
@@ -219,6 +220,17 @@
             android:layout_marginTop="2dp"
             android:text="lbs"
             android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="28dp"
+            android:layout_height="24dp"
+            android:layout_alignLeft="@+id/commonDietsTitle"
+            android:layout_alignTop="@+id/searchBar"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/search_icon" />
+
     </RelativeLayout>
 
 </ScrollView>

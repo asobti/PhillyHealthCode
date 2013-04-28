@@ -156,7 +156,7 @@
             android:background="@color/black" >
         </TableRow>
 
-        <ListView
+        <LinearLayout
             android:id="@+id/nutrient_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
             android:layout_marginBottom="9dp"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp" >
-        </ListView>
+        </LinearLayout>
     </RelativeLayout>
 
 </ScrollView>

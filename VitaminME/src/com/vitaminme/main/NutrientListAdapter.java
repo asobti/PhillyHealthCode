@@ -2,11 +2,14 @@ package com.vitaminme.main;
 
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -45,6 +48,27 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 		nutrientText.setText(nutrients.get(position).name);
 
 		nutrientText.setSelected(true);
+		nutrientText.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				AlertDialog.Builder box = new AlertDialog.Builder(context);
+				box.setTitle(nutrients.get(position).name);
+				box.setMessage(nutrients.get(position).name + " info");
+				box.setPositiveButton("Go Back",
+						new DialogInterface.OnClickListener() {
+
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// do nothing
+							}
+						});
+				AlertDialog helpDialog = box.create();
+				helpDialog.show();
+
+			}
+
+		});
 
 		ImageButton plus = (ImageButton) v.findViewById((R.id.plus_icon));
 		ImageButton minus = (ImageButton) v.findViewById(R.id.minus_icon);
