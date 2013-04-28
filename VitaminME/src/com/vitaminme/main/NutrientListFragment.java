@@ -151,6 +151,7 @@ public class NutrientListFragment extends Fragment {
 		ArrayList<Nutrient> selectedMinus = new ArrayList<Nutrient>();
 		ArrayList<Nutrient> selectedPlus = new ArrayList<Nutrient>();
 		String list = "";
+		boolean empty = false;
 		for (int i = 0; i < nutrients.size(); i++) {
 			if (nutrients.get(i).value == -1) {
 				selectedMinus.add(nutrients.get(i));
@@ -167,6 +168,7 @@ public class NutrientListFragment extends Fragment {
 		}
 		if (list == "") {
 			list = "No nutrients selected";
+			empty = true;
 		}
 		box.setMessage(list);
 		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
@@ -175,6 +177,18 @@ public class NutrientListFragment extends Fragment {
 				// do nothing
 			}
 		});
+		if (!empty) {
+			box.setNegativeButton("Remove All",
+					new DialogInterface.OnClickListener() {
+
+						public void onClick(DialogInterface dialog, int which) {
+							for (int i = 0; i < nutrients.size(); i++) {
+								nutrients.get(i).value = 0;
+								adapter.notifyDataSetChanged();
+							}
+						}
+					});
+		}
 
 		AlertDialog helpDialog = box.create();
 		helpDialog.show();
