@@ -1,12 +1,10 @@
 package com.vitaminme.main;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.data.Ingredient;
-import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.recipelist.RecipeList;
+import java.util.List;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,14 +20,21 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.api.ApiFilter;
+import com.vitaminme.api.ApiFilterOp;
+import com.vitaminme.data.Ingredient;
+import com.vitaminme.exceptions.APICallException;
+import com.vitaminme.recipelist.RecipeList;
 
 public class IngredientListFragment extends Fragment {
 	private ListView lv;
@@ -53,7 +58,7 @@ public class IngredientListFragment extends Fragment {
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.fragment_ingredient_list, null);
 
-		//new getIngredients().execute();
+		new getIngredients().execute();
 
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -225,12 +230,16 @@ public class IngredientListFragment extends Fragment {
 
 		@Override
 		protected ArrayList<Ingredient> doInBackground(Void... arg0) {
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("count", "1000");
+			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
+			params.add(new SimpleEntry<String, String>("count", "1000"));
+			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 			// 9172 ingredients in db
+			
+			// example filter
+			//filters.add(new ApiFilter("term", ApiFilterOp.like, "alt"));			
 
 			try {
-				return api.getIngredients(params);
+				return api.getIngredients(params, filters);
 			} catch (APICallException e) {
 				return null;
 			}

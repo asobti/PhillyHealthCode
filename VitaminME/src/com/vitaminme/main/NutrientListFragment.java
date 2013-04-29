@@ -1,12 +1,9 @@
 package com.vitaminme.main;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.data.Nutrient;
-import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.recipelist.RecipeList;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,13 +19,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.data.Nutrient;
+import com.vitaminme.exceptions.APICallException;
+import com.vitaminme.recipelist.RecipeList;
 
 public class NutrientListFragment extends Fragment {
 	private ListView lv;
@@ -216,8 +218,8 @@ public class NutrientListFragment extends Fragment {
 
 		@Override
 		protected ArrayList<Nutrient> doInBackground(Void... arg0) {
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("count", "100");
+			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
+			params.add(new SimpleEntry<String, String>("count", "100"));
 
 			try {
 				return api.getNutrients(params);
@@ -242,11 +244,9 @@ public class NutrientListFragment extends Fragment {
 				lv.setTextFilterEnabled(true);
 
 			} else if (nut == null) {
-				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(activity, "No network found", Toast.LENGTH_LONG)
 						.show();
 			} else if (nut.size() == 0) {
-				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(activity, "No nutrients found",
 						Toast.LENGTH_LONG).show();
 			} else {
