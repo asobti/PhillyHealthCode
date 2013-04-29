@@ -1,8 +1,5 @@
 package com.vitaminme.main;
 
-import com.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.vitaminme.userprofiles.UserProfile;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +13,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.vitaminme.home.Home;
+import com.vitaminme.home.HomeFragment;
+import com.vitaminme.home.NutrientListFragment;
+import com.vitaminme.userprofiles.Favorites;
+import com.vitaminme.userprofiles.UserProfile;
 
 public class SidebarFragment extends Fragment
 {
@@ -42,8 +45,8 @@ public class SidebarFragment extends Fragment
 			{
 				vibe.vibrate(20);
 				String itemName = homeText.getText().toString();
-//				Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-//						.show();
+				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
+				// .show();
 
 				switchFragment(itemName);
 			}
@@ -112,7 +115,6 @@ public class SidebarFragment extends Fragment
 						.equals(getResources().getString(
 								R.string.title_fragment_home)))
 				{
-
 					closeSidebar(activity);
 				}
 				else

@@ -1,17 +1,18 @@
 package com.vitaminme.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.app.ListFragment;
-import android.view.MenuItem;
-
-@SuppressWarnings("unused")
 public class BaseActivity extends SlidingFragmentActivity
 {
-	protected ListFragment mFrag;
+	public String helpMessage = "";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -35,6 +36,40 @@ public class BaseActivity extends SlidingFragmentActivity
 		sm.setSlidingEnabled(true);
 		setSlidingActionBarEnabled(false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+
+		// Set ActionBar
+		final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+		menu.add("Help").setIcon(R.drawable.question_mark)
+				.setOnMenuItemClickListener(new OnMenuItemClickListener()
+				{
+
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						dialog.setTitle("Help")
+								.setMessage(helpMessage)
+								.setPositiveButton("OK",
+										new DialogInterface.OnClickListener()
+										{
+											public void onClick(
+													DialogInterface dialog,
+													int id)
+											{
+
+											}
+										}).show();
+						return false;
+					}
+				}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item)

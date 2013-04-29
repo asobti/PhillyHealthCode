@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -31,7 +28,6 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.api.ApiCallParams;
@@ -43,7 +39,6 @@ import com.vitaminme.data.Recipe;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.RecipeDetails;
-import com.vitaminme.userprofiles.UserProfile;
 
 public class RecipeList extends BaseActivity
 {

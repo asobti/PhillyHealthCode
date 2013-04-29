@@ -43,13 +43,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.vitaminme.main.Home"
+            android:name="com.vitaminme.home.Home"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.vitaminme.main.Favorites"
+            android:name="com.vitaminme.userprofiles.Favorites"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/title_activity_favorites"
             android:screenOrientation="portrait" >

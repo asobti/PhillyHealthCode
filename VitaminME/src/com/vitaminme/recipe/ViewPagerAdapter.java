@@ -2,6 +2,7 @@ package com.vitaminme.recipe;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.vitaminme.data.Recipe;
@@ -11,8 +12,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 	private Context _context;
 	private Recipe recipe;
 
-	public ViewPagerAdapter(Context context,
-			android.support.v4.app.FragmentManager fm, Recipe recipe)
+	public ViewPagerAdapter(Context context, FragmentManager fm, Recipe recipe)
 	{
 		super(fm);
 		_context = context;

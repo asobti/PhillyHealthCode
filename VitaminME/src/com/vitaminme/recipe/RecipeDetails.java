@@ -1,15 +1,10 @@
 package com.vitaminme.recipe;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
@@ -18,7 +13,6 @@ import com.vitaminme.data.ParseRecipe;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
-import com.vitaminme.userprofiles.UserProfile;
 
 public class RecipeDetails extends BaseActivity
 {
@@ -84,14 +78,6 @@ public class RecipeDetails extends BaseActivity
 
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.recipe, menu);
-		return true;
-	}
-
 	private void setUpView()
 	{
 		myViewPager = (ViewPager) this.findViewById(R.id.viewPager);
@@ -144,24 +130,24 @@ public class RecipeDetails extends BaseActivity
 
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		// case android.R.id.home:
-		// onBackPressed();
-		// finish();
-		// return true;
-		case R.id.add_favorite:
-			Toast.makeText(getBaseContext(), "Added to favorites (not really)",
-					Toast.LENGTH_SHORT).show();
-		case R.id.user_profile:
-			// open user profile
-			Intent intent = new Intent(this, UserProfile.class);
-			startActivity(intent);
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+	// @Override
+	// public boolean onOptionsItemSelected(MenuItem item)
+	// {
+	// switch (item.getItemId())
+	// {
+	// // case android.R.id.home:
+	// // onBackPressed();
+	// // finish();
+	// // return true;
+	// case R.id.add_favorite:
+	// Toast.makeText(getBaseContext(), "Added to favorites (not really)",
+	// Toast.LENGTH_SHORT).show();
+	// case R.id.user_profile:
+	// // open user profile
+	// Intent intent = new Intent(this, UserProfile.class);
+	// startActivity(intent);
+	// default:
+	// return super.onOptionsItemSelected(item);
+	// }
+	// }
 }

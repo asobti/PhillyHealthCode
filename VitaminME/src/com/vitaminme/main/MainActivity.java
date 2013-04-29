@@ -1,9 +1,11 @@
 package com.vitaminme.main;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
+
+import com.vitaminme.home.Home;
 
 public class MainActivity extends Activity
 {
