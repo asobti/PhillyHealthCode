@@ -9,7 +9,7 @@ public class Home extends BaseActivity
 {
 	Fragment mContent;
 	HashMap<String, Fragment> Fragments = new HashMap<String, Fragment>();
-	boolean TESTING = true;
+	boolean TESTING = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -68,7 +68,7 @@ public class Home extends BaseActivity
 		else if (fragmentName.equals(getResources().getString(
 				R.string.name_fragment_search_ingredients)))
 		{
-			mContent = new NutrientListFragment(); // CHANGE THIS
+			mContent = new IngredientListFragment(); // CHANGE THIS
 			// Fragments.put(
 			// getResources().getString(
 			// R.string.name_fragment_search_ingredients),
