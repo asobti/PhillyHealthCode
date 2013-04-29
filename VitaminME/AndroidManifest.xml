@@ -23,18 +23,7 @@
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" >
-        </activity>
-        <activity
-            android:name="com.vitaminme.main.MainActivity"
-            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="com.vitaminme.recipelist.RecipeList"
@@ -45,8 +34,14 @@
         <activity
             android:name="com.vitaminme.home.Home"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
-            android:label="@string/title_activity_home"
-            android:screenOrientation="portrait" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.vitaminme.userprofiles.Favorites"
@@ -63,8 +58,8 @@
         <activity
             android:name="com.vitaminme.userprofiles.UserProfile"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/user_profile" >
+            android:label="@string/user_profile"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
     </application>
 

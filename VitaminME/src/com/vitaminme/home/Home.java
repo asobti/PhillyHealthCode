@@ -2,8 +2,10 @@ package com.vitaminme.home;
 
 import java.util.HashMap;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Window;
 
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
@@ -13,12 +15,13 @@ public class Home extends BaseActivity
 	Fragment mContent;
 	HashMap<String, Fragment> Fragments = new HashMap<String, Fragment>();
 	boolean TESTING = false;
+	protected Dialog mSplashDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		showSplashScreen();
 		super.onCreate(savedInstanceState);
-		// setTitle(R.string.app_name);
 		setContentView(R.layout.content_frame);
 
 		Bundle extras = getIntent().getExtras();
@@ -93,6 +96,26 @@ public class Home extends BaseActivity
 
 	}
 
+	protected void removeSplashScreen()
+	{
+		if (mSplashDialog != null)
+		{
+			mSplashDialog.dismiss();
+			mSplashDialog = null;
+		}
+	}
+
+	protected void showSplashScreen()
+	{
+		mSplashDialog = new Dialog(this,
+				android.R.style.Theme_NoTitleBar_Fullscreen);
+		mSplashDialog.setContentView(R.layout.splashscreen);
+		mSplashDialog.setCancelable(false);
+		mSplashDialog.show();
+
+		setTheme(R.style.AppTheme);
+	}
+
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState)
 	{
@@ -101,6 +124,14 @@ public class Home extends BaseActivity
 		// Bundle fragments = new Bundle();
 		// fragments.putSerializable("Fragments", Fragments);
 		// savedInstanceState.putBundle("Fragments", fragments);
-		System.out.println("Saving instance");
+		// System.out.println("Saving instance");
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+		System.out.println("Finishing app here");
+		finish();
 	}
 }

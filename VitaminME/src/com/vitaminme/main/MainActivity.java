@@ -20,12 +20,11 @@ public class MainActivity extends Activity
 		startActivity(intent);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+	public void onResume()
 	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		super.onResume();
+		System.out.println("Finishing MainActivity");
+		finish();
 	}
 
 }
