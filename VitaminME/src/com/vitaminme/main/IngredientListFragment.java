@@ -117,18 +117,22 @@ public class IngredientListFragment extends Fragment {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				search = cs;
+				
+				search = cs.toString();								
 				startMessage.setHeight(0);
+				
 				try {
 					if (inputSearch.getText().toString().equals("")) {
 						x.setVisibility(View.INVISIBLE);
 					} else {
 						x.setVisibility(View.VISIBLE);
 					}
-					if(cs.length() > 1);
-					{
-						new getIngredients().execute();
+					
+					if(cs.length() > 2)	{
+						ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, cs.toString());
+						new getIngredients().execute(filter);
 					}
+					
 					IngredientListFragment.this.adapter.getFilter().filter(cs);
 				} catch (Exception ex) {
 					System.out.println("page 1 ontextchanged: "
@@ -215,7 +219,7 @@ public class IngredientListFragment extends Fragment {
 	}
 
 	private final class getIngredients extends
-			AsyncTask<Void, Void, ArrayList<Ingredient>> {
+			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>> {
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
@@ -229,10 +233,14 @@ public class IngredientListFragment extends Fragment {
 		}
 
 		@Override
-		protected ArrayList<Ingredient> doInBackground(Void... arg0) {
+		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg) {
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "1000"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
+			
+			for(ApiFilter f : arg) {
+				filters.add(f);
+			}
 			// 9172 ingredients in db
 			
 			// example filter
@@ -276,7 +284,7 @@ public class IngredientListFragment extends Fragment {
 
 			if (mDialog.isShowing())
 				mDialog.dismiss();
-		}
+		}		
 	}
 
 }
