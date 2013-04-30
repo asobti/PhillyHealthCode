@@ -4,8 +4,11 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.view.Window;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.RelativeLayout;
 
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
@@ -107,11 +110,32 @@ public class Home extends BaseActivity
 
 	protected void showSplashScreen()
 	{
-		mSplashDialog = new Dialog(this,
-				android.R.style.Theme_NoTitleBar_Fullscreen);
+		mSplashDialog = new Dialog(this, R.style.SplashScreen);
 		mSplashDialog.setContentView(R.layout.splashscreen);
 		mSplashDialog.setCancelable(false);
 		mSplashDialog.show();
+
+		// RelativeLayout splashImage = (RelativeLayout)
+		// mSplashDialog.findViewById(R.id.splashscreen_layout);
+		// splashImage.setOnClickListener(new OnClickListener()
+		// {
+		// @Override
+		// public void onClick(View arg0)
+		// {
+		// removeSplashScreen();
+		// }
+		// });
+
+		// Set Runnable to remove splash screen just in case
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				removeSplashScreen();
+			}
+		}, 10000);
 
 		setTheme(R.style.AppTheme);
 	}
@@ -131,7 +155,6 @@ public class Home extends BaseActivity
 	public void onBackPressed()
 	{
 		super.onBackPressed();
-		System.out.println("Finishing app here");
 		finish();
 	}
 }

@@ -23,7 +23,6 @@ public class MainActivity extends Activity
 	public void onResume()
 	{
 		super.onResume();
-		System.out.println("Finishing MainActivity");
 		finish();
 	}
 

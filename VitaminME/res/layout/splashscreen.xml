@@ -3,10 +3,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#bb2030"
-    tools:context=".Home" >
+    tools:context=".Home" 
+    android:id="@+id/splashscreen_layout">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/splashImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="fitCenter"

@@ -35,7 +35,7 @@ public class BaseActivity extends SlidingFragmentActivity
 		sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_MARGIN);
 		sm.setSlidingEnabled(true);
 		setSlidingActionBarEnabled(false);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
 

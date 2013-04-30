@@ -140,7 +140,7 @@ public class RecipeDetails extends BaseActivity
 	// // finish();
 	// // return true;
 	// case R.id.add_favorite:
-	// Toast.makeText(getBaseContext(), "Added to favorites (not really)",
+	// Toast.makeText(getBaseContext(), "Added to images (not really)",
 	// Toast.LENGTH_SHORT).show();
 	// case R.id.user_profile:
 	// // open user profile

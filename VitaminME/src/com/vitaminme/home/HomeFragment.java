@@ -1,7 +1,5 @@
 package com.vitaminme.home;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -10,7 +8,6 @@ import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -35,9 +32,11 @@ import com.vitaminme.main.R;
 
 public class HomeFragment extends Fragment
 {
-	Home activity;
+	static Home activity;
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
+	static int imageCounter;
+	static int num_images;
 
 	String[] imageUrls = {
 			"http://tabletpcssource.com/wp-content/uploads/2011/05/android-logo.png",
@@ -81,7 +80,7 @@ public class HomeFragment extends Fragment
 			"http://goodereader.com/apps/wp-content/uploads/downloads/thumbnails/2012/01/hi-256-0-99dda8c730196ab93c67f0659d5b8489abdeb977.png",
 			"http://1.bp.blogspot.com/-mlaJ4p_3rBU/TdD9OWxN8II/AAAAAAAAE8U/xyynWwr3_4Q/s1600/antivitus_free.png" };
 
-	ArrayList<String> urls = new ArrayList<String>();
+	ArrayList<String> images = new ArrayList<String>();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +89,8 @@ public class HomeFragment extends Fragment
 		activity = (Home) getActivity();
 		activity.setTitle(R.string.app_name);
 		activity.helpMessage = "Home help";
+		imageCounter = 0;
+		num_images = 0;
 
 		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_home,
 				null);
@@ -112,8 +113,9 @@ public class HomeFragment extends Fragment
 		Random rand = new Random();
 		for (int i = 0; i < 9; i++)
 		{
-			urls.add(imageUrls[rand.nextInt(imageUrls.length)]);
+			images.add(imageUrls[rand.nextInt(imageUrls.length)]);
 		}
+		num_images += images.size();
 
 		ExpandableHeightGridView gv2 = (ExpandableHeightGridView) vg
 				.findViewById(R.id.gridView2);
@@ -146,39 +148,7 @@ public class HomeFragment extends Fragment
 			}
 		});
 
-		// activity.removeSplashScreen();
-		new SplashScreen().execute();
 		return vg;
-	}
-
-	private class SplashScreen extends AsyncTask<String, Void, String>
-	{
-
-		@Override
-		protected String doInBackground(String... params)
-		{
-			try
-			{
-				System.out.println("Start");
-				Thread.sleep(5000);
-				System.out.println("Finish");
-			}
-			catch (Exception e)
-			{
-				System.out.println(e.toString());
-			}
-			return "";
-		}
-
-		protected void onPreExecute()
-		{
-
-		}
-
-		protected void onPostExecute(String str)
-		{
-			activity.removeSplashScreen();
-		}
 	}
 
 	public class ImageAdapter extends BaseAdapter
@@ -188,7 +158,7 @@ public class HomeFragment extends Fragment
 		@Override
 		public int getCount()
 		{
-			return urls.size();
+			return images.size();
 		}
 
 		@Override
@@ -217,7 +187,7 @@ public class HomeFragment extends Fragment
 				imageView = (ImageView) convertView;
 			}
 
-			imageLoader.displayImage(urls.get(position), imageView, options,
+			imageLoader.displayImage(images.get(position), imageView, options,
 					animateFirstListener);
 
 			return imageView;
@@ -242,6 +212,13 @@ public class HomeFragment extends Fragment
 				{
 					FadeInBitmapDisplayer.animate(imageView, 500);
 					displayedImages.add(imageUri);
+
+					// Remove splash screen when done loading all images
+					imageCounter++;
+					if (imageCounter >= num_images - 1)
+					{
+						activity.removeSplashScreen();
+					}
 				}
 			}
 		}
