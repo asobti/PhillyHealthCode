@@ -19,11 +19,8 @@ public class Nutrient implements Serializable
 	public String unit;
 	public int decimals;
 
-	public Nutrient()
-	{
-
-	}
-
+	public Nutrient() {}
+	
 	public Nutrient(String name)
 	{
 		this.name = name;

@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.http.Header;
@@ -22,6 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.exceptions.APICallException;
@@ -47,9 +52,13 @@ public class ApiAdapter {
 		return ApiAdapter._instance;
 	}
 	
-	public ArrayList<Nutrient> getNutrients(HashMap<String, String> params) throws APICallException {
+	public ArrayList<Nutrient> getNutrients(ArrayList<Entry<String, String>> params) throws APICallException {
+		return this.getNutrients(params, new ArrayList<ApiFilter>());
+	}
+	
+	public ArrayList<Nutrient> getNutrients(ArrayList<Entry<String, String>> params, List<ApiFilter> filters) throws APICallException {
 		JSONObject response;
-		String url = this.endpoint + "nutrients" + this.buildQueryString(params);		
+		String url = this.endpoint + "nutrients" + this.buildQueryString(params, filters);		
 		ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
 		
 		try {
@@ -77,6 +86,43 @@ public class ApiAdapter {
 		}
 		
 		return nutrients;
+	}
+	
+	public ArrayList<Ingredient> getIngredients(ArrayList<Entry<String, String>> params) throws APICallException {
+		return this.getIngredients(params, new ArrayList<ApiFilter> ());
+	}
+	
+	public ArrayList<Ingredient> getIngredients(ArrayList<Entry<String, String>> params, List<ApiFilter> filters) throws APICallException {
+		JSONObject response;
+		String url = this.endpoint + "ingredients" + this.buildQueryString(params, filters);
+		System.out.println(url);
+		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+		
+		try {
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+			
+			for (int i = 0; i < arr.length(); i++) {
+				try {
+					Ingredient ing = new Ingredient(arr.getJSONObject(i));
+					ingredients.add(ing);
+				} catch (JSONException e) {
+					// unable to parse this particular object
+					// ignore and continue
+					continue;
+				}
+			}
+			
+			this.pag = parsePaginationInfo(response);
+			
+		} catch (APICallException e) {
+			throw e;
+		} catch (Exception e) {
+			// some other exception occurred. Wrap it as an APICallException and re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+		
+		return ingredients;
 	}
 	
 	/*
@@ -107,11 +153,17 @@ public class ApiAdapter {
 	 * Combines a string, string hashmap into a valid query string 
 	 * that can be concatenated to a url 
 	 */
-	private String buildQueryString(HashMap<String, String> params) {
+	private String buildQueryString(ArrayList<Entry<String, String>> params, List<ApiFilter> filters) {
 		if (params.size() > 0) {
 			String queryString = "?";
-			for(Map.Entry<String, String> entry : params.entrySet()) {
+			for(Entry<String, String> entry : params) {
 				queryString += String.format("%s=%s&", entry.getKey(), entry.getValue());
+			}			
+			
+			if (filters.size() > 0) {
+				Gson gson = new Gson();
+				String filter_json = gson.toJson(filters);
+				queryString += "filter=" + URLEncoder.encode(filter_json) + '&';
 			}
 			
 			// trim the trailing ampersand
@@ -173,5 +225,5 @@ public class ApiAdapter {
 		}
 		
 		return response;
-	}
+	}	
 }

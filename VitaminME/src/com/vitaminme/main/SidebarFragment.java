@@ -146,7 +146,7 @@ public class SidebarFragment extends Fragment
 						.getTitle()
 						.toString()
 						.equals(getResources().getString(
-								R.string.name_fragment_search_nutrients)))
+								R.string.title_fragment_search_nutrients)))
 				{
 
 					closeSidebar(activity);
@@ -170,6 +170,41 @@ public class SidebarFragment extends Fragment
 						"fragmentName",
 						getResources().getString(
 								R.string.name_fragment_search_nutrients));
+				activity.startActivity(intent);
+			}
+		}
+		else if (fragmentItemName.equals("Ingredients"))
+		{
+			if (activity instanceof Home)
+			{
+				if (activity
+						.getTitle()
+						.toString()
+						.equals(getResources().getString(
+								R.string.title_fragment_search_ingredients)))
+				{
+
+					closeSidebar(activity);
+				}
+				else
+				{
+					((FragmentActivity) activity)
+							.getSupportFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_frame,
+									new IngredientListFragment()).commit();
+					closeSidebar(activity);
+				}
+			}
+			else
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, Home.class);
+				intent.putExtra(
+						"fragmentName",
+						getResources().getString(
+								R.string.name_fragment_search_ingredients));
 				activity.startActivity(intent);
 			}
 		}
