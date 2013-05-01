@@ -3,6 +3,8 @@ package com.vitaminme.test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -75,29 +77,32 @@ public class SearchBar extends BaseActivity implements
 		searchView.requestFocus();
 
 		final MenuItem searchMenu = menu.add("Search");
-		searchMenu.setIcon(R.drawable.search)
+		searchMenu
+				.setIcon(R.drawable.search)
 				.setActionView(searchView)
-				.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+				.setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		searchMenu.expandActionView();
-//		searchMenu.setOnActionExpandListener(new OnActionExpandListener()
-//		{
-//
-//			@Override
-//			public boolean onMenuItemActionExpand(MenuItem item)
-//			{
-//				// TODO Auto-generated method stub
-//				return false;
-//			}
-//
-//			@Override
-//			public boolean onMenuItemActionCollapse(MenuItem item)
-//			{
-//				searchMenu
-//						.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-//				return true;
-//			}
-//
-//		});
+		// searchMenu.setOnActionExpandListener(new OnActionExpandListener()
+		// {
+		//
+		// @Override
+		// public boolean onMenuItemActionExpand(MenuItem item)
+		// {
+		// // TODO Auto-generated method stub
+		// return false;
+		// }
+		//
+		// @Override
+		// public boolean onMenuItemActionCollapse(MenuItem item)
+		// {
+		// searchMenu
+		// .setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+		// return true;
+		// }
+		//
+		// });
 
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -243,12 +248,12 @@ public class SearchBar extends BaseActivity implements
 		@Override
 		protected ArrayList<Nutrient> doInBackground(Void... arg0)
 		{
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("count", "100");
-			params.put(
+			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
+			params.add(new SimpleEntry<String, String>("count", "100"));
+			params.add(new SimpleEntry<String, String>(
 					"filter",
 					"%5B%7B%22name%22%3A%22description%22%2C%22op%22%3A%22like%22%2C%22val%22%3A%22"
-							+ query + "%22%7D%5D");
+							+ query + "%22%7D%5D"));
 
 			try
 			{

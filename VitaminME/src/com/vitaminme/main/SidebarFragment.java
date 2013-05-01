@@ -21,6 +21,7 @@ import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.NutrientListFragment;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
+import com.vitaminme.test.SearchBar;
 
 public class SidebarFragment extends Fragment
 {
@@ -119,16 +120,9 @@ public class SidebarFragment extends Fragment
 		{
 			if (activity instanceof Home)
 			{
-<<<<<<< HEAD
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.title_fragment_search_nutrients)))
-=======
 				if (((Home) activity).currentFragment.equals(getResources()
 						.getString(R.string.name_fragment_search_nutrients)))
->>>>>>> ActionBarSearch
+
 				{
 
 					closeSidebar(activity);
@@ -211,6 +205,20 @@ public class SidebarFragment extends Fragment
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, UserProfile.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("Temp:SearchBar"))
+		{
+			if (!(activity instanceof SearchBar))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, SearchBar.class);
 				activity.startActivity(intent);
 			}
 			else
