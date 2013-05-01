@@ -104,7 +104,7 @@
             android:layout_below="@+id/plate_icon"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="2dp"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:src="@drawable/clock_icon" />
 
         <ImageView

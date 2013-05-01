@@ -10,12 +10,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.vitaminme.home.Home;
@@ -36,21 +34,18 @@ public class SidebarFragment extends Fragment
 		final Vibrator vibe = (Vibrator) getActivity().getSystemService(
 				Context.VIBRATOR_SERVICE);
 
-		final TextView homeText = (TextView) vg.findViewById(R.id.home);
-		homeText.setOnClickListener(new OnClickListener()
+		ListView listView0 = (ListView) vg.findViewById(R.id.listView0);
+		listView0.setOnItemClickListener(new OnItemClickListener()
 		{
-
 			@Override
-			public void onClick(View view)
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id)
 			{
 				vibe.vibrate(20);
-				String itemName = homeText.getText().toString();
-				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-				// .show();
-
-				switchFragment(itemName);
+				// String itemName =
+				// parent.getItemAtPosition(position).toString();
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
-
 		});
 
 		ListView listView1 = (ListView) vg.findViewById(R.id.listView1);
@@ -61,12 +56,9 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				// System.out.println("Clicked: " + position);
-				String itemName = parent.getItemAtPosition(position).toString();
-				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-				// .show();
-
-				switchFragment(itemName);
+				// String itemName =
+				// parent.getItemAtPosition(position).toString();
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
 		});
 
@@ -78,23 +70,12 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				// System.out.println("Clicked: " + position);
-				// Toast.makeText(getActivity(),
-				// parent.getItemAtPosition(position).toString(),
-				// Toast.LENGTH_LONG).show();
 				String itemName = parent.getItemAtPosition(position).toString();
-				switchFragment(itemName);
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
 		});
 
 		return vg;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{
-		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	// Switch fragment or call new intents
@@ -105,21 +86,17 @@ public class SidebarFragment extends Fragment
 
 		final Activity activity = getActivity();
 
-		if (fragmentItemName.equals("Home"))
+		if (fragmentItemName.equalsIgnoreCase("Home"))
 		{
 			if (activity instanceof Home)
 			{
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.title_fragment_home)))
+				if (((Home) activity).currentFragment.equals(getResources()
+						.getString(R.string.name_fragment_home)))
 				{
 					closeSidebar(activity);
 				}
 				else
 				{
-					// activity.setTitle("Home");
 					((FragmentActivity) activity).getSupportFragmentManager()
 							.beginTransaction()
 							.replace(R.id.content_frame, new HomeFragment())
@@ -142,11 +119,16 @@ public class SidebarFragment extends Fragment
 		{
 			if (activity instanceof Home)
 			{
+<<<<<<< HEAD
 				if (activity
 						.getTitle()
 						.toString()
 						.equals(getResources().getString(
 								R.string.title_fragment_search_nutrients)))
+=======
+				if (((Home) activity).currentFragment.equals(getResources()
+						.getString(R.string.name_fragment_search_nutrients)))
+>>>>>>> ActionBarSearch
 				{
 
 					closeSidebar(activity);
