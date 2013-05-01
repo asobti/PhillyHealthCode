@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,10 +26,8 @@ import com.vitaminme.main.R;
 
 public class pageLayoutRecipe extends Fragment
 {
-	private Context context;
 	Recipe recipe;
 	private RecipeSelectedAdapter adapter;
-	private Vibrator vib;
 	ImageView mainImage;
 
 	public static Fragment newInstance(Context context)
@@ -42,7 +39,6 @@ public class pageLayoutRecipe extends Fragment
 	public void constructor(Recipe recipe, Context context)
 	{
 		this.recipe = recipe;
-		this.context = context;
 	}
 
 	@Override
@@ -160,3 +156,4 @@ public class pageLayoutRecipe extends Fragment
 
 	}
 }
+

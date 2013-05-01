@@ -36,7 +36,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-import com.vitaminme.main.MainActivity;
+import com.vitaminme.main.NutrientListFragment;
 import com.vitaminme.main.R;
 
 public class UserProfile extends Activity {
@@ -272,11 +272,12 @@ public class UserProfile extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home: {
-			onBackPressed();
-			finish();
-			return true;
-		}
+		// case android.R.id.home:
+		// {
+		// onBackPressed();
+		// finish();
+		// return true;
+		// }
 		case R.id.save:
 			// Save user profile
 			Toast.makeText(UserProfile.this, "Saved!", Toast.LENGTH_LONG)

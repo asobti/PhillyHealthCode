@@ -40,11 +40,12 @@ import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipes;
 import com.vitaminme.data.Recipe;
+import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.RecipeDetails;
 import com.vitaminme.userprofiles.UserProfile;
 
-public class RecipeList extends Activity
+public class RecipeList extends BaseActivity
 {
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
@@ -67,7 +68,7 @@ public class RecipeList extends Activity
 	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recipe_list);
@@ -87,12 +88,13 @@ public class RecipeList extends Activity
 				"Nutrients");
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_stub)
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
 				.showImageForEmptyUri(R.drawable.ic_stub)
 				.showImageOnFail(R.drawable.ic_error)
-				.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).build();
+				//.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getApplicationContext()).memoryCacheExtraOptions(60, 60)
+				getApplicationContext())
 				.defaultDisplayImageOptions(options).build();
 		ImageLoader.getInstance().init(config);
 
@@ -339,37 +341,6 @@ public class RecipeList extends Activity
 	{
 		super.onBackPressed();
 		AnimateFirstDisplayListener.displayedImages.clear();
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
-		case android.R.id.home:
-		{
-			onBackPressed();
-			finish();
-			return true;
-		}
-		case R.id.user_profile:
-			// open user profile
-			Intent intent = new Intent(this, UserProfile.class);
-			startActivity(intent);
-		default:
-		{
-			return super.onOptionsItemSelected(item);
-		}
-		}
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
 	}
 
 }

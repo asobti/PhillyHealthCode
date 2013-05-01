@@ -8,55 +8,70 @@ import org.json.JSONObject;
 
 import com.vitaminme.api.ApiResponse;
 import com.vitaminme.api.CallBackable;
-import com.vitaminme.main.MainActivity;
+import com.vitaminme.main.NutrientsList;
 
-public class ParseNutrients implements CallBackable {
+public class ParseNutrients implements CallBackable
+{
 
-	private MainActivity caller;
-	
-	public ParseNutrients(MainActivity caller){
+	private NutrientsList caller;
+
+	public ParseNutrients(NutrientsList caller)
+	{
 		this.caller = caller;
 	}
+
 	@Override
-	public void callback(ApiResponse apiResponse) {
+	public void callback(ApiResponse apiResponse)
+	{
 		JSONObject jsonObject = apiResponse.jsonObj;
 		Pagination pag = new Pagination();
-		
+
 		JSONArray objects = null;
-		try {
+		try
+		{
 			objects = jsonObject.getJSONArray("objects");
-		} catch (JSONException e) {
+		}
+		catch (JSONException e)
+		{
 
 		}
-		
+
 		ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
-		
-		for(int i = 0; i < objects.length(); i++) {
+
+		for (int i = 0; i < objects.length(); i++)
+		{
 			Nutrient nutrient = new Nutrient();
 			JSONObject nutrient_ = null;
-			try {
+			try
+			{
 				nutrient_ = (JSONObject) objects.get(i);
-			} catch (JSONException e) {
+			}
+			catch (JSONException e)
+			{
 
 			}
-			
-			try {
+
+			try
+			{
 				nutrient.id = nutrient_.getInt("id");
-			} catch (JSONException e) {
+			}
+			catch (JSONException e)
+			{
 
 			}
-			
-			try {
+
+			try
+			{
 				nutrient.name = nutrient_.getString("description");
-			} catch (JSONException e) {
+			}
+			catch (JSONException e)
+			{
 
 			}
 			nutrients.add(nutrient);
 		}
-		
-		
+
 		this.caller.callback(nutrients, pag);
-		
-		
+
 	}
 }

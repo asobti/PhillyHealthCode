@@ -24,6 +24,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name="com.vitaminme.main.MainActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,6 +40,18 @@
             android:name="com.vitaminme.recipelist.RecipeList"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/recipe_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vitaminme.main.Home"
+            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.vitaminme.main.Favorites"
+            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
+            android:label="@string/title_activity_favorites"
             android:screenOrientation="portrait" >
         </activity>
         <activity
