@@ -75,7 +75,7 @@ public class SearchBar extends BaseActivity implements
 		searchView.requestFocus();
 
 		final MenuItem searchMenu = menu.add("Search");
-		searchMenu.setIcon(R.drawable.ic_search_inverse)
+		searchMenu.setIcon(R.drawable.search)
 				.setActionView(searchView)
 				.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		searchMenu.expandActionView();

@@ -46,15 +46,15 @@ public class BaseActivity extends SlidingFragmentActivity
 		// Set ActionBar
 		final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
-		menu.add("Help").setIcon(R.drawable.question_mark)
+		menu.add("Help").setIcon(R.drawable.info)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener()
 				{
-
 					@Override
 					public boolean onMenuItemClick(MenuItem item)
 					{
 						dialog.setTitle("Help")
 								.setMessage(helpMessage)
+								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
 										new DialogInterface.OnClickListener()
 										{
