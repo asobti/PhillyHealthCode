@@ -185,14 +185,21 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 						int spaceIndex = prefixString.indexOf(" ");
 						String ps1=prefixString.substring(0, spaceIndex);
 						String ps2=prefixString.substring(spaceIndex + 1);
+
 						if (itemName.startsWith(prefixString)) {
 							newItems.add(items.get(i));
+//						} else {
+//
+//							final String[] words = item.split(" ");
+//							final int wordCount = words.length;
+//							for (int k = 0; k < wordCount; k++) {
+//								if (words[k].startsWith(ps1)) {
+//									newItems.add(items.get(i));
+//									break;
+//								}
+//							}
 						}
-						else{
-						if (itemName.startsWith(ps1)) {
-							newItems.add(items.get(i));
-						} else {
-
+						if (itemName.startsWith(ps2)){
 							final String[] words = item.split(" ");
 							final int wordCount = words.length;
 							for (int k = 0; k < wordCount; k++) {
@@ -202,21 +209,8 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 								}
 							}
 						}
-						if (itemName.startsWith(ps2)) {
-							newItems.add(items.get(i));
-						} else {
-
-							final String[] words = item.split(" ");
-							final int wordCount = words.length;
-							for (int k = 0; k < wordCount; k++) {
-								if (words[k].startsWith(ps2)) {
-									newItems.add(items.get(i));
-									break;
-								}
-							}
-						}
 						
-						}
+						
 					}
 				}
 
