@@ -99,15 +99,6 @@
 <!--                 android:textSize="9sp" /> -->
 <!--         </FrameLayout> -->
     </FrameLayout>
-	<TextView
-	    android:id="@+id/startMessage"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:layout_marginRight="4dp"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="4dp"
-	    android:text="Start typing to search for ingredients."
-	    android:textStyle="italic"></TextView>"
     
     <ListView
         android:id="@+id/list_view"

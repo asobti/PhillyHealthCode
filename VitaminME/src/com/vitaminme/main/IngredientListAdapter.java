@@ -167,17 +167,55 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 					final String itemName = items.get(i).term.toString()
 							.toLowerCase();
 
-					if (itemName.startsWith(prefixString)) {
-						newItems.add(items.get(i));
-					} else {
+					if (!containsSpace(prefixString)) {
+						if (itemName.startsWith(prefixString)) {
+							newItems.add(items.get(i));
+						} else {
 
-						final String[] words = item.split(" ");
-						final int wordCount = words.length;
-						for (int k = 0; k < wordCount; k++) {
-							if (words[k].startsWith(prefixString)) {
-								newItems.add(items.get(i));
-								break;
+							final String[] words = item.split(" ");
+							final int wordCount = words.length;
+							for (int k = 0; k < wordCount; k++) {
+								if (words[k].startsWith(prefixString)) {
+									newItems.add(items.get(i));
+									break;
+								}
 							}
+						}
+					} else {
+						int spaceIndex = prefixString.indexOf(" ");
+						String ps1=prefixString.substring(0, spaceIndex);
+						String ps2=prefixString.substring(spaceIndex + 1);
+						if (itemName.startsWith(prefixString)) {
+							newItems.add(items.get(i));
+						}
+						else{
+						if (itemName.startsWith(ps1)) {
+							newItems.add(items.get(i));
+						} else {
+
+							final String[] words = item.split(" ");
+							final int wordCount = words.length;
+							for (int k = 0; k < wordCount; k++) {
+								if (words[k].startsWith(ps1)) {
+									newItems.add(items.get(i));
+									break;
+								}
+							}
+						}
+						if (itemName.startsWith(ps2)) {
+							newItems.add(items.get(i));
+						} else {
+
+							final String[] words = item.split(" ");
+							final int wordCount = words.length;
+							for (int k = 0; k < wordCount; k++) {
+								if (words[k].startsWith(ps2)) {
+									newItems.add(items.get(i));
+									break;
+								}
+							}
+						}
+						
 						}
 					}
 				}
@@ -199,4 +237,16 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 			}
 		}
 	}
+
+	public static boolean containsSpace(final String s) {
+		if (s != null) {
+			for (int i = 0; i < s.length(); i++) {
+				if (Character.isWhitespace(s.charAt(i))) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 }

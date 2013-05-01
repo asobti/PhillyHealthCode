@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,10 +40,10 @@ import com.vitaminme.recipelist.RecipeList;
 public class IngredientListFragment extends Fragment {
 	private ListView lv;
 	private Vibrator vib;
+	Boolean searched = false;
 	CharSequence search;
 	ArrayAdapter<String> adapter;
 	EditText inputSearch;
-	TextView startMessage;
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ProgressDialog mDialog;
@@ -64,14 +65,16 @@ public class IngredientListFragment extends Fragment {
 
 		lv = (ListView) vg.findViewById(R.id.list_view);
 		inputSearch = (EditText) vg.findViewById(R.id.inputSearch);
-		startMessage = (TextView) vg.findViewById(R.id.startMessage);
 		x = (ImageButton) vg.findViewById(R.id.x_button);
 		x.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				vib.vibrate(20);
 				inputSearch.setText("");
+				new getIngredients().execute();
 				x.setVisibility(View.INVISIBLE);
+				adapter.notifyDataSetChanged();
+				
 			}
 		});
 
@@ -119,7 +122,6 @@ public class IngredientListFragment extends Fragment {
 					int arg3) {
 				
 				search = cs.toString();								
-				startMessage.setHeight(0);
 				
 				try {
 					if (inputSearch.getText().toString().equals("")) {
@@ -128,12 +130,20 @@ public class IngredientListFragment extends Fragment {
 						x.setVisibility(View.VISIBLE);
 					}
 					
-					if(cs.length() > 2)	{
+					if(cs.length() == 3 | cs.length() == 4  && !searched)	{
 						ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, cs.toString());
 						new getIngredients().execute(filter);
+						searched = true;
+					}
+					if(cs.length() == 2 && searched){
+						ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, cs.toString());
+						new getIngredients().execute(filter);
+						searched = false;
 					}
 					
 					IngredientListFragment.this.adapter.getFilter().filter(cs);
+
+					
 				} catch (Exception ex) {
 					System.out.println("page 1 ontextchanged: "
 							+ ex.getMessage());
@@ -229,7 +239,8 @@ public class IngredientListFragment extends Fragment {
 			mDialog = new ProgressDialog(activity);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
-			mDialog.show();
+//			mDialog.show();
+			
 		}
 
 		@Override
@@ -284,7 +295,10 @@ public class IngredientListFragment extends Fragment {
 
 			if (mDialog.isShowing())
 				mDialog.dismiss();
+			
+			
 		}		
 	}
+
 
 }
