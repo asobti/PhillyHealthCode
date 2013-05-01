@@ -67,7 +67,7 @@ public class BaseActivity extends SlidingFragmentActivity
 										}).show();
 						return false;
 					}
-				}).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
 		return true;
 	}
