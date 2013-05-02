@@ -76,6 +76,25 @@
         <item name="android:layout_height">2.5dip</item>
         <item name="android:background">@color/spotify</item>
     </style>
+    
+    <style name="Divider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/spotify</item>
+        <item name="android:layout_alignParentLeft">true</item>
+    </style>
+    
+    <style name="Header1">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/spotify</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">3dp</item>
+    </style>
 
     <style name="indicator_style">
         <item name="android:layout_width">fill_parent</item>

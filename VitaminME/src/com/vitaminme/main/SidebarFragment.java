@@ -98,6 +98,8 @@ public class SidebarFragment extends Fragment
 				}
 				else
 				{
+					((Home) activity).currentFragment = getResources()
+							.getString(R.string.name_fragment_home);
 					((FragmentActivity) activity).getSupportFragmentManager()
 							.beginTransaction()
 							.replace(R.id.content_frame, new HomeFragment())
@@ -129,6 +131,8 @@ public class SidebarFragment extends Fragment
 				}
 				else
 				{
+					((Home) activity).currentFragment = getResources()
+							.getString(R.string.name_fragment_search_nutrients);
 					((FragmentActivity) activity)
 							.getSupportFragmentManager()
 							.beginTransaction()
@@ -157,13 +161,16 @@ public class SidebarFragment extends Fragment
 						.getTitle()
 						.toString()
 						.equals(getResources().getString(
-								R.string.title_fragment_search_ingredients)))
+								R.string.name_fragment_search_ingredients)))
 				{
 
 					closeSidebar(activity);
 				}
 				else
 				{
+					((Home) activity).currentFragment = getResources()
+							.getString(
+									R.string.name_fragment_search_ingredients);
 					((FragmentActivity) activity)
 							.getSupportFragmentManager()
 							.beginTransaction()

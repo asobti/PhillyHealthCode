@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:context=".SecondActivity" >
+        tools:context=".RecipeDetails" >
 
         <ImageView
             android:id="@+id/recipeImage"
@@ -48,7 +48,7 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow1"
+            android:layout_below="@+id/dividerView1"
             android:layout_centerHorizontal="true"
             android:clickable="true"
             android:divider="@color/background_gray"
@@ -58,16 +58,9 @@
 
         <TextView
             android:id="@+id/ingredientsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            style="@style/Header1"
             android:layout_below="@+id/clock_icon"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="2dp"
-            android:paddingLeft="6dp"
             android:text="INGREDIENTS"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/spotify" />
 
         <TextView
@@ -120,14 +113,10 @@
             android:scaleType="fitXY"
             android:src="@drawable/utencils_icon" />
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/ingredientsTitle"
-            android:background="@color/spotify"
-            android:visibility="visible" >
-        </TableRow>
+        <View
+            android:id="@+id/dividerView1"
+            style="@style/Divider"
+            android:layout_below="@+id/ingredientsTitle" />
 
         <ImageButton
             android:id="@+id/favorite_icon"
