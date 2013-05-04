@@ -24,6 +24,7 @@
     <string name="name_fragment_search_recipe_name">RecipeSearch</string>
     <string name="name_fragment_search_nutrients">NutrientSearch</string>
     <string name="name_fragment_search_ingredients">IngredientsSearch</string>
+    <string name="loading_message">Downloading...</string>
     
     <string name="title_activity_favorites">Favorites</string>
 

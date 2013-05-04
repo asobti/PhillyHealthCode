@@ -48,7 +48,7 @@ public class RecipeDetails extends BaseActivity
 		task.execute(apiParams);
 
 		mDialog = new ProgressDialog(RecipeDetails.this);
-		mDialog.setMessage("Loading...");
+		mDialog.setMessage(getResources().getText(R.string.loading_message));
 		mDialog.setCancelable(false);
 		mDialog.show();
 	}

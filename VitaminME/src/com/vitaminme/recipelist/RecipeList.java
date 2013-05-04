@@ -74,7 +74,7 @@ public class RecipeList extends BaseActivity
 		// screen is loaded onCreate
 		{
 			progressDialog = new ProgressDialog(RecipeList.this);
-			progressDialog.setMessage("Loading...");
+			progressDialog.setMessage(getResources().getText(R.string.loading_message));
 			progressDialog.setCancelable(false);
 			progressDialog.show();
 		}
@@ -293,7 +293,7 @@ public class RecipeList extends BaseActivity
 			}
 
 			holder.text1.setText(recipeNames.get(position));
-			holder.text1.setSelected(true);
+//			holder.text1.setSelected(true);
 
 			imageLoader.displayImage(images.get(position), holder.image,
 					options, animateFirstListener);

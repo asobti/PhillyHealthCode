@@ -2,15 +2,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Favorites" >
 
     <TextView
+        android:id="@+id/homeFavorites"
+        style="@style/Header1"
+        android:text="FAVORITES" />
+
+    <View
+        android:id="@+id/dividerView1"
+        style="@style/Divider"
+        android:layout_below="@+id/homeFavorites" />
+
+    <com.vitaminme.main.ExpandableHeightGridView
+        android:id="@+id/gridView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorites" />
+        android:layout_below="@+id/dividerView1"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:horizontalSpacing="2dp"
+        android:isScrollContainer="false"
+        android:numColumns="2"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="2dp" />
+
+    <TextView
+        android:id="@+id/emptyFavorites"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gridView1"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="You have no favorites yet. Search for recipes to add to favorites!"
+        android:textSize="14sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

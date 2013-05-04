@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -28,6 +29,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.main.ExpandableHeightGridView;
 import com.vitaminme.main.R;
+import com.vitaminme.userprofiles.Favorites;
 
 public class HomeFragment extends Fragment
 {
@@ -65,7 +67,7 @@ public class HomeFragment extends Fragment
 				.findViewById(R.id.gridView1);
 		gv1.setExpanded(true);
 		gv1.setEmptyView(vg.findViewById(R.id.emptyFavorites));
-		gv1.setAdapter(new ImageAdapter());
+		// gv1.setAdapter(new ImageAdapter());
 
 		for (int i = 0; i < 6; i++)
 		{
@@ -73,7 +75,7 @@ public class HomeFragment extends Fragment
 		}
 		num_images += images.size();
 
-		ExpandableHeightGridView gv2 = (ExpandableHeightGridView) vg
+		final ExpandableHeightGridView gv2 = (ExpandableHeightGridView) vg
 				.findViewById(R.id.gridView2);
 		gv2.setExpanded(true);
 		gv2.setEmptyView(vg.findViewById(R.id.emptyRecent));
@@ -90,6 +92,11 @@ public class HomeFragment extends Fragment
 				vibe.vibrate(20);
 				Toast.makeText(getActivity(), "Clicked " + position,
 						Toast.LENGTH_LONG).show();
+				if (position == (images.size() - 1))
+				{
+					Intent intent = new Intent(activity, Favorites.class);
+					startActivity(intent);
+				}
 			}
 		});
 		gv2.setOnItemClickListener(new OnItemClickListener()
@@ -101,6 +108,11 @@ public class HomeFragment extends Fragment
 				vibe.vibrate(20);
 				Toast.makeText(getActivity(), "Clicked " + position,
 						Toast.LENGTH_LONG).show();
+				if (position == (images.size() - 1))
+				{
+					Intent intent = new Intent(activity, Favorites.class);
+					startActivity(intent);
+				}
 			}
 		});
 
@@ -154,8 +166,17 @@ public class HomeFragment extends Fragment
 				holder = (ViewHolder) view.getTag();
 			}
 
-			imageLoader.displayImage(images.get(position), holder.image,
-					options, animateFirstListener);
+			if (position == (images.size() - 1))
+			{
+				imageLoader.displayImage("drawable://" + R.drawable.play,
+						holder.image, options, animateFirstListener);
+				holder.text1.setText("See all...");
+			}
+			else
+			{
+				imageLoader.displayImage(images.get(position), holder.image,
+						options, animateFirstListener);
+			}
 
 			return view;
 		}
