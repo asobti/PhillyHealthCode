@@ -25,7 +25,7 @@
     <string name="name_fragment_search_nutrients">NutrientSearch</string>
     <string name="name_fragment_search_ingredients">IngredientsSearch</string>
     <string name="loading_message">Downloading...</string>
-    
     <string name="title_activity_favorites">Favorites</string>
+    <string name="title_activity_test_db">TestDB</string>
 
 </resources>

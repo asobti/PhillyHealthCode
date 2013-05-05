@@ -16,12 +16,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.vitaminme.database.TestDB;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.NutrientListFragment;
+import com.vitaminme.test.SearchBar;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
-import com.vitaminme.test.SearchBar;
 
 public class SidebarFragment extends Fragment
 {
@@ -226,6 +227,20 @@ public class SidebarFragment extends Fragment
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, SearchBar.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("Temp:TestDB"))
+		{
+			if (!(activity instanceof TestDB))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, TestDB.class);
 				activity.startActivity(intent);
 			}
 			else

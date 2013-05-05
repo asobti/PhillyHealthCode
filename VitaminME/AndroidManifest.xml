@@ -67,6 +67,10 @@
             android:label="SearchBar"
             android:windowSoftInputMode="stateHidden" >
         </activity>
+        <activity
+            android:name="com.vitaminme.database.TestDB"
+            android:label="@string/title_activity_test_db" >
+        </activity>
     </application>
 
 </manifest>

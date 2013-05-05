@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Recipe {
+public class Recipe
+{
 	public String id;
 	public String name;
 
@@ -18,13 +19,15 @@ public class Recipe {
 	public RecipeNutrient energy;
 	public int servingSize;
 
-	public String getNotes() {
+	public String getNotes()
+	{
 		String notes = "";
 
 		if (cookingTime != null)
 			notes += cookingTime.toString();
 
-		if (courses.size() > 0) {
+		if (courses.size() > 0)
+		{
 			for (String s : courses)
 				notes += s + ' ';
 		}
@@ -32,15 +35,19 @@ public class Recipe {
 		return notes;
 	}
 
-	public Recipe() {
+	public Recipe()
+	{
 		this.courses = new ArrayList<String>();
 	}
 
 	// return the RecipeNutrient object for FAT for the current
 	// recipe. Returns null if not found
-	public RecipeNutrient getFatNutrient() {
-		for (RecipeNutrient nutrient : this.nutrients) {
-			if (nutrient.attribute.equalsIgnoreCase("FAT")) {
+	public RecipeNutrient getFatNutrient()
+	{
+		for (RecipeNutrient nutrient : this.nutrients)
+		{
+			if (nutrient.attribute.equalsIgnoreCase("FAT"))
+			{
 				return nutrient;
 			}
 		}
