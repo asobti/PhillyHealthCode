@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,13 +70,13 @@ public class ApiAdapter
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
 			throws APICallException
 	{
-		JSONObject response;
-		String url = this.endpoint + "nutrients"
-				+ this.buildQueryString(params, filters);
+		JSONObject response;		
 		ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
 
 		try
 		{
+			String url = this.endpoint + "nutrients"
+					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
@@ -122,12 +123,12 @@ public class ApiAdapter
 			throws APICallException
 	{
 		JSONObject response;
-		String url = this.endpoint + "diets"
-				+ this.buildQueryString(params, filters);
 		ArrayList<Diet> diets = new ArrayList<Diet>();
 
 		try
 		{
+			String url = this.endpoint + "diets"
+					+ this.buildQueryString(params, filters);			
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
@@ -173,13 +174,13 @@ public class ApiAdapter
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
 			throws APICallException
 	{
-		JSONObject response;
-		String url = this.endpoint + "diets"
-				+ this.buildQueryString(params, filters);
+		JSONObject response;		
 		ArrayList<Allergy> allergies = new ArrayList<Allergy>();
 
 		try
 		{
+			String url = this.endpoint + "diets"
+					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
@@ -225,14 +226,14 @@ public class ApiAdapter
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
 			throws APICallException
 	{
-		JSONObject response;
-		String url = this.endpoint + "ingredients"
-				+ this.buildQueryString(params, filters);
-		System.out.println(url);
+		JSONObject response;		
 		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 		try
 		{
+			String url = this.endpoint + "ingredients"
+					+ this.buildQueryString(params, filters);
+			
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
@@ -303,30 +304,25 @@ public class ApiAdapter
 	 * concatenated to a url
 	 */
 	private String buildQueryString(ArrayList<Entry<String, String>> params,
-			List<ApiFilter> filters)
+			List<ApiFilter> filters) throws UnsupportedEncodingException
 	{
-		if (params.size() > 0)
-		{
+		if (params.size() > 0) {
 			String queryString = "?";
-			for (Entry<String, String> entry : params)
-			{
+			for (Entry<String, String> entry : params) {
 				queryString += String.format("%s=%s&", entry.getKey(),
 						entry.getValue());
 			}
 
-			if (filters.size() > 0)
-			{
+			if (filters.size() > 0)	{
 				Gson gson = new Gson();
 				String filter_json = gson.toJson(filters);
-				queryString += "filter=" + URLEncoder.encode(filter_json) + '&';
+				queryString += "filter=" + URLEncoder.encode(filter_json, "UTF-8") + '&';
 			}
 
 			// trim the trailing ampersand
 			queryString = queryString.substring(0, queryString.length() - 1);
 			return queryString;
-		}
-		else
-		{
+		} else {
 			return "";
 		}
 	}
