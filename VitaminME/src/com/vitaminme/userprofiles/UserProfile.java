@@ -35,6 +35,11 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.api.ApiFilter;
+import com.vitaminme.api.ApiFilterOp;
+import com.vitaminme.data.Ingredient;
+import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
@@ -42,11 +47,13 @@ public class UserProfile extends BaseActivity
 {
 	private Vibrator vib;
 	boolean firstStart = true;
+	boolean searched = false;
 	Button addIgnoreButton;
 	ListView excludesListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
 	ExcludesListAdapter excludesAdapter;
 	TextWatcher searchFieldWatcher;
+	ImageButton x;
 	List<String> myExcludesList = new ArrayList<String>();
 	AutoCompleteTextView searchBarIngredients;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -55,7 +62,7 @@ public class UserProfile extends BaseActivity
 
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -86,10 +93,10 @@ public class UserProfile extends BaseActivity
 		});
 
 		// Ignore List (replace with user class data)
-		TextView message = (TextView) findViewById(R.id.message);
-		if (!myExcludesList.isEmpty()) {
-			message.setVisibility(View.INVISIBLE);
-		}
+//		TextView message = (TextView) findViewById(R.id.message);
+//		if (!myExcludesList.isEmpty()) {
+//			message.setVisibility(View.INVISIBLE);
+//		}
 		excludesAdapter = new ExcludesListAdapter(UserProfile.this,
 				myExcludesList) {
 			@Override
@@ -110,6 +117,17 @@ public class UserProfile extends BaseActivity
 		
 		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
 		addIgnoreButton.setVisibility(View.INVISIBLE);
+		x = (ImageButton) findViewById(R.id.x_button);
+		x.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				vib.vibrate(20);
+				searchBarIngredients.setText("");
+				x.setVisibility(View.INVISIBLE);
+				ignoreSearchAdapter.notifyDataSetChanged();
+				
+			}
+		});
 //		ignoreSearchAdapter = new ArrayAdapter<String>(this,
 //				android.R.layout.simple_dropdown_item_1line, ingredientsArray);
 		searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
@@ -119,7 +137,11 @@ public class UserProfile extends BaseActivity
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				
+				if (searchBarIngredients.getText().toString().equals("")) {
+					x.setVisibility(View.INVISIBLE);
+				} else {
+					x.setVisibility(View.VISIBLE);
+				}
 				
 				if(cs.length() == 3 | cs.length() == 4  && !searched)	{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
@@ -160,6 +182,7 @@ public class UserProfile extends BaseActivity
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					final int position, long arg3) {
+				x.setVisibility(View.INVISIBLE);
 				addIgnoreButton.setVisibility(View.VISIBLE);
 				InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(
@@ -200,32 +223,6 @@ public class UserProfile extends BaseActivity
 
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		// case android.R.id.home:
-		// {
-		// onBackPressed();
-		// finish();
-		// return true;
-		// }
-		case R.id.save:
-			// Save user profile
-			Toast.makeText(UserProfile.this, "Saved!", Toast.LENGTH_LONG)
-					.show();
-		default: {
-			return super.onOptionsItemSelected(item);
-		}
-		}
-
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.user_profile, menu);
-		return true;
-	}
 
 	public static void setListViewHeight(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();

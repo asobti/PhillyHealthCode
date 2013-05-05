@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-   <RelativeLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         tools:context=".UserProfile" >
 
         <AutoCompleteTextView
@@ -26,20 +27,30 @@
             <requestFocus />
         </AutoCompleteTextView>
 
-
         <TextView
             android:id="@+id/ignoreIngredientsTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@color/spotify"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="4dp"
             android:text="EXCLUDE INGREDIENTS"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
+            style="@style/Header1" />
+
+        <ImageButton
+            android:id="@+id/x_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignRight="@+id/searchBar"
+            android:layout_alignTop="@+id/searchBar"
+            android:layout_marginRight="4dp"
+            android:background="@color/trans"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/x_black_thin_icon"
+            android:visibility="invisible" />
 
         <TableRow
             android:id="@+id/tableRow2"
@@ -50,7 +61,6 @@
             android:visibility="visible" >
         </TableRow>
 
-
         <ListView
             android:id="@+id/excludes_list"
             android:layout_width="match_parent"
@@ -58,9 +68,9 @@
             android:layout_below="@+id/message"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
             android:divider="@color/trans"
-            android:dividerHeight="4sp"
-            android:layout_marginTop="4dp" >
+            android:dividerHeight="4sp" >
         </ListView>
 
         <TextView
@@ -69,16 +79,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@id/excludes_list"
-            android:background="@color/spotify"
             android:layout_marginTop="4dp"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
-            android:paddingTop="4dp"
+            android:paddingTop="5dp"
             android:text="COMMON DIETS"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
+            style="@style/Header1" />
 
-        
         <Spinner
             android:id="@+id/spinner1"
             android:layout_width="fill_parent"
@@ -88,7 +95,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
             android:entries="@array/common_diets_list" />
-        
+
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="match_parent"
@@ -117,13 +124,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/searchBar"
-            android:textStyle="italic"
-            android:layout_marginTop="6dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
             android:text="Find ingredients that you wish to always exclude from your recipe searches."
-            android:textSize="14sp"/>
-
+            android:textSize="14sp"
+            android:textStyle="italic" />
     </RelativeLayout>
 
 </ScrollView>

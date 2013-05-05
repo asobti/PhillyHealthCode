@@ -85,9 +85,6 @@ public class IngredientListFragment extends Fragment {
 			public void onClick(View v) {
 				boolean next = false;
 				vib.vibrate(20);
-				// PopUp();
-				// Toast.makeText(getBaseContext(), "next activity",
-				// Toast.LENGTH_SHORT).show();
 				for (Ingredient n : ingredients) {
 					if (n.value == 1 || n.value == -1)
 						next = true;
