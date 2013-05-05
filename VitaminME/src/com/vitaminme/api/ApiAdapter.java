@@ -26,6 +26,8 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.vitaminme.data.Allergy;
+import com.vitaminme.data.Diet;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
@@ -107,6 +109,110 @@ public class ApiAdapter
 		}
 
 		return nutrients;
+	}
+	
+	public ArrayList<Diet> getDiets(
+			ArrayList<Entry<String, String>> params) throws APICallException
+	{
+		return this.getDiets(params, new ArrayList<ApiFilter>());
+	}
+
+	public ArrayList<Diet> getDiets(
+			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
+			throws APICallException
+	{
+		JSONObject response;
+		String url = this.endpoint + "diets"
+				+ this.buildQueryString(params, filters);
+		ArrayList<Diet> diets = new ArrayList<Diet>();
+
+		try
+		{
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+
+			for (int i = 0; i < arr.length(); i++)
+			{
+				try
+				{
+					Diet dt = new Diet(arr.getJSONObject(i));
+					diets.add(dt);
+				}
+				catch (JSONException e)
+				{
+					// unable to parse this particular object
+					// ignore and continue
+					continue;
+				}
+			}
+
+			this.pag = parsePaginationInfo(response);
+
+		}
+		catch (APICallException e)
+		{
+			throw e;
+		}
+		catch (Exception e)
+		{
+			// some other exception occurred. Wrap it as an APICallException and
+			// re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+
+		return diets;
+	}
+	
+	public ArrayList<Allergy> getAllergies(
+			ArrayList<Entry<String, String>> params) throws APICallException
+	{
+		return this.getAllergies(params, new ArrayList<ApiFilter>());
+	}
+
+	public ArrayList<Allergy> getAllergies(
+			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
+			throws APICallException
+	{
+		JSONObject response;
+		String url = this.endpoint + "diets"
+				+ this.buildQueryString(params, filters);
+		ArrayList<Allergy> allergies = new ArrayList<Allergy>();
+
+		try
+		{
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+
+			for (int i = 0; i < arr.length(); i++)
+			{
+				try
+				{
+					Allergy all = new Allergy(arr.getJSONObject(i));
+					allergies.add(all);
+				}
+				catch (JSONException e)
+				{
+					// unable to parse this particular object
+					// ignore and continue
+					continue;
+				}
+			}
+
+			this.pag = parsePaginationInfo(response);
+
+		}
+		catch (APICallException e)
+		{
+			throw e;
+		}
+		catch (Exception e)
+		{
+			// some other exception occurred. Wrap it as an APICallException and
+			// re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+
+		return allergies;
 	}
 
 	public ArrayList<Ingredient> getIngredients(
