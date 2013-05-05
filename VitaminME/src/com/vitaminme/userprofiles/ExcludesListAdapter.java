@@ -3,7 +3,11 @@ package com.vitaminme.userprofiles;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vitaminme.main.R;
 
@@ -47,8 +52,9 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 		final ImageButton sureButton = (ImageButton) v
 				.findViewById(R.id.cancel_remove_button);
 		sureButton.setVisibility(View.INVISIBLE);
-		ImageButton ingredientRemoveButton = (ImageButton) v
+		final ImageButton ingredientRemoveButton = (ImageButton) v
 				.findViewById(R.id.ingredient_remove_button);
+		final MyCounter timer = new MyCounter(2000,1000, ingredientRemoveButton);
 		ingredientRemoveButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -56,14 +62,20 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 				// TODO Auto-generated method stub
 				vib.vibrate(20);
 				if (notSure) {
+					timer.cancel();
 					tv1.setText(ingredientText);
 					sureButton.setVisibility(View.INVISIBLE);
+					ingredientRemoveButton.setVisibility(View.VISIBLE);
 					notSure = false;
+					notifyDataSetChanged();
 
 				} else {
 					tv1.setText("Are you sure?");
 					sureButton.setVisibility(View.VISIBLE);
+					ingredientRemoveButton.setVisibility(View.INVISIBLE);
 					notSure = true;
+					timer.start();
+					
 				}
 			}
 
@@ -80,9 +92,30 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 			}
 
 		});
+		
 
 		return v;
 
 	}
+    public class MyCounter extends CountDownTimer{
+    	ImageButton b;
+    	 
+        public MyCounter(long millisInFuture, long countDownInterval, ImageButton b) {
+            super(millisInFuture, countDownInterval);
+            this.b = b;
+            
+        }
+ 
+		@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
+		@Override
+        public void onFinish() {
+        	b.callOnClick();
+        }
+ 
+        @Override
+        public void onTick(long millisUntilFinished) {
+//        	Toast.makeText(context, "Counting down" + millisUntilFinished, Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }

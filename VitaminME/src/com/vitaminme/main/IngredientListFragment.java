@@ -145,7 +145,7 @@ public class IngredientListFragment extends Fragment {
 
 					
 				} catch (Exception ex) {
-					System.out.println("page 1 ontextchanged: "
+					System.out.println("Ingredient Search ontextchanged: "
 							+ ex.getMessage());
 				}
 			}

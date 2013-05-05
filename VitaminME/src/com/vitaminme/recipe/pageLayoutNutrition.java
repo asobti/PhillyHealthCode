@@ -64,7 +64,6 @@ public class pageLayoutNutrition extends Fragment
 			caloriesFromFat.setText("Calories from Fat NA");
 
 		servingPer.setText("Servings per Recipe : " + recipe.servingSize);
-
 		List<RecipeNutrient> nutrients = recipe.nutrients;
 		ListView listView = (ListView) vg.findViewById(R.id.nutrient_list);
 		adapter = new RecipeNutrientAdapter(context, nutrients);

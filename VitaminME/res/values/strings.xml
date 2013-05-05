@@ -26,6 +26,7 @@
     <string name="name_fragment_search_ingredients">IngredientsSearch</string>
     <string name="loading_message">Downloading...</string>
     <string name="title_activity_favorites">Favorites</string>
-    <string name="title_activity_test_db">TestDB</string>
+    <string name="title_fragment_user_profile">User Profile</string>
+    <string name="name_fragment_user_profile">UserProfile</string>
 
 </resources>
