@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Map.Entry;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,8 +13,6 @@ import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -26,13 +23,10 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.vitaminme.api.ApiAdapter;
@@ -43,8 +37,7 @@ import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
-public class UserProfile extends BaseActivity
-{
+public class UserProfile extends BaseActivity {
 	private Vibrator vib;
 	boolean firstStart = true;
 	boolean searched = false;
@@ -59,7 +52,6 @@ public class UserProfile extends BaseActivity
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ProgressDialog mDialog;
 	List<String> ingredientsArray = new ArrayList<String>();
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,11 +84,6 @@ public class UserProfile extends BaseActivity
 			}
 		});
 
-		// Ignore List (replace with user class data)
-//		TextView message = (TextView) findViewById(R.id.message);
-//		if (!myExcludesList.isEmpty()) {
-//			message.setVisibility(View.INVISIBLE);
-//		}
 		excludesAdapter = new ExcludesListAdapter(UserProfile.this,
 				myExcludesList) {
 			@Override
@@ -109,12 +96,12 @@ public class UserProfile extends BaseActivity
 		excludesListView = (ListView) findViewById(R.id.excludes_list);
 		excludesListView.setAdapter(excludesAdapter);
 		setListViewHeight(excludesListView);
-		
+
 		// Ingredient autocomplete serach
-		for(int i = 0; i < ingredients.size(); i++){
+		for (int i = 0; i < ingredients.size(); i++) {
 			ingredientsArray.add(ingredients.get(i).term.toString());
 		}
-		
+
 		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
 		addIgnoreButton.setVisibility(View.INVISIBLE);
 		x = (ImageButton) findViewById(R.id.x_button);
@@ -125,13 +112,10 @@ public class UserProfile extends BaseActivity
 				searchBarIngredients.setText("");
 				x.setVisibility(View.INVISIBLE);
 				ignoreSearchAdapter.notifyDataSetChanged();
-				
+
 			}
 		});
-//		ignoreSearchAdapter = new ArrayAdapter<String>(this,
-//				android.R.layout.simple_dropdown_item_1line, ingredientsArray);
 		searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
-//		searchBarIngredients.setAdapter(ignoreSearchAdapter);
 		searchFieldWatcher = new TextWatcher() {
 
 			@Override
@@ -142,24 +126,27 @@ public class UserProfile extends BaseActivity
 				} else {
 					x.setVisibility(View.VISIBLE);
 				}
-				
-				if(cs.length() == 3 | cs.length() == 4  && !searched)	{
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+
+				if (cs.length() > 2 && !searched) {
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							searchBarIngredients.getText().toString());
 					new getIngredients().execute(filter);
 					searchBarIngredients.showDropDown();
 					searched = true;
 				}
-				if(cs.length() == 2 && searched){
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+				if (cs.length() == 2 && searched) {
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							searchBarIngredients.getText().toString());
 					new getIngredients().execute(filter);
 					searchBarIngredients.showDropDown();
 					searched = false;
 				}
-				
+
 				addIgnoreButton.setVisibility(View.INVISIBLE);
-				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+						searchBarIngredients.getText().toString());
 				new getIngredients().execute(filter);
-				
+
 			}
 
 			@Override
@@ -170,8 +157,7 @@ public class UserProfile extends BaseActivity
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3)
-			{
+					int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
 			}
@@ -223,7 +209,6 @@ public class UserProfile extends BaseActivity
 
 	}
 
-
 	public static void setListViewHeight(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -256,7 +241,7 @@ public class UserProfile extends BaseActivity
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
-//			mDialog.show();
+			// mDialog.show();
 
 		}
 
@@ -269,10 +254,6 @@ public class UserProfile extends BaseActivity
 			for (ApiFilter f : arg) {
 				filters.add(f);
 			}
-			// 9172 ingredients in db
-
-			// example filter
-			// filters.add(new ApiFilter("term", ApiFilterOp.like, "alt"));
 
 			try {
 				return api.getIngredients(params, filters);
@@ -291,22 +272,22 @@ public class UserProfile extends BaseActivity
 			if (nut != null && nut.size() > 0) {
 				ingredients = nut;
 				ingredientsArray.clear();
-				for(int i = 0; i < ingredients.size(); i++){
+				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientsArray.add(ingredients.get(i).term.toString());
 				}
-				Log.v("mytag", "ingredients found = " + ingredientsArray.toString());
-				ignoreSearchAdapter = new ArrayAdapter<String>(UserProfile.this,
-						android.R.layout.simple_dropdown_item_1line, ingredientsArray);
+				Log.v("mytag",
+						"ingredients found = " + ingredientsArray.toString());
+				ignoreSearchAdapter = new ArrayAdapter<String>(
+						UserProfile.this,
+						android.R.layout.simple_dropdown_item_1line,
+						ingredientsArray);
 				searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
 				searchBarIngredients.setAdapter(ignoreSearchAdapter);
-//				searchBarIngredients.setTextFilterEnabled(true);
 
 			} else if (nut == null) {
-				// @Mayank: not sure what the context should be for the toast
-				Toast.makeText(UserProfile.this, "No network found", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(UserProfile.this, "No network found",
+						Toast.LENGTH_LONG).show();
 			} else if (nut.size() == 0) {
-				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(UserProfile.this, "No ingredients found",
 						Toast.LENGTH_LONG).show();
 			} else {
