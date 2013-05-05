@@ -37,6 +37,7 @@ import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
+import com.vitaminme.main.IngredientListAdapter;
 import com.vitaminme.main.R;
 
 public class UserProfile extends Activity {
@@ -51,7 +52,8 @@ public class UserProfile extends Activity {
 	AutoCompleteTextView searchBarIngredients;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ProgressDialog mDialog;
-	String[] ingredientsArray = {};
+	List<String> ingredientsArray = new ArrayList<String>();
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,24 +106,25 @@ public class UserProfile extends Activity {
 		
 		// Ingredient autocomplete serach
 		for(int i = 0; i < ingredients.size(); i++){
-			ingredientsArray[i] = ingredients.get(i).term.toString();
+			ingredientsArray.add(ingredients.get(i).term.toString());
 		}
 		
 		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
 		addIgnoreButton.setVisibility(View.INVISIBLE);
-		ignoreSearchAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, ingredientsArray);
+//		ignoreSearchAdapter = new ArrayAdapter<String>(this,
+//				android.R.layout.simple_dropdown_item_1line, ingredientsArray);
 		searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
-		searchBarIngredients.setAdapter(ignoreSearchAdapter);
+//		searchBarIngredients.setAdapter(ignoreSearchAdapter);
 		searchFieldWatcher = new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
+				if (cs.toString().length() > 2){
 				addIgnoreButton.setVisibility(View.INVISIBLE);
-				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, cs.toString());
+				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
 				new getIngredients().execute(filter);
-				
+				}
 			}
 
 			@Override
@@ -242,7 +245,7 @@ public class UserProfile extends Activity {
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
-			mDialog.show();
+//			mDialog.show();
 
 		}
 
@@ -276,7 +279,18 @@ public class UserProfile extends Activity {
 
 			if (nut != null && nut.size() > 0) {
 				ingredients = nut;
-				excludesAdapter.notifyDataSetChanged();
+				ingredientsArray.clear();
+				for(int i = 0; i < ingredients.size(); i++){
+					ingredientsArray.add(ingredients.get(i).term.toString());
+				}
+				Log.v("mytag", "ingredients found = " + ingredientsArray.toString());
+				ignoreSearchAdapter = new ArrayAdapter<String>(UserProfile.this,
+						android.R.layout.simple_dropdown_item_1line, ingredientsArray);
+				searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
+				searchBarIngredients.setAdapter(ignoreSearchAdapter);
+				searchBarIngredients.showDropDown();
+//				searchBarIngredients.setTextFilterEnabled(true);
+
 			} else if (nut == null) {
 				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(UserProfile.this, "No network found", Toast.LENGTH_LONG)
