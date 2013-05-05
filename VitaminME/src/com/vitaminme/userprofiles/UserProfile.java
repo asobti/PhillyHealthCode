@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -42,9 +43,10 @@ import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
+import com.facebook.*;
+import com.facebook.model.*;
 
-public class UserProfile extends BaseActivity
-{
+public class UserProfile extends BaseActivity {
 	private Vibrator vib;
 	boolean firstStart = true;
 	boolean searched = false;
@@ -60,12 +62,56 @@ public class UserProfile extends BaseActivity
 	ProgressDialog mDialog;
 	List<String> ingredientsArray = new ArrayList<String>();
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		
+		// Facebook Login
+		final Button fbLogin = (Button) findViewById(R.id.fb_login);
+		fbLogin.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Session.openActiveSession(UserProfile.this, true,
+						new Session.StatusCallback() {
+
+							// callback when session changes state
+							@Override
+							public void call(Session session,
+									SessionState state, Exception exception) {
+								if (session.isOpened()) {
+									// make request to the /me API
+									Request.executeMeRequestAsync(session,
+											new Request.GraphUserCallback() {
+
+												// callback after Graph API
+												// response with user
+												// object
+												@Override
+												public void onCompleted(
+														GraphUser user,
+														Response response) {
+													if (user != null) {
+														fbLogin.setVisibility(View.INVISIBLE);
+														TextView loginResults = (TextView) findViewById(R.id.login_info);
+														loginResults.setText("You are logged into Facebook as "
+																+ user.getName()
+																+ "!");
+													}
+												}
+											});
+
+								}
+
+							}
+						});
+
+			}
+
+		});
+
 		// Common diet Spinner
 		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -93,10 +139,10 @@ public class UserProfile extends BaseActivity
 		});
 
 		// Ignore List (replace with user class data)
-//		TextView message = (TextView) findViewById(R.id.message);
-//		if (!myExcludesList.isEmpty()) {
-//			message.setVisibility(View.INVISIBLE);
-//		}
+		// TextView message = (TextView) findViewById(R.id.message);
+		// if (!myExcludesList.isEmpty()) {
+		// message.setVisibility(View.INVISIBLE);
+		// }
 		excludesAdapter = new ExcludesListAdapter(UserProfile.this,
 				myExcludesList) {
 			@Override
@@ -109,12 +155,12 @@ public class UserProfile extends BaseActivity
 		excludesListView = (ListView) findViewById(R.id.excludes_list);
 		excludesListView.setAdapter(excludesAdapter);
 		setListViewHeight(excludesListView);
-		
+
 		// Ingredient autocomplete serach
-		for(int i = 0; i < ingredients.size(); i++){
+		for (int i = 0; i < ingredients.size(); i++) {
 			ingredientsArray.add(ingredients.get(i).term.toString());
 		}
-		
+
 		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
 		addIgnoreButton.setVisibility(View.INVISIBLE);
 		x = (ImageButton) findViewById(R.id.x_button);
@@ -125,13 +171,13 @@ public class UserProfile extends BaseActivity
 				searchBarIngredients.setText("");
 				x.setVisibility(View.INVISIBLE);
 				ignoreSearchAdapter.notifyDataSetChanged();
-				
+
 			}
 		});
-//		ignoreSearchAdapter = new ArrayAdapter<String>(this,
-//				android.R.layout.simple_dropdown_item_1line, ingredientsArray);
+		// ignoreSearchAdapter = new ArrayAdapter<String>(this,
+		// android.R.layout.simple_dropdown_item_1line, ingredientsArray);
 		searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
-//		searchBarIngredients.setAdapter(ignoreSearchAdapter);
+		// searchBarIngredients.setAdapter(ignoreSearchAdapter);
 		searchFieldWatcher = new TextWatcher() {
 
 			@Override
@@ -142,24 +188,27 @@ public class UserProfile extends BaseActivity
 				} else {
 					x.setVisibility(View.VISIBLE);
 				}
-				
-				if(cs.length() == 3 | cs.length() == 4  && !searched)	{
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+
+				if (cs.length() == 3 | cs.length() == 4 && !searched) {
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							searchBarIngredients.getText().toString());
 					new getIngredients().execute(filter);
 					searchBarIngredients.showDropDown();
 					searched = true;
 				}
-				if(cs.length() == 2 && searched){
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+				if (cs.length() == 2 && searched) {
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							searchBarIngredients.getText().toString());
 					new getIngredients().execute(filter);
 					searchBarIngredients.showDropDown();
 					searched = false;
 				}
-				
+
 				addIgnoreButton.setVisibility(View.INVISIBLE);
-				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+						searchBarIngredients.getText().toString());
 				new getIngredients().execute(filter);
-				
+
 			}
 
 			@Override
@@ -170,8 +219,7 @@ public class UserProfile extends BaseActivity
 
 			@Override
 			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3)
-			{
+					int arg2, int arg3) {
 				// TODO Auto-generated method stub
 
 			}
@@ -223,7 +271,6 @@ public class UserProfile extends BaseActivity
 
 	}
 
-
 	public static void setListViewHeight(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -256,7 +303,7 @@ public class UserProfile extends BaseActivity
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
-//			mDialog.show();
+			// mDialog.show();
 
 		}
 
@@ -291,20 +338,23 @@ public class UserProfile extends BaseActivity
 			if (nut != null && nut.size() > 0) {
 				ingredients = nut;
 				ingredientsArray.clear();
-				for(int i = 0; i < ingredients.size(); i++){
+				for (int i = 0; i < ingredients.size(); i++) {
 					ingredientsArray.add(ingredients.get(i).term.toString());
 				}
-				Log.v("mytag", "ingredients found = " + ingredientsArray.toString());
-				ignoreSearchAdapter = new ArrayAdapter<String>(UserProfile.this,
-						android.R.layout.simple_dropdown_item_1line, ingredientsArray);
+				Log.v("mytag",
+						"ingredients found = " + ingredientsArray.toString());
+				ignoreSearchAdapter = new ArrayAdapter<String>(
+						UserProfile.this,
+						android.R.layout.simple_dropdown_item_1line,
+						ingredientsArray);
 				searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
 				searchBarIngredients.setAdapter(ignoreSearchAdapter);
-//				searchBarIngredients.setTextFilterEnabled(true);
+				// searchBarIngredients.setTextFilterEnabled(true);
 
 			} else if (nut == null) {
 				// @Mayank: not sure what the context should be for the toast
-				Toast.makeText(UserProfile.this, "No network found", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(UserProfile.this, "No network found",
+						Toast.LENGTH_LONG).show();
 			} else if (nut.size() == 0) {
 				// @Mayank: not sure what the context should be for the toast
 				Toast.makeText(UserProfile.this, "No ingredients found",
@@ -319,6 +369,13 @@ public class UserProfile extends BaseActivity
 				mDialog.dismiss();
 
 		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode,
+				resultCode, data);
 	}
 
 }

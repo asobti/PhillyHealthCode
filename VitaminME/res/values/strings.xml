@@ -29,5 +29,7 @@
     <string name="title_fragment_user_profile">User Profile</string>
     <string name="name_fragment_user_profile">UserProfile</string>
     <string name="title_activity_test_db">Test db</string>
+    <string name="fb_app_id">405212212919927</string>
+    
 
 </resources>

@@ -29,6 +29,7 @@
 
         <TextView
             android:id="@+id/ignoreIngredientsTitle"
+            style="@style/Header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -36,8 +37,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="4dp"
-            android:text="EXCLUDE INGREDIENTS"
-            style="@style/Header1" />
+            android:text="EXCLUDE INGREDIENTS" />
 
         <ImageButton
             android:id="@+id/x_button"
@@ -75,6 +75,7 @@
 
         <TextView
             android:id="@+id/commonDietsTitle"
+            style="@style/Header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -83,8 +84,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="5dp"
-            android:text="COMMON DIETS"
-            style="@style/Header1" />
+            android:text="COMMON DIETS" />
 
         <Spinner
             android:id="@+id/spinner1"
@@ -130,6 +130,50 @@
             android:text="Find ingredients that you wish to always exclude from your recipe searches."
             android:textSize="14sp"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/accountTitle"
+            style="@style/Header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/spinner1"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="5dp"
+            android:text="MY ACCOUNT" />
+
+        <TableRow
+            android:id="@+id/tableRow4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@id/accountTitle"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
+
+        <Button
+            android:id="@+id/fb_login"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tableRow4"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="6dp"
+            android:background="@android:drawable/btn_default_small"
+            android:text="Login with Facebook"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/login_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tableRow4"
+            android:layout_marginTop="6dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </ScrollView>
