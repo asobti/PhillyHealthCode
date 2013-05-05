@@ -13,14 +13,14 @@
             android:id="@+id/inputSearch"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
-            android:hint="Search Nutrients..."
-            android:textColorHint="@color/white"
-            android:inputType="textVisiblePassword"
+            android:layout_margin="4dp"
             android:background="@color/spotify"
-            android:textColor="@color/white"
+            android:hint="Search Nutrients..."
+            android:inputType="textVisiblePassword"
             android:paddingLeft="10dp"
             android:paddingTop="14dp"
-            android:layout_margin="4dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="20sp" />
 
         <ImageButton
@@ -35,14 +35,7 @@
             android:scaleType="centerCrop"
             android:src="@drawable/x_black_thin_icon"
             android:visibility="invisible" />
-        <View 
-            android:id="@+id/go_background"
-            android:layout_width="16dp" 
-            android:layout_height="16dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="22dp"
-            android:background="@color/white"/>
+
         <ImageButton
             android:id="@+id/go_button"
             android:layout_width="42dp"
@@ -50,12 +43,10 @@
             android:layout_gravity="right"
             android:layout_marginRight="11dp"
             android:layout_marginTop="8dp"
-            android:background="@color/trans"
+            android:background="?android:selectableItemBackground"
             android:padding="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arrow_circle" />
-        
-
+            android:scaleType="fitCenter"
+            android:src="@drawable/send_now" />
 
         <ImageButton
             android:id="@+id/list_button"
@@ -64,48 +55,50 @@
             android:layout_gravity="right"
             android:layout_marginRight="55dp"
             android:layout_marginTop="8dp"
-            android:background="@color/trans"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/list_icon" />
+            android:background="?android:selectableItemBackground"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/collections_view_as_list" />
 
-<!--         <FrameLayout -->
-<!--             android:id="@+id/FrameLayout2" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_marginTop="40dp" -->
-<!--             android:background="@color/trans" > -->
+        <!-- <FrameLayout -->
+        <!-- android:id="@+id/FrameLayout2" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_marginTop="40dp" -->
+        <!-- android:background="@color/trans" > -->
 
-<!--             <TextView -->
-<!--                 android:id="@+id/list_text" -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_gravity="right" -->
-<!--                 android:layout_marginRight="47dp" -->
-<!--                 android:layout_marginTop="0dp" -->
-<!--                 android:text="Review" -->
-<!--                 android:textColor="@color/white" -->
-<!--                 android:textSize="9sp" /> -->
 
-<!--             <TextView -->
-<!--                 android:id="@+id/go_text" -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_gravity="right" -->
-<!--                 android:layout_marginRight="2dp" -->
-<!--                 android:layout_marginTop="0dp" -->
-<!--                 android:textColor="@color/white" -->
-<!--                 android:text="Continue" -->
-<!--                 android:textSize="9sp" /> -->
-<!--         </FrameLayout> -->
+        <!-- <TextView -->
+        <!-- android:id="@+id/list_text" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_gravity="right" -->
+        <!-- android:layout_marginRight="47dp" -->
+        <!-- android:layout_marginTop="0dp" -->
+        <!-- android:text="Review" -->
+        <!-- android:textColor="@color/white" -->
+        <!-- android:textSize="9sp" /> -->
+
+
+        <!-- <TextView -->
+        <!-- android:id="@+id/go_text" -->
+        <!-- android:layout_width="wrap_content" -->
+        <!-- android:layout_height="wrap_content" -->
+        <!-- android:layout_gravity="right" -->
+        <!-- android:layout_marginRight="2dp" -->
+        <!-- android:layout_marginTop="0dp" -->
+        <!-- android:textColor="@color/white" -->
+        <!-- android:text="Continue" -->
+        <!-- android:textSize="9sp" /> -->
+        <!-- </FrameLayout> -->
     </FrameLayout>
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="4dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:background="#ecebe7"
         android:divider="@color/light_gray"
         android:dividerHeight="1dip" />

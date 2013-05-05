@@ -1,14 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:clickable="true"
+    android:fillViewport="true" >
 
-    <TextView
-        android:id="@+id/textView1"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        tools:context=".Home" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/homeFavorites"
+            style="@style/Header1"
+            android:text="FAVORITES" />
+
+        <View
+            android:id="@+id/dividerView1"
+            style="@style/Divider"
+            android:layout_below="@+id/homeFavorites" />
+
+        <com.vitaminme.main.ExpandableHeightGridView
+            android:id="@+id/gridView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dividerView1"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:isScrollContainer="false"
+            android:numColumns="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp" />
+
+        <TextView
+            android:id="@+id/emptyFavorites"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridView1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="You have no favorites yet. Search for recipes to add to favorites!"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/homeRecent"
+            style="@style/Header1"
+            android:layout_below="@+id/emptyFavorites"
+            android:layout_marginTop="10dp"
+            android:text="RECENTLY VIEWED" />
+
+        <View
+            android:id="@+id/dividerView2"
+            style="@style/Divider"
+            android:layout_below="@+id/homeRecent" />
+
+        <com.vitaminme.main.ExpandableHeightGridView
+            android:id="@+id/gridView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dividerView2"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:isScrollContainer="false"
+            android:numColumns="2"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp" />
+
+        <TextView
+            android:id="@+id/emptyRecent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridView2"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="You have not viewed anything recently"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</ScrollView>

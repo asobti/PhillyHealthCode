@@ -48,7 +48,7 @@ public class RecipeDetails extends BaseActivity
 		task.execute(apiParams);
 
 		mDialog = new ProgressDialog(RecipeDetails.this);
-		mDialog.setMessage("Loading...");
+		mDialog.setMessage(getResources().getText(R.string.loading_message));
 		mDialog.setCancelable(false);
 		mDialog.show();
 	}
@@ -140,7 +140,7 @@ public class RecipeDetails extends BaseActivity
 	// // finish();
 	// // return true;
 	// case R.id.add_favorite:
-	// Toast.makeText(getBaseContext(), "Added to favorites (not really)",
+	// Toast.makeText(getBaseContext(), "Added to images (not really)",
 	// Toast.LENGTH_SHORT).show();
 	// case R.id.user_profile:
 	// // open user profile

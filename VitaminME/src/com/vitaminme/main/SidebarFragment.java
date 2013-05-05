@@ -10,17 +10,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.vitaminme.database.TestDB;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.NutrientListFragment;
+import com.vitaminme.test.SearchBar;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
 
@@ -36,21 +36,18 @@ public class SidebarFragment extends Fragment
 		final Vibrator vibe = (Vibrator) getActivity().getSystemService(
 				Context.VIBRATOR_SERVICE);
 
-		final TextView homeText = (TextView) vg.findViewById(R.id.home);
-		homeText.setOnClickListener(new OnClickListener()
+		ListView listView0 = (ListView) vg.findViewById(R.id.listView0);
+		listView0.setOnItemClickListener(new OnItemClickListener()
 		{
-
 			@Override
-			public void onClick(View view)
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id)
 			{
 				vibe.vibrate(20);
-				String itemName = homeText.getText().toString();
-				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-				// .show();
-
-				switchFragment(itemName);
+				// String itemName =
+				// parent.getItemAtPosition(position).toString();
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
-
 		});
 
 		ListView listView1 = (ListView) vg.findViewById(R.id.listView1);
@@ -61,12 +58,9 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				// System.out.println("Clicked: " + position);
-				String itemName = parent.getItemAtPosition(position).toString();
-				// Toast.makeText(getActivity(), itemName, Toast.LENGTH_LONG)
-				// .show();
-
-				switchFragment(itemName);
+				// String itemName =
+				// parent.getItemAtPosition(position).toString();
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
 		});
 
@@ -78,23 +72,12 @@ public class SidebarFragment extends Fragment
 					int position, long id)
 			{
 				vibe.vibrate(20);
-				// System.out.println("Clicked: " + position);
-				// Toast.makeText(getActivity(),
-				// parent.getItemAtPosition(position).toString(),
-				// Toast.LENGTH_LONG).show();
 				String itemName = parent.getItemAtPosition(position).toString();
-				switchFragment(itemName);
+				switchFragment(parent.getItemAtPosition(position).toString());
 			}
 		});
 
 		return vg;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{
-		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	// Switch fragment or call new intents
@@ -105,21 +88,19 @@ public class SidebarFragment extends Fragment
 
 		final Activity activity = getActivity();
 
-		if (fragmentItemName.equals("Home"))
+		if (fragmentItemName.equalsIgnoreCase("Home"))
 		{
 			if (activity instanceof Home)
 			{
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.title_fragment_home)))
+				if (((Home) activity).currentFragment.equals(getResources()
+						.getString(R.string.name_fragment_home)))
 				{
 					closeSidebar(activity);
 				}
 				else
 				{
-					// activity.setTitle("Home");
+					((Home) activity).currentFragment = getResources()
+							.getString(R.string.name_fragment_home);
 					((FragmentActivity) activity).getSupportFragmentManager()
 							.beginTransaction()
 							.replace(R.id.content_frame, new HomeFragment())
@@ -142,17 +123,17 @@ public class SidebarFragment extends Fragment
 		{
 			if (activity instanceof Home)
 			{
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.name_fragment_search_nutrients)))
+				if (((Home) activity).currentFragment.equals(getResources()
+						.getString(R.string.name_fragment_search_nutrients)))
+
 				{
 
 					closeSidebar(activity);
 				}
 				else
 				{
+					((Home) activity).currentFragment = getResources()
+							.getString(R.string.name_fragment_search_nutrients);
 					((FragmentActivity) activity)
 							.getSupportFragmentManager()
 							.beginTransaction()
@@ -170,6 +151,44 @@ public class SidebarFragment extends Fragment
 						"fragmentName",
 						getResources().getString(
 								R.string.name_fragment_search_nutrients));
+				activity.startActivity(intent);
+			}
+		}
+		else if (fragmentItemName.equals("Ingredients"))
+		{
+			if (activity instanceof Home)
+			{
+				if (activity
+						.getTitle()
+						.toString()
+						.equals(getResources().getString(
+								R.string.name_fragment_search_ingredients)))
+				{
+
+					closeSidebar(activity);
+				}
+				else
+				{
+					((Home) activity).currentFragment = getResources()
+							.getString(
+									R.string.name_fragment_search_ingredients);
+					((FragmentActivity) activity)
+							.getSupportFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_frame,
+									new IngredientListFragment()).commit();
+					closeSidebar(activity);
+				}
+			}
+			else
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, Home.class);
+				intent.putExtra(
+						"fragmentName",
+						getResources().getString(
+								R.string.name_fragment_search_ingredients));
 				activity.startActivity(intent);
 			}
 		}
@@ -194,6 +213,34 @@ public class SidebarFragment extends Fragment
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, UserProfile.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("Temp:SearchBar"))
+		{
+			if (!(activity instanceof SearchBar))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, SearchBar.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("Temp:TestDB"))
+		{
+			if (!(activity instanceof TestDB))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, TestDB.class);
 				activity.startActivity(intent);
 			}
 			else
