@@ -38,11 +38,13 @@ import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.IngredientListAdapter;
+import com.vitaminme.main.IngredientListFragment;
 import com.vitaminme.main.R;
 
 public class UserProfile extends Activity {
 	private Vibrator vib;
 	boolean firstStart = true;
+	boolean searched = false;
 	Button addIgnoreButton;
 	ListView excludesListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
@@ -120,11 +122,25 @@ public class UserProfile extends Activity {
 			@Override
 			public void onTextChanged(CharSequence cs, int arg1, int arg2,
 					int arg3) {
-				if (cs.toString().length() > 2){
+				
+				
+				if(cs.length() == 3 | cs.length() == 4  && !searched)	{
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+					new getIngredients().execute(filter);
+					searchBarIngredients.showDropDown();
+					searched = true;
+				}
+				if(cs.length() == 2 && searched){
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
+					new getIngredients().execute(filter);
+					searchBarIngredients.showDropDown();
+					searched = false;
+				}
+				
 				addIgnoreButton.setVisibility(View.INVISIBLE);
 				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like, searchBarIngredients.getText().toString());
 				new getIngredients().execute(filter);
-				}
+				
 			}
 
 			@Override
@@ -288,7 +304,6 @@ public class UserProfile extends Activity {
 						android.R.layout.simple_dropdown_item_1line, ingredientsArray);
 				searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
 				searchBarIngredients.setAdapter(ignoreSearchAdapter);
-				searchBarIngredients.showDropDown();
 //				searchBarIngredients.setTextFilterEnabled(true);
 
 			} else if (nut == null) {
