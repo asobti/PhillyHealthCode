@@ -7,30 +7,25 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         tools:context=".UserProfile" >
 
-        <TextView
-            android:id="@+id/commonDietsTitle"
-            android:layout_width="wrap_content"
+        <AutoCompleteTextView
+            android:id="@+id/searchBar"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tableRow2"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="14dp"
-            android:text="DIETS"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/spotify" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tableRow2"
-            android:layout_marginLeft="4dp"
+            android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="7dp"
-            android:layout_toRightOf="@id/commonDietsTitle"
-            android:entries="@array/common_diets_list" />
+            android:layout_marginTop="4dp"
+            android:drawableLeft="@drawable/search_icon18"
+            android:ems="10"
+            android:hint="All Ingredients..."
+            android:textSize="16sp" >
+
+            <requestFocus />
+        </AutoCompleteTextView>
 
         <TextView
             android:id="@+id/ignoreIngredientsTitle"
@@ -38,15 +33,24 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/spotify"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="4dp"
             android:text="EXCLUDE INGREDIENTS"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
+            style="@style/Header1" />
+
+        <ImageButton
+            android:id="@+id/x_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignRight="@+id/searchBar"
+            android:layout_alignTop="@+id/searchBar"
+            android:layout_marginRight="4dp"
+            android:background="@color/trans"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/x_black_thin_icon"
+            android:visibility="invisible" />
 
         <TableRow
             android:id="@+id/tableRow2"
@@ -61,176 +65,71 @@
             android:id="@+id/excludes_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/searchBar"
+            android:layout_below="@+id/message"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="4dp" >
+            android:layout_marginTop="4dp"
+            android:divider="@color/trans"
+            android:dividerHeight="4sp" >
         </ListView>
 
-        <AutoCompleteTextView
-            android:id="@+id/searchBar"
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/commonDietsTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/spinner1"
-            android:layout_marginLeft="70dp"
-            android:layout_marginRight="10dp"
+            android:layout_below="@id/excludes_list"
             android:layout_marginTop="4dp"
-            android:textSize="16sp"
-            android:ems="10"
-            android:hint="All Ingredients..." >
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="5dp"
+            android:text="COMMON DIETS"
+            style="@style/Header1" />
 
-            <requestFocus />
-        </AutoCompleteTextView>
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/commonDietsTitle"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:entries="@array/common_diets_list" />
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/commonDietsTitle"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
 
         <Button
             android:id="@+id/addIgnoreButton"
             android:layout_width="44dp"
             android:layout_height="30dp"
             android:layout_alignRight="@+id/searchBar"
-            android:layout_below="@+id/spinner1"
+            android:layout_alignTop="@+id/searchBar"
             android:layout_marginRight="4dp"
-            android:layout_marginTop="5dp"
             android:background="@android:drawable/btn_default_small"
             android:scaleType="centerCrop"
             android:text="Add"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/infoIconIngredients"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignBottom="@+id/ignoreIngredientsTitle"
-            android:layout_marginBottom="14dp"
-            android:layout_toRightOf="@+id/ignoreIngredientsTitle"
-            android:background="@android:color/transparent"
-            android:padding="4dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/info_circle_icon" />
-
         <TextView
-            android:id="@+id/userDataTitle"
+            android:id="@+id/message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/excludes_list"
+            android:layout_below="@+id/searchBar"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/spotify"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp"
-            android:text="USER DATA"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/white" />
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/userDataTitle"
-            android:background="@color/spotify"
-            android:visibility="visible" >
-        </TableRow>
-
-        <ImageButton
-            android:id="@+id/infoIconUserData"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignBottom="@+id/userDataTitle"
-            android:layout_marginBottom="14dp"
-            android:layout_toRightOf="@+id/userDataTitle"
-            android:background="@android:color/transparent"
-            android:padding="4dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/info_circle_icon" />
-
-        <TextView
-            android:id="@+id/userHeightTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tableRow3"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="14dp"
-            android:text="HEIGHT"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/spotify" />
-
-        <EditText
-            android:id="@+id/editHeight"
-            style="@style/editNumber"
-            android:layout_width="40dp"
-            android:layout_height="22dp"
-            android:layout_below="@id/tableRow3"
-            android:layout_marginLeft="7dp"
-            android:layout_marginTop="14dp"
-            android:layout_toRightOf="@+id/userHeightTitle"
-            android:ems="8"
-            android:gravity="center_vertical|right"
-            android:hint="in  "
-            android:inputType="number"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-        <TextView
-            android:id="@+id/userWeightTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/userHeightTitle"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="14dp"
-            android:text="WEIGHT"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="@color/spotify" />
-
-        <EditText
-            android:id="@+id/editWeight"
-            style="@style/editNumber"
-            android:layout_width="40dp"
-            android:layout_height="22dp"
-            android:layout_below="@id/userHeightTitle"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="14dp"
-            android:layout_toRightOf="@id/userWeightTitle"
-            android:ems="8"
-            android:gravity="center_vertical|right"
-            android:hint="lb  "
-            android:inputType="number"
-            android:textAppearance="?android:attr/textAppearanceSmallInverse" />
-
-        <TextView
-            android:id="@+id/inches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/infoIconUserData"
-            android:layout_alignTop="@+id/editHeight"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:text="inches"
-            android:visibility="invisible" />
-
-        <TextView
-            android:id="@+id/lbs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/infoIconUserData"
-            android:layout_alignTop="@id/editWeight"
-            android:layout_marginTop="2dp"
-            android:text="lbs"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="28dp"
-            android:layout_height="24dp"
-            android:layout_alignLeft="@+id/commonDietsTitle"
-            android:layout_alignTop="@+id/searchBar"
-            android:layout_marginLeft="18dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
-            android:src="@drawable/search_icon" />
-
+            android:text="Find ingredients that you wish to always exclude from your recipe searches."
+            android:textSize="14sp"
+            android:textStyle="italic" />
     </RelativeLayout>
 
 </ScrollView>
