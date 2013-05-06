@@ -9,6 +9,6 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        layout="@layout/bottom_options_nutrient_list" />
+        layout="@layout/bottom_options_search_fragments" />
 
 </RelativeLayout>
