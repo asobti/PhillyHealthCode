@@ -84,25 +84,20 @@ public class SearchBar extends BaseActivity implements
 						MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
 								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		searchMenu.expandActionView();
-		// searchMenu.setOnActionExpandListener(new OnActionExpandListener()
-		// {
-		//
-		// @Override
-		// public boolean onMenuItemActionExpand(MenuItem item)
-		// {
-		// // TODO Auto-generated method stub
-		// return false;
-		// }
-		//
-		// @Override
-		// public boolean onMenuItemActionCollapse(MenuItem item)
-		// {
-		// searchMenu
-		// .setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-		// return true;
-		// }
-		//
-		// });
+
+//		menu.add("Save")
+//
+//		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+//
+//		menu.add("Search").setShowAsAction(
+//				MenuItem.SHOW_AS_ACTION_IF_ROOM
+//						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+//
+//		menu.add("Refresh")
+//
+//		.setShowAsAction(
+//				MenuItem.SHOW_AS_ACTION_IF_ROOM
+//						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		return super.onCreateOptionsMenu(menu);
 	}

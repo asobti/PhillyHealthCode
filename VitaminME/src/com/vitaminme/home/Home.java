@@ -10,6 +10,12 @@ import android.support.v4.app.Fragment;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
+import com.actionbarsherlock.view.Window;
+import com.actionbarsherlock.widget.SearchView;
+
 public class Home extends BaseActivity
 {
 	Fragment mContent;

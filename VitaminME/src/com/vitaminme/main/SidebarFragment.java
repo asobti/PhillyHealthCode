@@ -19,6 +19,7 @@ import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.vitaminme.database.TestDB;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
+import com.vitaminme.home.IngredientListFragment;
 import com.vitaminme.home.NutrientListFragment;
 import com.vitaminme.test.SearchBar;
 import com.vitaminme.userprofiles.Favorites;

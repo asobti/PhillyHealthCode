@@ -1,4 +1,4 @@
-package com.vitaminme.main;
+package com.vitaminme.home;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.vitaminme.data.Ingredient;
+import com.vitaminme.main.R;
+import com.vitaminme.main.R.drawable;
+import com.vitaminme.main.R.id;
+import com.vitaminme.main.R.layout;
 
 public class IngredientListAdapter extends ArrayAdapter<String> implements
 		Filterable {

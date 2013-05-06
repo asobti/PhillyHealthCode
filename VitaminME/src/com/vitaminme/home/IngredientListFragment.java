@@ -1,8 +1,10 @@
 package com.vitaminme.home;
 
 import java.util.AbstractMap.SimpleEntry;
+import org.apache.commons.lang3.text.WordUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -34,22 +36,24 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.api.ApiFilter;
+import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Ingredient;
-import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.R;
 import com.vitaminme.recipelist.RecipeList;
 
-public class NutrientListFragment extends SherlockFragment implements
+public class IngredientListFragment extends SherlockFragment implements
 		SearchView.OnQueryTextListener
 {
 	private ListView lv;
 	private Vibrator vib;
-
+	Boolean searched = false;
+	CharSequence search;
 	ArrayAdapter<String> adapter;
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
-	ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
+	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ProgressDialog progressDialog;
 	ImageButton x;
 	Activity activity;
@@ -62,7 +66,7 @@ public class NutrientListFragment extends SherlockFragment implements
 			Bundle savedInstanceState)
 	{
 		activity = getActivity();
-		activity.setTitle(R.string.title_fragment_search_nutrients);
+		activity.setTitle(R.string.title_fragment_search_ingredients);
 
 		setHasOptionsMenu(true);
 
@@ -78,24 +82,26 @@ public class NutrientListFragment extends SherlockFragment implements
 		}
 
 		ViewGroup vg = (ViewGroup) inflater.inflate(
-				R.layout.fragment_nutrient_list, null);
+				R.layout.fragment_ingredient_list, null);
 
-		new getNutrients().execute();
+		new getIngredients().execute();
 
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
-		lv = (ListView) vg.findViewById(R.id.listView_NutrientList);
+		lv = (ListView) vg.findViewById(R.id.listView_IngredientsList);
 
-		Button nextButton = (Button) vg.findViewById(R.id.nextButton);
-		nextButton.setOnClickListener(new OnClickListener()
+		Button check = (Button) vg
+				.findViewById(R.id.nextButton);
+		check.setOnClickListener(new OnClickListener()
 		{
+
 			@Override
 			public void onClick(View v)
 			{
 				boolean next = false;
 				vib.vibrate(20);
 
-				for (Nutrient n : nutrients)
+				for (Ingredient n : ingredients)
 				{
 					if (n.value == 1 || n.value == -1)
 						next = true;
@@ -104,7 +110,7 @@ public class NutrientListFragment extends SherlockFragment implements
 				if (next)
 				{
 					Intent intent = new Intent(activity, RecipeList.class);
-					intent.putExtra("Nutrients", nutrients);
+					intent.putExtra("Ingredients", ingredients);
 					startActivity(intent);
 				}
 				else
@@ -114,7 +120,8 @@ public class NutrientListFragment extends SherlockFragment implements
 			}
 		});
 
-		Button reviewButton = (Button) vg.findViewById(R.id.reviewButton);
+		Button reviewButton = (Button) vg
+				.findViewById(R.id.reviewButton);
 		reviewButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -136,7 +143,7 @@ public class NutrientListFragment extends SherlockFragment implements
 
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		searchView = new SearchView(actionBar.getThemedContext());
-		searchView.setQueryHint("Search nutrients");
+		searchView.setQueryHint("Search Ingredients");
 
 		searchView.setOnQueryTextListener(this);
 
@@ -161,33 +168,33 @@ public class NutrientListFragment extends SherlockFragment implements
 	private void PopUpSelection()
 	{
 		AlertDialog.Builder box = new AlertDialog.Builder(activity);
-		ArrayList<Nutrient> selectedMinus = new ArrayList<Nutrient>();
-		ArrayList<Nutrient> selectedPlus = new ArrayList<Nutrient>();
+		ArrayList<Ingredient> selectedMinus = new ArrayList<Ingredient>();
+		ArrayList<Ingredient> selectedPlus = new ArrayList<Ingredient>();
 		String list = "";
 		boolean empty = false;
-		for (int i = 0; i < nutrients.size(); i++)
+		for (int i = 0; i < ingredients.size(); i++)
 		{
-			if (nutrients.get(i).value == -1)
+			if (ingredients.get(i).value == -1)
 			{
-				selectedMinus.add(nutrients.get(i));
+				selectedMinus.add(ingredients.get(i));
 			}
-			else if (nutrients.get(i).value == 1)
+			else if (ingredients.get(i).value == 1)
 			{
-				selectedPlus.add(nutrients.get(i));
+				selectedPlus.add(ingredients.get(i));
 			}
 		}
-		box.setTitle("Selected Nutrients");
-		for (Nutrient n : selectedPlus)
+		box.setTitle("Selected Ingredients");
+		for (Ingredient n : selectedPlus)
 		{
-			list = list + " + " + n.name.toString() + "\n";
+			list = list + " + " + n.term.toString() + "\n";
 		}
-		for (Nutrient n : selectedMinus)
+		for (Ingredient n : selectedMinus)
 		{
-			list = list + " - " + n.name.toString() + "\n";
+			list = list + " - " + n.term.toString() + "\n";
 		}
 		if (list == "")
 		{
-			list = "No nutrients selected";
+			list = "No ingredients selected";
 			empty = true;
 		}
 		box.setMessage(list);
@@ -207,9 +214,9 @@ public class NutrientListFragment extends SherlockFragment implements
 
 						public void onClick(DialogInterface dialog, int which)
 						{
-							for (int i = 0; i < nutrients.size(); i++)
+							for (int i = 0; i < ingredients.size(); i++)
 							{
-								nutrients.get(i).value = 0;
+								ingredients.get(i).value = 0;
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -227,10 +234,9 @@ public class NutrientListFragment extends SherlockFragment implements
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private final class getNutrients extends
-			AsyncTask<Void, Void, ArrayList<Nutrient>>
+	private final class getIngredients extends
+			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>>
 	{
-
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
@@ -240,14 +246,24 @@ public class NutrientListFragment extends SherlockFragment implements
 		}
 
 		@Override
-		protected ArrayList<Nutrient> doInBackground(Void... arg0)
+		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg)
 		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "100"));
+			List<ApiFilter> filters = new ArrayList<ApiFilter>();
+
+			for (ApiFilter f : arg)
+			{
+				filters.add(f);
+			}
+			// 9172 ingredients in db
+
+			// example filter
+			// filters.add(new ApiFilter("term", ApiFilterOp.like, "alt"));
 
 			try
 			{
-				return api.getNutrients(params);
+				return api.getIngredients(params, filters);
 			}
 			catch (APICallException e)
 			{
@@ -256,27 +272,32 @@ public class NutrientListFragment extends SherlockFragment implements
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Nutrient> nut)
+		protected void onPostExecute(final ArrayList<Ingredient> ing)
 		{
-
-			if (nut != null && nut.size() > 0)
+			if (ing != null && ing.size() > 0)
 			{
-				nutrients = nut;
-				adapter = new NutrientListAdapter(activity,
-						R.layout.nutrient_list_item_wbuttons, nutrients);
+				for (Ingredient i : ing)
+				{
+					i.term = WordUtils.capitalize(i.term);
+				}
+				
+				ingredients = ing;
+				adapter = new IngredientListAdapter(activity,
+						R.layout.nutrient_list_item_wbuttons, ingredients);
 
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
+				adapter.notifyDataSetChanged();
 
 			}
-			else if (nut == null)
+			else if (ing == null)
 			{
 				Toast.makeText(activity, "No network found", Toast.LENGTH_LONG)
 						.show();
 			}
-			else if (nut.size() == 0)
+			else if (ing.size() == 0)
 			{
-				Toast.makeText(activity, "No nutrients found",
+				Toast.makeText(activity, "No ingredients found",
 						Toast.LENGTH_LONG).show();
 			}
 			else
@@ -288,6 +309,7 @@ public class NutrientListFragment extends SherlockFragment implements
 
 			if (progressDialog.isShowing())
 				progressDialog.dismiss();
+
 		}
 	}
 
@@ -303,7 +325,7 @@ public class NutrientListFragment extends SherlockFragment implements
 	{
 		delayHandler.removeMessages(0);
 		final Message msg = Message.obtain(delayHandler, 0, query);
-		delayHandler.sendMessageDelayed(msg, 0);
+		delayHandler.sendMessageDelayed(msg, 500);
 		return true;
 	}
 
@@ -315,8 +337,33 @@ public class NutrientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
-				if (NutrientListFragment.this.adapter != null)
-					NutrientListFragment.this.adapter.getFilter().filter(query);
+
+				if (query.length() > 2 && !searched)
+				{
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							query.toString());
+					new getIngredients().execute(filter);
+					searched = true;
+				}
+				else if (query.length() == 2 && searched)
+				{
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							query);
+					new getIngredients().execute(filter);
+					searched = false;
+				}
+				else
+				{
+					if (IngredientListFragment.this.adapter != null)
+					{
+						ApiFilter filter = new ApiFilter("term",
+								ApiFilterOp.like, query);
+						IngredientListFragment.this.adapter.getFilter().filter(
+								query);
+						new getIngredients().execute(filter);
+
+					}
+				}
 
 			}
 		}

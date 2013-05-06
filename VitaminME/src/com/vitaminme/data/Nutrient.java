@@ -17,8 +17,7 @@ public class Nutrient implements Serializable
 	public String tag;
 	public int value; // -1, 0, 1
 	public String unit;
-	public int decimals;
-
+	
 	public Nutrient() {}
 	
 	public Nutrient(String name)
@@ -34,6 +33,5 @@ public class Nutrient implements Serializable
 		this.name = jsonObject.getString("description");
 		this.tag = jsonObject.getString("tagname");
 		this.unit = jsonObject.getString("unit");
-		this.decimals = jsonObject.getInt("decimals");
 	}
 }

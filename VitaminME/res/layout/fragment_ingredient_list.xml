@@ -1,114 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/actionBarItemBackground" >
-
-        <EditText
-            android:id="@+id/inputSearch"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:hint="Search Ingredients..."
-            android:textColorHint="@color/white"
-            android:inputType="textVisiblePassword"
-            android:background="@color/red"
-            android:textColor="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingTop="14dp"
-            android:layout_margin="4dp"
-            android:textSize="20sp" />
-
-        <ImageButton
-            android:id="@+id/x_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/trans"
-            android:padding="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/x_black_thin_icon"
-            android:visibility="invisible" />
-        <View 
-            android:id="@+id/go_background"
-            android:layout_width="16dp" 
-            android:layout_height="16dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="22dp"
-            android:background="@color/white"/>
-        <ImageButton
-            android:id="@+id/go_button"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="11dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/trans"
-            android:padding="0dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arrow_circle" />
-        
-
-
-        <ImageButton
-            android:id="@+id/list_button"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="55dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/trans"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/list_icon" />
-
-<!--         <FrameLayout -->
-<!--             android:id="@+id/FrameLayout2" -->
-<!--             android:layout_width="match_parent" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_marginTop="40dp" -->
-<!--             android:background="@color/trans" > -->
-
-<!--             <TextView -->
-<!--                 android:id="@+id/list_text" -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_gravity="right" -->
-<!--                 android:layout_marginRight="47dp" -->
-<!--                 android:layout_marginTop="0dp" -->
-<!--                 android:text="Review" -->
-<!--                 android:textColor="@color/white" -->
-<!--                 android:textSize="9sp" /> -->
-
-<!--             <TextView -->
-<!--                 android:id="@+id/go_text" -->
-<!--                 android:layout_width="wrap_content" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:layout_gravity="right" -->
-<!--                 android:layout_marginRight="2dp" -->
-<!--                 android:layout_marginTop="0dp" -->
-<!--                 android:textColor="@color/white" -->
-<!--                 android:text="Continue" -->
-<!--                 android:textSize="9sp" /> -->
-<!--         </FrameLayout> -->
-    </FrameLayout>
-    
-    <ListView
-        android:id="@+id/list_view"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="4dp"
-        android:layout_marginLeft="4dp"
-        android:background="#ecebe7"
-        android:divider="@color/light_gray"
-        android:dividerHeight="1dip" />
-    
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/listView_IngredientsList"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="#ecebe7"
+            android:divider="@color/light_gray"
+            android:dividerHeight="1dip" />
+    </LinearLayout>
+
+    <include
+        android:layout_width="fill_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        layout="@layout/bottom_options_search_fragments" />
+
+</RelativeLayout>
