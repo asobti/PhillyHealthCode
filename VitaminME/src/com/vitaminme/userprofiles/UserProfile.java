@@ -1,5 +1,7 @@
 package com.vitaminme.userprofiles;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.AbstractMap.SimpleEntry;
@@ -9,11 +11,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -67,9 +74,27 @@ public class UserProfile extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-		
+
+		try {
+			PackageInfo info;
+			info = getPackageManager().getPackageInfo("com.vitaminme.main",
+					PackageManager.GET_SIGNATURES);
+			for (Signature signature : info.signatures) {
+				MessageDigest md = MessageDigest.getInstance("SHA");
+				md.update(signature.toByteArray());
+				Log.v("KeyHash:",
+						Base64.encodeToString(md.digest(), Base64.DEFAULT));// g
+			}
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		// Facebook Login
-		final Button fbLogin = (Button) findViewById(R.id.fb_login);
+		final Button fbLogin = (Button) findViewById(R.id.login_button);
 		fbLogin.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -94,11 +119,10 @@ public class UserProfile extends BaseActivity {
 														GraphUser user,
 														Response response) {
 													if (user != null) {
-														fbLogin.setVisibility(View.INVISIBLE);
+														// fbLogin.setVisibility(View.INVISIBLE);
 														TextView loginResults = (TextView) findViewById(R.id.login_info);
 														loginResults.setText("You are logged into Facebook as "
-																+ user.getName()
-																+ "!");
+																+ user.getName() + "\n" + " ID = " + user.getId());
 													}
 												}
 											});
