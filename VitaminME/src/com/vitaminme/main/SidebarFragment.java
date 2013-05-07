@@ -10,10 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.vitaminme.database.TestDB;
@@ -21,6 +24,7 @@ import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.IngredientListFragment;
 import com.vitaminme.home.NutrientListFragment;
+import com.vitaminme.test.ScrollingListView;
 import com.vitaminme.test.SearchBar;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
@@ -37,44 +41,79 @@ public class SidebarFragment extends Fragment
 		final Vibrator vibe = (Vibrator) getActivity().getSystemService(
 				Context.VIBRATOR_SERVICE);
 
-		ListView listView0 = (ListView) vg.findViewById(R.id.listView0);
-		listView0.setOnItemClickListener(new OnItemClickListener()
+		RelativeLayout home = (RelativeLayout) vg.findViewById(R.id.home);
+		home.setOnClickListener(new OnClickListener()
 		{
+
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id)
+			public void onClick(View v)
 			{
 				vibe.vibrate(20);
-				// String itemName =
-				// parent.getItemAtPosition(position).toString();
-				switchFragment(parent.getItemAtPosition(position).toString());
+				switchFragment("Home");
 			}
 		});
 
-		ListView listView1 = (ListView) vg.findViewById(R.id.listView1);
-		listView1.setOnItemClickListener(new OnItemClickListener()
+		RelativeLayout searchByNutrients = (RelativeLayout) vg
+				.findViewById(R.id.searchByNutrients);
+		searchByNutrients.setOnClickListener(new OnClickListener()
 		{
+
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id)
+			public void onClick(View v)
 			{
 				vibe.vibrate(20);
-				// String itemName =
-				// parent.getItemAtPosition(position).toString();
-				switchFragment(parent.getItemAtPosition(position).toString());
+				switchFragment("Nutrients");
 			}
 		});
 
-		ListView listView2 = (ListView) vg.findViewById(R.id.listView2);
-		listView2.setOnItemClickListener(new OnItemClickListener()
+		RelativeLayout searchByIngredients = (RelativeLayout) vg
+				.findViewById(R.id.searchByIngredients);
+		searchByIngredients.setOnClickListener(new OnClickListener()
 		{
+
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id)
+			public void onClick(View v)
 			{
 				vibe.vibrate(20);
-				String itemName = parent.getItemAtPosition(position).toString();
-				switchFragment(parent.getItemAtPosition(position).toString());
+				switchFragment("Ingredients");
+			}
+		});
+
+		RelativeLayout searchByRecipeNames = (RelativeLayout) vg
+				.findViewById(R.id.searchByRecipeNames);
+		searchByRecipeNames.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				vibe.vibrate(20);
+				switchFragment("RecipeNames");
+			}
+		});
+
+		RelativeLayout favorites = (RelativeLayout) vg.findViewById(R.id.favorites);
+		favorites.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				vibe.vibrate(20);
+				switchFragment("Favorites");
+			}
+		});
+
+		RelativeLayout userProfile = (RelativeLayout) vg
+				.findViewById(R.id.userProfile);
+		userProfile.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				vibe.vibrate(20);
+				switchFragment("User Profile");
 			}
 		});
 
@@ -242,6 +281,20 @@ public class SidebarFragment extends Fragment
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, TestDB.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("Temp:ScrollingListView"))
+		{
+			if (!(activity instanceof ScrollingListView))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, ScrollingListView.class);
 				activity.startActivity(intent);
 			}
 			else

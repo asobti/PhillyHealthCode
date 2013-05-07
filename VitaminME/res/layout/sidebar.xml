@@ -3,86 +3,236 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background_gray"
+    android:background="@color/sidebar_background"
     android:clickable="true"
     android:fillViewport="true" >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        tools:context=".Home" >
+        android:orientation="vertical" >
 
-        <ListView
-            android:id="@+id/listView0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/homeSidebar"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" />
-
-        <TextView
-            android:id="@+id/searchBy"
+        <RelativeLayout
+            android:id="@+id/home"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/listView0"
-            android:background="@color/gray"
-            android:paddingBottom="3dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="3dp"
-            android:text="SEARCH BY"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
 
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@+id/searchBy"
-            android:background="@color/spotify"
-            android:visibility="visible" >
-        </TableRow>
+            <ImageView
+                android:id="@+id/homeImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/home" >
+            </ImageView>
 
-        <ListView
-            android:id="@+id/listView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow1"
-            android:entries="@array/searchBy"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" />
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/homeImage"
+                android:text="HOME" />
 
-        <TextView
-            android:id="@+id/user"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/searchByHeader"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/listView1"
-            android:background="@color/gray"
-            android:paddingBottom="3dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="3dp"
-            android:text="USER"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="#353535"
+            android:orientation="vertical" >
 
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_below="@+id/user"
-            android:background="@color/spotify"
-            android:visibility="visible" >
-        </TableRow>
+            <TextView
+                style="@style/sidebar_text"
+                android:text="SEARCH BY" />
 
-        <ListView
-            android:id="@+id/listView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tableRow2"
-            android:entries="@array/user"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp" />
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/spotify" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/searchByNutrients"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/searchByNutrientsImage"
+                android:text="Nutrients" />
+
+            <ImageView
+                android:id="@+id/searchByNutrientsImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/searchByIngredients"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/searchByIngredientsImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/searchByIngredientsImage"
+                android:text="Ingredients" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/searchByRecipeNames"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/searchByRecipeNamesImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/searchByRecipeNamesImage"
+                android:text="Recipe Names" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userHeader"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="#353535"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/sidebar_text"
+                android:text="USER" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/spotify" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/favorites"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/favoritesImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/star" />
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/favoritesImage"
+                android:text="Favorites" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/userProfile"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/userProfileImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user" />
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/userProfileImage"
+                android:text="User Profile" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>
