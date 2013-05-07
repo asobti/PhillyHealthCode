@@ -74,7 +74,8 @@ public class RecipeList extends BaseActivity
 		// screen is loaded onCreate
 		{
 			progressDialog = new ProgressDialog(RecipeList.this);
-			progressDialog.setMessage(getResources().getText(R.string.loading_message));
+			progressDialog.setMessage(getResources().getText(
+					R.string.loading_message));
 			progressDialog.setCancelable(false);
 			progressDialog.show();
 		}
@@ -86,11 +87,11 @@ public class RecipeList extends BaseActivity
 				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
 				.showImageForEmptyUri(R.drawable.ic_stub)
 				.showImageOnFail(R.drawable.ic_error)
-				//.imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+				// .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getApplicationContext())
-				.defaultDisplayImageOptions(options).build();
+				getApplicationContext()).defaultDisplayImageOptions(options)
+				.build();
 		ImageLoader.getInstance().init(config);
 
 		itemAdapter = new ItemAdapter();
@@ -293,7 +294,7 @@ public class RecipeList extends BaseActivity
 			}
 
 			holder.text1.setText(recipeNames.get(position));
-//			holder.text1.setSelected(true);
+			// holder.text1.setSelected(true);
 
 			imageLoader.displayImage(images.get(position), holder.image,
 					options, animateFirstListener);
