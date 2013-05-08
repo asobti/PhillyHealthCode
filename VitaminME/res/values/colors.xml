@@ -24,5 +24,7 @@
     <color name="background_gray">#ecebe7</color>
     <color name="sidebar_divider">#373737</color>
     <color name="sidebar_background">#282828</color>
+    <color name="background_light_gray">#EBEBEB</color>
+    <color name="listView_items_shadow">#D5D5D5</color>
 
 </resources>

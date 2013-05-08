@@ -19,12 +19,14 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -34,7 +36,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.R;
@@ -85,6 +86,26 @@ public class NutrientListFragment extends SherlockFragment implements
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
 		lv = (ListView) vg.findViewById(R.id.listView_NutrientList);
+		View footerView = (View) inflater.inflate(
+				R.layout.fragment_search_footer_search_more, null);
+		TextView text = (TextView) footerView.findViewById(R.id.text);
+		text.setText("Click to search for nutrients");
+		lv.addFooterView(footerView);
+		footerView.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v)
+			{
+				searchMenu.expandActionView();
+				searchView.requestFocus();
+				InputMethodManager imgr = (InputMethodManager) activity
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+						InputMethodManager.HIDE_IMPLICIT_ONLY);
+			}
+
+		});
 
 		Button nextButton = (Button) vg.findViewById(R.id.nextButton);
 		nextButton.setOnClickListener(new OnClickListener()
@@ -133,15 +154,11 @@ public class NutrientListFragment extends SherlockFragment implements
 	{
 		// Search view
 		// Create the search view
-
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		searchView = new SearchView(actionBar.getThemedContext());
-		searchView.setQueryHint("Search nutrients");
+		searchView.setQueryHint("Search Nutrients");
 
 		searchView.setOnQueryTextListener(this);
-
-		searchView.setIconified(false);
-		searchView.requestFocus();
 
 		searchMenu = menu.add("Search");
 		searchMenu
@@ -150,7 +167,7 @@ public class NutrientListFragment extends SherlockFragment implements
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
 								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		searchMenu.expandActionView();
+		// searchMenu.expandActionView();
 	}
 
 	public void onStart()
@@ -191,7 +208,7 @@ public class NutrientListFragment extends SherlockFragment implements
 			empty = true;
 		}
 		box.setMessage(list);
-		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener()
+		box.setPositiveButton("OK", new DialogInterface.OnClickListener()
 		{
 
 			public void onClick(DialogInterface dialog, int which)

@@ -30,7 +30,7 @@ public class ParseRecipes implements CallBackable {
 			matches = jsonObject.getJSONArray("objects");
 			pag.num_results = jsonObject.getInt("num_results");
 			pag.total_pages = jsonObject.getInt("total_pages");
-			pag.page_results = jsonObject.getInt("pages_results");
+			pag.page_results = jsonObject.getInt("page_results");
 		} catch (JSONException e) {
 			
 		}

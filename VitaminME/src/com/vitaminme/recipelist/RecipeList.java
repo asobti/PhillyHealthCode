@@ -100,7 +100,7 @@ public class RecipeList extends BaseActivity
 		footerView = ((LayoutInflater) this
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
 				R.layout.activity_recipe_list_footer, null, false);
-		listView.addFooterView(footerView);
+		listView.addFooterView(footerView, null, false);
 
 		setListeners();
 	}
@@ -116,8 +116,6 @@ public class RecipeList extends BaseActivity
 			ids.add(r.id);
 		}
 
-		// listView.removeFooterView(footerView);
-		// listView.addFooterView(footerView);
 		((ListView) listView).setAdapter(itemAdapter);
 
 		itemAdapter.notifyDataSetChanged();
@@ -235,6 +233,7 @@ public class RecipeList extends BaseActivity
 			System.out.println("num_results: " + totalNumResults);
 			recipeList = recipes;
 			startIndex += pagination.page_results;
+			setTitle("Recipe List: " + totalNumResults + " items found");
 			fillListView();
 		}
 		if (startIndex >= totalNumResults) // If startIndex larger after

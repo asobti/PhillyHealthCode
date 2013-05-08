@@ -39,8 +39,8 @@ public class Home extends BaseActivity
 		{
 			fragmentName = extras.getString("fragmentName");
 		}
-		// fragmentName = getResources().getString(
-		// R.string.name_fragment_search_nutrients); // For TESTING ONLY
+		fragmentName = getResources().getString(
+				R.string.name_fragment_search_nutrients); // For TESTING ONLY
 
 		// if (savedInstanceState != null)
 		// {

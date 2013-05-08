@@ -1,11 +1,12 @@
 package com.vitaminme.home;
 
 import java.util.AbstractMap.SimpleEntry;
-import org.apache.commons.lang3.text.WordUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,11 +23,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -89,9 +92,28 @@ public class IngredientListFragment extends SherlockFragment implements
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
 		lv = (ListView) vg.findViewById(R.id.listView_IngredientsList);
+		View footerView = (View) inflater.inflate(
+				R.layout.fragment_search_footer_search_more, null);
+		TextView text = (TextView) footerView.findViewById(R.id.text);
+		text.setText("Click to search for ingredients");
+		lv.addFooterView(footerView);
+		footerView.setOnClickListener(new OnClickListener()
+		{
 
-		Button check = (Button) vg
-				.findViewById(R.id.nextButton);
+			@Override
+			public void onClick(View v)
+			{
+				searchMenu.expandActionView();
+				searchView.requestFocus();
+				InputMethodManager imgr = (InputMethodManager) activity
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+						InputMethodManager.HIDE_IMPLICIT_ONLY);
+			}
+
+		});
+
+		Button check = (Button) vg.findViewById(R.id.nextButton);
 		check.setOnClickListener(new OnClickListener()
 		{
 
@@ -120,8 +142,7 @@ public class IngredientListFragment extends SherlockFragment implements
 			}
 		});
 
-		Button reviewButton = (Button) vg
-				.findViewById(R.id.reviewButton);
+		Button reviewButton = (Button) vg.findViewById(R.id.reviewButton);
 		reviewButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -140,15 +161,11 @@ public class IngredientListFragment extends SherlockFragment implements
 	{
 		// Search view
 		// Create the search view
-
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		searchView = new SearchView(actionBar.getThemedContext());
 		searchView.setQueryHint("Search Ingredients");
 
 		searchView.setOnQueryTextListener(this);
-
-		searchView.setIconified(false);
-		searchView.requestFocus();
 
 		searchMenu = menu.add("Search");
 		searchMenu
@@ -157,7 +174,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
 								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		searchMenu.expandActionView();
+		// searchMenu.expandActionView();
 	}
 
 	public void onStart()
@@ -198,7 +215,7 @@ public class IngredientListFragment extends SherlockFragment implements
 			empty = true;
 		}
 		box.setMessage(list);
-		box.setPositiveButton("Go Back", new DialogInterface.OnClickListener()
+		box.setPositiveButton("OK", new DialogInterface.OnClickListener()
 		{
 
 			public void onClick(DialogInterface dialog, int which)
@@ -249,7 +266,7 @@ public class IngredientListFragment extends SherlockFragment implements
 		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg)
 		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
-			params.add(new SimpleEntry<String, String>("count", "100"));
+			params.add(new SimpleEntry<String, String>("count", "20"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 
 			for (ApiFilter f : arg)
@@ -280,7 +297,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				{
 					i.term = WordUtils.capitalize(i.term);
 				}
-				
+
 				ingredients = ing;
 				adapter = new IngredientListAdapter(activity,
 						R.layout.nutrient_list_item_wbuttons, ingredients);

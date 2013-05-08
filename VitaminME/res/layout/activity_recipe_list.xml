@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#EBEBEB" >
+    android:background="@color/background_light_gray" >
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:divider="#EBEBEB"
+        android:divider="@color/background_light_gray"
         android:dividerHeight="6dp"
         android:fastScrollEnabled="true"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="5dp" />
+        android:paddingTop="5dp"
+        android:scrollbarStyle="outsideOverlay" />
 
 </LinearLayout>
