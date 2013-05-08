@@ -126,24 +126,9 @@ public class Home extends BaseActivity
 		setSupportProgressBarIndeterminateVisibility(false);
 
 		// Update NutrientsDB
-		DateTime today = new DateTime();
-		String nutrientsDB_LastUpdate = new DataStore(this).getString(
-				"NutrientsDB_LastUpdate", "never");
-		if (!nutrientsDB_LastUpdate.equalsIgnoreCase("never"))
-		{
-			System.out.println("Nutrients DB last updated "
-					+ nutrientsDB_LastUpdate);
-			DateTimeFormatter formatter = DateTimeFormat
-					.forPattern("yyyy-MM-dd");
-			DateTime lastUpdate = formatter
-					.parseDateTime(nutrientsDB_LastUpdate);
+		Intent intent = new Intent(this, UpdateNutrientsDB.class);
+		startService(intent);
 
-			if (Days.daysBetween(today, lastUpdate).getDays() > 30)
-			{
-				Intent intent = new Intent(this, UpdateNutrientsDB.class);
-				startService(intent);
-			}
-		}
 	}
 
 	protected void showSplashScreen()

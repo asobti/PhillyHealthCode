@@ -24,8 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.vitaminme.data.Allergy;
 import com.vitaminme.data.Diet;

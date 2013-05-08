@@ -261,6 +261,7 @@ public class NutrientListFragment extends SherlockFragment implements
 		@Override
 		protected ArrayList<Nutrient> doInBackground(Void... arg0)
 		{
+			// Move this into ApiAdapter
 			VitaminME_DB_DataSource db = new VitaminME_DB_DataSource(activity);
 			db.open();
 			ArrayList<Nutrient> nut = db.getAllNutrients();
@@ -270,6 +271,7 @@ public class NutrientListFragment extends SherlockFragment implements
 				db.close();
 				return nut;
 			}
+			// End of move to ApiAdapter
 
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "100"));
