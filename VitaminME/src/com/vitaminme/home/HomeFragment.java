@@ -27,6 +27,8 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.vitaminme.data.Nutrient;
+import com.vitaminme.database.VitaminME_DB_DataSource;
 import com.vitaminme.main.ExpandableHeightGridView;
 import com.vitaminme.main.R;
 import com.vitaminme.userprofiles.Favorites;

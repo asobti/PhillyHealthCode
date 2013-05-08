@@ -19,8 +19,8 @@ import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +37,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
+import com.vitaminme.database.VitaminME_DB_DataSource;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.R;
 import com.vitaminme.recipelist.RecipeList;
@@ -253,12 +254,23 @@ public class NutrientListFragment extends SherlockFragment implements
 		@Override
 		protected void onPreExecute()
 		{
-
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					true);
 		}
 
 		@Override
 		protected ArrayList<Nutrient> doInBackground(Void... arg0)
 		{
+			VitaminME_DB_DataSource db = new VitaminME_DB_DataSource(activity);
+			db.open();
+			ArrayList<Nutrient> nut = db.getAllNutrients();
+			if (nut.size() > 0)
+			{
+				System.out.println("Returning Nutrients from DB");
+				db.close();
+				return nut;
+			}
+
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "100"));
 
@@ -305,6 +317,8 @@ public class NutrientListFragment extends SherlockFragment implements
 
 			if (progressDialog.isShowing())
 				progressDialog.dismiss();
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					false);
 		}
 	}
 

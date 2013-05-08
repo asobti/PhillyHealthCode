@@ -76,6 +76,12 @@
             android:name="com.vitaminme.test.ScrollingListView"
             android:label="@string/title_activity_scrolling_list_view" >
         </activity>
+
+        <service
+            android:name="com.vitaminme.database.UpdateNutrientsDB"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

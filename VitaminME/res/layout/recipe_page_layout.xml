@@ -51,7 +51,7 @@
             android:layout_below="@+id/dividerView1"
             android:layout_centerHorizontal="true"
             android:clickable="true"
-            android:divider="@color/background_gray"
+            android:divider="@color/sidebar_divider"
             android:dividerHeight="0dp"
             android:paddingTop="6dp" >
         </ListView>

@@ -1,0 +1,21 @@
+﻿pick 190363e Updated Nutrient List and Ingredient List UI * Updated UIs for Nutrient List and Ingredient List * Added footers as hints * Removed keyboard adjustPan * Enabled fastScroll * Fixed Recipe List page_results bug (JSON getting pages_results instead of page_results, this was renamed earlier) * Fixed Recipe List footerView bug by making it unclickable
+squash 88670af Reverted starting fragment to HomeFragment
+
+# Rebase e088ee0..88670af onto e088ee0
+#
+# Commands:
+#  p, pick = use commit
+#  r, reword = use commit, but edit the commit message
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#  f, fixup = like "squash", but discard this commit's log message
+#  x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+

@@ -259,7 +259,8 @@ public class IngredientListFragment extends SherlockFragment implements
 		@Override
 		protected void onPreExecute()
 		{
-
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					true);
 		}
 
 		@Override
@@ -326,6 +327,8 @@ public class IngredientListFragment extends SherlockFragment implements
 
 			if (progressDialog.isShowing())
 				progressDialog.dismiss();
+			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
+					false);
 
 		}
 	}

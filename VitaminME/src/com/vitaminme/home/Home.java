@@ -1,20 +1,29 @@
 package com.vitaminme.home;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.ReadableInstant;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
+import com.actionbarsherlock.view.Window;
+import com.vitaminme.data.DataStore;
+import com.vitaminme.database.UpdateNutrientsDB;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
-
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
-import com.actionbarsherlock.view.Window;
-import com.actionbarsherlock.widget.SearchView;
 
 public class Home extends BaseActivity
 {
@@ -29,9 +38,12 @@ public class Home extends BaseActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		showSplashScreen();
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.content_frame);
+
+		performChecks();
 
 		Bundle extras = getIntent().getExtras();
 		String fragmentName = "";
@@ -107,6 +119,31 @@ public class Home extends BaseActivity
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, mContent).commit();
 
+	}
+
+	private void performChecks()
+	{
+		setSupportProgressBarIndeterminateVisibility(false);
+
+		// Update NutrientsDB
+		DateTime today = new DateTime();
+		String nutrientsDB_LastUpdate = new DataStore(this).getString(
+				"NutrientsDB_LastUpdate", "never");
+		if (!nutrientsDB_LastUpdate.equalsIgnoreCase("never"))
+		{
+			System.out.println("Nutrients DB last updated "
+					+ nutrientsDB_LastUpdate);
+			DateTimeFormatter formatter = DateTimeFormat
+					.forPattern("yyyy-MM-dd");
+			DateTime lastUpdate = formatter
+					.parseDateTime(nutrientsDB_LastUpdate);
+
+			if (Days.daysBetween(today, lastUpdate).getDays() > 30)
+			{
+				Intent intent = new Intent(this, UpdateNutrientsDB.class);
+				startService(intent);
+			}
+		}
 	}
 
 	protected void showSplashScreen()

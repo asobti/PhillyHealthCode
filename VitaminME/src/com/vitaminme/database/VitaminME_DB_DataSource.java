@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Recipe;
 
 public class VitaminME_DB_DataSource
@@ -187,12 +188,58 @@ public class VitaminME_DB_DataSource
 		return recipes;
 	}
 
+	public ArrayList<Nutrient> getAllNutrients()
+	{
+		ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
+		Cursor cursor = db.query(VitaminME_DB.TABLE_NUTRIENTS_LIST, null, null,
+				null, null, null, null);
+
+		cursor.moveToFirst();
+
+		while (!cursor.isAfterLast())
+		{
+			Nutrient nutrient = cursorToNutrient(cursor);
+			nutrients.add(nutrient);
+			cursor.moveToNext();
+		}
+
+		cursor.close();
+		return nutrients;
+	}
+
+//	public void updateNutrientsList()
+//	{
+//		db.execSQL("delete * from " + VitaminME_DB.TABLE_NUTRIENTS_LIST);
+//		dbHelper.addNutrients();	
+//	}
+
+	public int getNutrientCount()
+	{
+		Cursor cursor = db.query(VitaminME_DB.TABLE_NUTRIENTS_LIST, null, null,
+				null, null, null, null);
+		int count = cursor.getCount();
+		cursor.close();
+		return count;
+	}
+
 	// FIX THIS AYUSH
 	private Recipe cursorToRecipe(Cursor cursor)
 	{
 		Recipe recipe = new Recipe();
-		recipe.id = cursor.getString(0);
+		recipe.id = cursor.getString(1);
 		return recipe;
+	}
+
+	private Nutrient cursorToNutrient(Cursor cursor)
+	{
+		Nutrient nutrient = new Nutrient();
+		nutrient.id = cursor.getInt(1);
+		nutrient.name = cursor.getString(2);
+		nutrient.tag = cursor.getString(3);
+		nutrient.unit = cursor.getString(4);
+		nutrient.info = cursor.getString(5);
+		nutrient.daily_value = cursor.getFloat(6);
+		return nutrient;
 	}
 
 }
