@@ -30,7 +30,7 @@ public class VitaminME_DB_DataSource
 
 	public VitaminME_DB_DataSource(Context context)
 	{
-		this.dbHelper = new VitaminME_DB(context);
+		this.dbHelper = VitaminME_DB.getInstance(context);
 		this.context = context;
 	}
 
@@ -218,85 +218,19 @@ public class VitaminME_DB_DataSource
 		cursor.close();
 		return nutrients;
 	}
-	
+
 	public void clearNutrientsDB()
 	{
 		db.execSQL("DELETE FROM " + VitaminME_DB.TABLE_NUTRIENTS_LIST);
 	}
 
-	public void addNutrients()
+	public void updateNutrientsDB()
 	{
-		new addNutrientsTask().execute();
+		db.execSQL("DELETE FROM " + VitaminME_DB.TABLE_NUTRIENTS_LIST);
+		dbHelper.addNutrients();
 	}
 
-	private final class addNutrientsTask extends
-			AsyncTask<Void, Void, ArrayList<Nutrient>>
-	{
-
-		private final ApiAdapter api = ApiAdapter.getInstance();
-
-		@Override
-		protected void onPreExecute()
-		{
-
-		}
-
-		@Override
-		protected ArrayList<Nutrient> doInBackground(Void... arg0)
-		{
-			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
-			params.add(new SimpleEntry<String, String>("count", "100"));
-
-			try
-			{
-				return api.getNutrients(params);
-			}
-			catch (APICallException e)
-			{
-				return null;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(final ArrayList<Nutrient> nutrients)
-		{
-			if (nutrients != null && nutrients.size() > 0)
-			{
-				for (Nutrient n : nutrients)
-				{
-					ContentValues values = new ContentValues();
-					values.put(VitaminME_DB.NUTRIENT_ID, n.id);
-					values.put("name", n.name);
-					values.put("tagname", n.tag);
-					values.put("unit", n.unit);
-					values.put("info", n.info);
-					values.put("daily_value", n.value);
-
-					try
-					{
-						db.insert(VitaminME_DB.TABLE_NUTRIENTS_LIST, null,
-								values);
-					}
-					catch (Exception ex)
-					{
-						System.out
-								.println("Error adding items to Nutrient List DB: "
-										+ ex.getMessage());
-					}
-				}
-			}
-
-			DateTimeFormatter formatter = DateTimeFormat
-					.forPattern("yyyy-MM-dd");
-			DateTime today = new DateTime();
-			new DataStore(context).setString("NutrientsDB_LastUpdate",
-					formatter.print(today));
-			System.out.println("Added Nutrients to DB on "
-					+ formatter.print(today));
-		}
-	}
-
-	public int getNutrientCount()
+	public int getNutrientDBCount()
 	{
 		Cursor cursor = db.query(VitaminME_DB.TABLE_NUTRIENTS_LIST, null, null,
 				null, null, null, null);
@@ -310,7 +244,7 @@ public class VitaminME_DB_DataSource
 	{
 		Recipe recipe = new Recipe();
 		recipe.id = cursor.getString(cursor
-				.getColumnIndex(VitaminME_DB.RECIPE_ID));
+				.getColumnIndexOrThrow(VitaminME_DB.RECIPE_ID));
 		return recipe;
 	}
 
@@ -318,13 +252,14 @@ public class VitaminME_DB_DataSource
 	{
 		Nutrient nutrient = new Nutrient();
 		nutrient.id = cursor.getInt(cursor
-				.getColumnIndex(VitaminME_DB.NUTRIENT_ID));
-		nutrient.name = cursor.getString(cursor.getColumnIndex("name"));
-		nutrient.tag = cursor.getString(cursor.getColumnIndex("tagname"));
-		nutrient.unit = cursor.getString(cursor.getColumnIndex("unit"));
-		nutrient.info = cursor.getString(cursor.getColumnIndex("info"));
+				.getColumnIndexOrThrow(VitaminME_DB.NUTRIENT_ID));
+		nutrient.name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+		nutrient.tag = cursor
+				.getString(cursor.getColumnIndexOrThrow("tagname"));
+		nutrient.unit = cursor.getString(cursor.getColumnIndexOrThrow("unit"));
+		nutrient.info = cursor.getString(cursor.getColumnIndexOrThrow("info"));
 		nutrient.daily_value = cursor.getFloat(cursor
-				.getColumnIndex("daily_value"));
+				.getColumnIndexOrThrow("daily_value"));
 		return nutrient;
 	}
 

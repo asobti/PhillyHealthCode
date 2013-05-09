@@ -20,6 +20,14 @@
             android:clickable="true"
             android:orientation="horizontal" >
 
+            <View
+                android:id="@+id/selectHome"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/homeImage"
                 android:layout_width="32dp"
@@ -69,6 +77,14 @@
             android:clickable="true"
             android:orientation="horizontal" >
 
+            <View
+                android:id="@+id/selectNutrients"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
+
             <TextView
                 style="@style/sidebar_text"
                 android:layout_toRightOf="@+id/searchByNutrientsImage"
@@ -100,6 +116,14 @@
             android:clickable="true"
             android:orientation="horizontal" >
 
+            <View
+                android:id="@+id/selectIngredients"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/searchByIngredientsImage"
                 android:layout_width="32dp"
@@ -130,6 +154,14 @@
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/selectRecipeNames"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/searchByRecipeNamesImage"
@@ -180,6 +212,14 @@
             android:clickable="true"
             android:orientation="horizontal" >
 
+            <View
+                android:id="@+id/selectFavorites"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
+
             <ImageView
                 android:id="@+id/favoritesImage"
                 android:layout_width="32dp"
@@ -210,6 +250,14 @@
             android:background="?android:selectableItemBackground"
             android:clickable="true"
             android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/selectUserProfile"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/userProfileImage"

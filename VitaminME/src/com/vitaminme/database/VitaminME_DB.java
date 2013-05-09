@@ -1,8 +1,23 @@
 package com.vitaminme.database;
 
+import java.util.ArrayList;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.data.DataStore;
+import com.vitaminme.data.Nutrient;
+import com.vitaminme.exceptions.APICallException;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.AsyncTask;
 
 public class VitaminME_DB extends SQLiteOpenHelper
 {
@@ -17,6 +32,7 @@ public class VitaminME_DB extends SQLiteOpenHelper
 	private static final String DATABASE_NAME = "VitaminME_DB";
 
 	private Context context;
+	private SQLiteDatabase db;
 
 	// @formatter:off
 	// FIX THIS AYUSH
@@ -59,15 +75,30 @@ public class VitaminME_DB extends SQLiteOpenHelper
 			");";
 	// @formatter:on
 
-	public VitaminME_DB(Context context)
+	private static VitaminME_DB mInstance = null;
+
+	private VitaminME_DB(Context context)
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = context;
 	}
 
+	public static VitaminME_DB getInstance(Context context)
+	{
+		// Use the application context, which will ensure that you
+		// don't accidentally leak an Activity's context.
+		if (mInstance == null)
+		{
+			mInstance = new VitaminME_DB(context.getApplicationContext());
+		}
+		return mInstance;
+	}
+
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
+		this.db = db;
+
 		db.execSQL(CREATE_TABLE_STARRED_RECIPES);
 
 		db.execSQL(CREATE_TABLE_RECENTLY_VIEWED);
@@ -78,10 +109,74 @@ public class VitaminME_DB extends SQLiteOpenHelper
 
 	public void addNutrients()
 	{
-		VitaminME_DB_DataSource datasource = new VitaminME_DB_DataSource(
-				context);
-		datasource.open();
-		datasource.addNutrients();
+		new addNutrientsTask().execute();
+	}
+
+	private final class addNutrientsTask extends
+			AsyncTask<Void, Void, ArrayList<Nutrient>>
+	{
+
+		private final ApiAdapter api = ApiAdapter.getInstance();
+
+		@Override
+		protected void onPreExecute()
+		{
+
+		}
+
+		@Override
+		protected ArrayList<Nutrient> doInBackground(Void... arg0)
+		{
+			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
+			params.add(new SimpleEntry<String, String>("count", "100"));
+
+			try
+			{
+				return api.getNutrients(params);
+			}
+			catch (APICallException e)
+			{
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(final ArrayList<Nutrient> nutrients)
+		{
+			if (nutrients != null && nutrients.size() > 0)
+			{
+				for (Nutrient n : nutrients)
+				{
+					ContentValues values = new ContentValues();
+					values.put(VitaminME_DB.NUTRIENT_ID, n.id);
+					values.put("name", n.name);
+					values.put("tagname", n.tag);
+					values.put("unit", n.unit);
+					values.put("info", n.info);
+					values.put("daily_value", n.value);
+
+					try
+					{
+						db.insert(VitaminME_DB.TABLE_NUTRIENTS_LIST, null,
+								values);
+					}
+					catch (Exception ex)
+					{
+						System.out
+								.println("Error adding items to Nutrient List DB: "
+										+ ex.getMessage());
+					}
+				}
+			}
+
+			DateTimeFormatter formatter = DateTimeFormat
+					.forPattern("yyyy-MM-dd");
+			DateTime today = new DateTime();
+			new DataStore(context).setString("NutrientsDB_LastUpdate",
+					formatter.print(today));
+			System.out.println("Added Nutrients to DB on "
+					+ formatter.print(today));
+		}
 	}
 
 	@Override

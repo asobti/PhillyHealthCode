@@ -300,8 +300,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				}
 
 				ingredients = ing;
-				adapter = new IngredientListAdapter(activity,
-						R.layout.nutrient_list_item_wbuttons, ingredients);
+				adapter = new IngredientListAdapter(activity, ingredients);
 
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
@@ -357,11 +356,12 @@ public class IngredientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
+//				System.out.println("query: " + query + " query length: " + query.length());
 
 				if (query.length() > 2 && !searched)
 				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							query.toString());
+							query);
 					new getIngredients().execute(filter);
 					searched = true;
 				}
@@ -372,7 +372,7 @@ public class IngredientListFragment extends SherlockFragment implements
 					new getIngredients().execute(filter);
 					searched = false;
 				}
-				else
+				else if (query.length() != 0)
 				{
 					if (IngredientListFragment.this.adapter != null)
 					{
@@ -381,7 +381,6 @@ public class IngredientListFragment extends SherlockFragment implements
 						IngredientListFragment.this.adapter.getFilter().filter(
 								query);
 						new getIngredients().execute(filter);
-
 					}
 				}
 

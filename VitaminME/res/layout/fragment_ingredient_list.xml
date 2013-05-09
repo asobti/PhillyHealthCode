@@ -24,6 +24,6 @@
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        layout="@layout/bottom_options_search_fragments" />
+        layout="@layout/fragment_search_bottom_options" />
 
 </RelativeLayout>

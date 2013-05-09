@@ -12,32 +12,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.vitaminme.database.TestDB;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.IngredientListFragment;
 import com.vitaminme.home.NutrientListFragment;
-import com.vitaminme.test.ScrollingListView;
-import com.vitaminme.test.SearchBar;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
 
 public class SidebarFragment extends Fragment
 {
+	ViewGroup vg;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.sidebar, null);
+		vg = (ViewGroup) inflater.inflate(R.layout.sidebar, null);
 
+		setListeners(vg);
+		setSelectorOnLoad(vg);
+
+		return vg;
+	}
+
+	private void setListeners(ViewGroup vg)
+	{
 		final Vibrator vibe = (Vibrator) getActivity().getSystemService(
 				Context.VIBRATOR_SERVICE);
 
@@ -92,7 +94,8 @@ public class SidebarFragment extends Fragment
 			}
 		});
 
-		RelativeLayout favorites = (RelativeLayout) vg.findViewById(R.id.favorites);
+		RelativeLayout favorites = (RelativeLayout) vg
+				.findViewById(R.id.favorites);
 		favorites.setOnClickListener(new OnClickListener()
 		{
 
@@ -117,7 +120,25 @@ public class SidebarFragment extends Fragment
 			}
 		});
 
-		return vg;
+	}
+
+	private void setSelectorOnLoad(ViewGroup vg)
+	{
+		final Activity activity = getActivity();
+
+		if (activity instanceof Home)
+		{
+			vg.findViewById(R.id.selectHome).setVisibility(View.VISIBLE);
+		}
+		else if (activity instanceof Favorites)
+		{
+			vg.findViewById(R.id.selectFavorites).setVisibility(View.VISIBLE);
+		}
+		else if (activity instanceof UserProfile)
+		{
+			vg.findViewById(R.id.selectUserProfile).setVisibility(View.VISIBLE);
+		}
+
 	}
 
 	// Switch fragment or call new intents
@@ -158,6 +179,8 @@ public class SidebarFragment extends Fragment
 						getResources().getString(R.string.name_fragment_home));
 				activity.startActivity(intent);
 			}
+
+			setSelector(R.id.selectHome);
 		}
 		else if (fragmentItemName.equals("Nutrients"))
 		{
@@ -193,6 +216,8 @@ public class SidebarFragment extends Fragment
 								R.string.name_fragment_search_nutrients));
 				activity.startActivity(intent);
 			}
+
+			setSelector(R.id.selectNutrients);
 		}
 		else if (fragmentItemName.equals("Ingredients"))
 		{
@@ -231,6 +256,8 @@ public class SidebarFragment extends Fragment
 								R.string.name_fragment_search_ingredients));
 				activity.startActivity(intent);
 			}
+
+			setSelector(R.id.selectIngredients);
 		}
 		else if (fragmentItemName.equals("Favorites"))
 		{
@@ -245,6 +272,8 @@ public class SidebarFragment extends Fragment
 			{
 				closeSidebar(activity);
 			}
+
+//			setSelector(R.id.selectFavorites);
 		}
 		else if (fragmentItemName.equals("User Profile"))
 		{
@@ -259,49 +288,61 @@ public class SidebarFragment extends Fragment
 			{
 				closeSidebar(activity);
 			}
+//			setSelector(R.id.selectUserProfile);
 		}
-		else if (fragmentItemName.equals("Temp:SearchBar"))
-		{
-			if (!(activity instanceof SearchBar))
-			{
-				closeSidebar(activity);
+		// else if (fragmentItemName.equals("Temp:SearchBar"))
+		// {
+		// if (!(activity instanceof SearchBar))
+		// {
+		// closeSidebar(activity);
+		//
+		// Intent intent = new Intent(activity, SearchBar.class);
+		// activity.startActivity(intent);
+		// }
+		// else
+		// {
+		// closeSidebar(activity);
+		// }
+		// }
+		// else if (fragmentItemName.equals("Temp:TestDB"))
+		// {
+		// if (!(activity instanceof TestDB))
+		// {
+		// closeSidebar(activity);
+		//
+		// Intent intent = new Intent(activity, TestDB.class);
+		// activity.startActivity(intent);
+		// }
+		// else
+		// {
+		// closeSidebar(activity);
+		// }
+		// }
+		// else if (fragmentItemName.equals("Temp:ScrollingListView"))
+		// {
+		// if (!(activity instanceof ScrollingListView))
+		// {
+		// closeSidebar(activity);
+		//
+		// Intent intent = new Intent(activity, ScrollingListView.class);
+		// activity.startActivity(intent);
+		// }
+		// else
+		// {
+		// closeSidebar(activity);
+		// }
+		// }
+	}
 
-				Intent intent = new Intent(activity, SearchBar.class);
-				activity.startActivity(intent);
-			}
-			else
-			{
-				closeSidebar(activity);
-			}
-		}
-		else if (fragmentItemName.equals("Temp:TestDB"))
-		{
-			if (!(activity instanceof TestDB))
-			{
-				closeSidebar(activity);
-
-				Intent intent = new Intent(activity, TestDB.class);
-				activity.startActivity(intent);
-			}
-			else
-			{
-				closeSidebar(activity);
-			}
-		}
-		else if (fragmentItemName.equals("Temp:ScrollingListView"))
-		{
-			if (!(activity instanceof ScrollingListView))
-			{
-				closeSidebar(activity);
-
-				Intent intent = new Intent(activity, ScrollingListView.class);
-				activity.startActivity(intent);
-			}
-			else
-			{
-				closeSidebar(activity);
-			}
-		}
+	private void setSelector(int selector)
+	{
+		vg.findViewById(R.id.selectHome).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectNutrients).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectIngredients).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectRecipeNames).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectFavorites).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectUserProfile).setVisibility(View.INVISIBLE);
+		vg.findViewById(selector).setVisibility(View.VISIBLE);
 	}
 
 	private void closeSidebar(final Activity activity)

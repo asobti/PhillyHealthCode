@@ -30,10 +30,9 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 	private Vibrator vib;
 	private final Object mLock = new Object();
 
-	public NutrientListAdapter(Context context, int textViewResourceId,
-			ArrayList<Nutrient> nutrients)
+	public NutrientListAdapter(Context context, ArrayList<Nutrient> nutrients)
 	{
-		super(context, textViewResourceId);
+		super(context, R.layout.fragment_search_list_item);
 		this.context = context;
 		this.nutrients = nutrients;
 		nutrientsall = nutrients;
@@ -44,14 +43,14 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 	{
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.nutrient_list_item_wbuttons, parent,
+		View v = inflater.inflate(R.layout.fragment_search_list_item, parent,
 				false);
 		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
-		TextView nutrientText = (TextView) v.findViewById(R.id.nutrient_name);
+		TextView nutrientText = (TextView) v.findViewById(R.id.itemName);
 		nutrientText.setText(nutrients.get(position).name);
 
-		nutrientText.setSelected(true);
+		// nutrientText.setSelected(true);
 		nutrientText.setOnClickListener(new OnClickListener()
 		{
 
@@ -83,18 +82,18 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 
 		if (nutrients.get(position).value == 0)
 		{
-			plus.setImageResource(R.drawable.plus_icon_empty);
-			minus.setImageResource(R.drawable.minus_icon_empty);
+			plus.setImageResource(R.drawable.plus_gray);
+			minus.setImageResource(R.drawable.minus_gray);
 		}
 		else if (nutrients.get(position).value == -1)
 		{
-			plus.setImageResource(R.drawable.plus_icon_empty);
-			minus.setImageResource(R.drawable.minus_icon_full);
+			plus.setImageResource(R.drawable.plus_gray);
+			minus.setImageResource(R.drawable.minus_red);
 		}
 		else
 		{
-			plus.setImageResource(R.drawable.plus_icon_full);
-			minus.setImageResource(R.drawable.minus_icon_empty);
+			plus.setImageResource(R.drawable.plus_green);
+			minus.setImageResource(R.drawable.minus_gray);
 		}
 
 		plus.setOnClickListener(new View.OnClickListener()

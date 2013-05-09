@@ -78,7 +78,7 @@
         </activity>
 
         <service
-            android:name="com.vitaminme.database.UpdateNutrientsDB"
+            android:name="com.vitaminme.services.UpdateNutrientsDB"
             android:enabled="true"
             android:exported="false" >
         </service>

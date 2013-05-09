@@ -293,8 +293,7 @@ public class NutrientListFragment extends SherlockFragment implements
 			if (nut != null && nut.size() > 0)
 			{
 				nutrients = nut;
-				adapter = new NutrientListAdapter(activity,
-						R.layout.nutrient_list_item_wbuttons, nutrients);
+				adapter = new NutrientListAdapter(activity, nutrients);
 
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);

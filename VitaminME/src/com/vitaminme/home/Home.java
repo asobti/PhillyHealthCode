@@ -1,17 +1,6 @@
 package com.vitaminme.home;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
-
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-import org.joda.time.ReadableInstant;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -20,10 +9,9 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 
 import com.actionbarsherlock.view.Window;
-import com.vitaminme.data.DataStore;
-import com.vitaminme.database.UpdateNutrientsDB;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
+import com.vitaminme.services.UpdateNutrientsDB;
 
 public class Home extends BaseActivity
 {
