@@ -4,6 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicReference;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,10 +17,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,13 +47,16 @@ import com.vitaminme.recipelist.RecipeList;
 public class NutrientListFragment extends SherlockFragment implements
 		SearchView.OnQueryTextListener
 {
-	private ListView lv;
+	private ListView lvNutrients;
+	private ListView lvSelection;
 	private Vibrator vib;
 
 	ArrayAdapter<String> adapter;
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
+	ArrayList<Nutrient> myNutrients = new ArrayList<Nutrient>();
+	AtomicReference<Object> selectionRef;
 	ProgressDialog progressDialog;
 	ImageButton x;
 	Activity activity;
@@ -84,7 +91,21 @@ public class NutrientListFragment extends SherlockFragment implements
 
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
-		lv = (ListView) vg.findViewById(R.id.listView_NutrientList);
+		lvNutrients = (ListView) vg.findViewById(R.id.listView_NutrientList);
+		lvSelection = (ListView) vg.findViewById(R.id.listView_NutrientSelection);
+		selectionRef = new AtomicReference<Object>(lvSelection);
+//		ArrayList<String> myArrayNutrients = new ArrayList<String>(); 
+//		myNutrients = ((NutrientListAdapter) NutrientListFragment.this.adapter).getSelection();
+//		Log.v("mytag", "myNutrients from fragment - " + myNutrients);
+//		for( int i=0; i < myNutrients.size(); i++){
+//			myArrayNutrients.add(myNutrients.get(i).name);
+//		}
+//		adapterSelection = new ArrayAdapter<String>(activity, 
+//				android.R.layout.simple_list_item_1, myArrayNutrients);
+//		lvSelection.setAdapter(adapterSelection);
+//		lvSelection.setTextFilterEnabled(true);
+		
+		
 
 		Button nextButton = (Button) vg.findViewById(R.id.nextButton);
 		nextButton.setOnClickListener(new OnClickListener()
@@ -263,10 +284,12 @@ public class NutrientListFragment extends SherlockFragment implements
 			{
 				nutrients = nut;
 				adapter = new NutrientListAdapter(activity,
-						R.layout.nutrient_list_item_wbuttons, nutrients);
+						R.layout.nutrient_list_item_wbuttons, nutrients, selectionRef);	
+				
+				lvNutrients.setAdapter(adapter);
+				lvNutrients.setTextFilterEnabled(true);
 
-				lv.setAdapter(adapter);
-				lv.setTextFilterEnabled(true);
+
 
 			}
 			else if (nut == null)
@@ -315,11 +338,13 @@ public class NutrientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
-				if (NutrientListFragment.this.adapter != null)
+				if (NutrientListFragment.this.adapter != null){
 					NutrientListFragment.this.adapter.getFilter().filter(query);
-
+				}
 			}
 		}
 	};
+	
+	
 
 }

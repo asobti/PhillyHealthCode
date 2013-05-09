@@ -1,6 +1,9 @@
 package com.vitaminme.home;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,25 +18,32 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.main.R;
+import com.vitaminme.recipe.RecipeSelectedAdapter;
 
 public class NutrientListAdapter extends ArrayAdapter<String> implements
 		Filterable {
 	private Context context;
 	private ArrayList<Nutrient> nutrients;
 	private ArrayList<Nutrient> nutrientsall;
+	private ArrayList<Nutrient>	mySelectedNutrients = new ArrayList<Nutrient>();
 	private Filter filter;
 	private Vibrator vib;
 	private final Object mLock = new Object();
+	private ListView lvSelection;
+	AtomicReference<Object> selectionRef;
 
 	public NutrientListAdapter(Context context, int textViewResourceId,
-			ArrayList<Nutrient> nutrients) {
+			ArrayList<Nutrient> nutrients, AtomicReference<Object> selectionRef) {
 		super(context, textViewResourceId);
 		this.context = context;
 		this.nutrients = nutrients;
+		this.lvSelection = (ListView) selectionRef.get();
 		nutrientsall = nutrients;
 
 	}
@@ -43,8 +53,9 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.nutrient_list_item_wbuttons, parent,
 				false);
+//		v.setFocusable(false);
+//		v.setClickable(false);
 		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-
 		TextView nutrientText = (TextView) v.findViewById(R.id.nutrient_name);
 		nutrientText.setText(nutrients.get(position).name);
 
@@ -77,6 +88,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 		if (nutrients.get(position).value == 0) {
 			plus.setImageResource(R.drawable.plus_icon_empty);
 			minus.setImageResource(R.drawable.minus_icon_empty);
+			
 		} else if (nutrients.get(position).value == -1) {
 			plus.setImageResource(R.drawable.plus_icon_empty);
 			minus.setImageResource(R.drawable.minus_icon_full);
@@ -94,13 +106,21 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 
 				if (nutrients.get(position).value == 0) {
 					nutrients.get(position).value = 1;
+					mySelectedNutrients.add(nutrients.get(position));
+					updateListView();
+//					Collections.rotate(nutrients.subList(position, 0), -1);
+
 				} else if (nutrients.get(position).value == -1) {
 					nutrients.get(position).value = 1;
+//					v.setBackgroundColor(context.getResources().getColor(R.color.spotify));
 
 				} else if (nutrients.get(position).value == 1) {
 					nutrients.get(position).value = 0;
+					mySelectedNutrients.remove(mySelectedNutrients.indexOf(nutrients.get(position)));
+					updateListView();
+//					v.setBackgroundColor(context.getResources().getColor(R.color.trans));
 				}
-
+				
 				notifyDataSetChanged();
 			}
 		});
@@ -113,10 +133,16 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 
 				if (nutrients.get(position).value == 0) {
 					nutrients.get(position).value = -1;
+					mySelectedNutrients.add(nutrients.get(position));
+					updateListView();
+					setListViewHeight(lvSelection);
 				} else if (nutrients.get(position).value == 1) {
 					nutrients.get(position).value = -1;
 				} else if (nutrients.get(position).value == -1) {
 					nutrients.get(position).value = 0;
+					mySelectedNutrients.remove(mySelectedNutrients.indexOf(nutrients.get(position)));
+					updateListView();
+					
 				}
 				notifyDataSetChanged();
 
@@ -143,6 +169,10 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 
 	public long getItemId(int position) {
 		return position;
+	}
+	
+	public ArrayList<Nutrient> getSelection(){
+		return mySelectedNutrients;
 	}
 
 	private class MyFilter extends Filter {
@@ -199,5 +229,37 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 				notifyDataSetInvalidated();
 			}
 		}
+	}
+	public static void setListViewHeight(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = 0;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
+	}
+	
+	public void updateListView(){
+		List<String> myArrayNutrients = new ArrayList<String>();
+		for( int i=0; i < mySelectedNutrients.size(); i++){
+			myArrayNutrients.add(mySelectedNutrients.get(i).name);
+		}
+		ArrayAdapter<String >adapterSelection = new SelectedNutrientListAdapter(context, 
+				myArrayNutrients, mySelectedNutrients);
+		lvSelection.setAdapter(adapterSelection);
+		lvSelection.setTextFilterEnabled(true);
+		setListViewHeight(lvSelection);
 	}
 }

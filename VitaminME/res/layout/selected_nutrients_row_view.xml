@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D5D5D5"
+    android:paddingBottom="3dp"
+    android:paddingRight="1dp" >
+
+   <RelativeLayout
+       	android:id="@+id/relative_layout_selection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activity_recipe_list_selector"
+        android:padding="5dp" >
+
+
+
+    <TextView
+        android:id="@+id/nutrient_selected_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:text="TextView" />
+    </RelativeLayout>
+
+</LinearLayout>
