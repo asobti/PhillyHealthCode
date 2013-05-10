@@ -26,5 +26,6 @@
     <color name="sidebar_background">#282828</color>
     <color name="background_light_gray">#EBEBEB</color>
     <color name="listView_items_shadow">#D5D5D5</color>
+    <color name="vitamin_me_red">#bb2030</color>
 
 </resources>

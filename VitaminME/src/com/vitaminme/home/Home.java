@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Window;
 import com.vitaminme.main.BaseActivity;
@@ -125,6 +127,14 @@ public class Home extends BaseActivity
 		{
 			mSplashDialog = new Dialog(this, R.style.SplashScreen);
 			mSplashDialog.setContentView(R.layout.splashscreen);
+			TextView tv1 = (TextView) mSplashDialog
+					.findViewById(R.id.vitaminText);
+			tv1.setTypeface(Typeface.createFromAsset(getAssets(),
+					"fonts/Lato-Bold.ttf"));
+			TextView tv2 = (TextView) mSplashDialog
+					.findViewById(R.id.yummlyText);
+			tv2.setTypeface(Typeface.createFromAsset(getAssets(),
+					"fonts/Lato-Bold.ttf"));
 			mSplashDialog.setCancelable(false);
 			mSplashDialog.show();
 			firstDisplay = false;
