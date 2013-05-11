@@ -8,6 +8,7 @@
         android:id="@+id/listView_IngredientsList"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/bottom_options"
         android:divider="@color/background_light_gray"
         android:dividerHeight="6dp"
