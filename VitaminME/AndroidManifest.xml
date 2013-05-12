@@ -32,11 +32,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:windowSoftInputMode="" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.vitaminme.recipelist.RecipeList"
@@ -82,6 +77,16 @@
             android:enabled="true"
             android:exported="false" >
         </service>
+
+        <activity
+            android:name="com.vitaminme.test.Suggestions"
+            android:label="@string/title_activity_suggestions" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

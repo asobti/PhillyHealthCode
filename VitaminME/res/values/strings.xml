@@ -30,5 +30,6 @@
     <string name="name_fragment_user_profile">UserProfile</string>
     <string name="title_activity_test_db">Test db</string>
     <string name="title_activity_scrolling_list_view">ScrollingListView</string>
+    <string name="title_activity_suggestions">Suggestions</string>
 
 </resources>
