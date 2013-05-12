@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Recipe
 {
 	public String id;
@@ -18,6 +21,11 @@ public class Recipe
 	public List<RecipeNutrient> nutrients = new ArrayList<RecipeNutrient>();
 	public RecipeNutrient energy;
 	public int servingSize;
+	
+	public Recipe(JSONObject obj) throws JSONException
+	{
+		this.courses = new ArrayList<String>();
+	}
 
 	public String getNotes()
 	{
@@ -33,11 +41,6 @@ public class Recipe
 		}
 
 		return notes;
-	}
-
-	public Recipe()
-	{
-		this.courses = new ArrayList<String>();
 	}
 
 	// return the RecipeNutrient object for FAT for the current

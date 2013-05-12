@@ -30,8 +30,10 @@ import com.vitaminme.data.Diet;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
+import com.vitaminme.data.RecipeSummary;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.exceptions.APILimitExceededException;
+import com.vitaminme.exceptions.RecipeParseException;
 
 /*
  * This class is responsible for all communications with the API
@@ -265,6 +267,55 @@ public class ApiAdapter
 		}
 
 		return ingredients;
+	}
+	
+	public ArrayList<RecipeSummary> getRecipes(
+			ArrayList<Entry<String, String>> params) throws APICallException
+	{
+		return this.getRecipes(params, new ArrayList<ApiFilter>());
+	}
+
+	public ArrayList<RecipeSummary> getRecipes(
+			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
+			throws APICallException
+	{
+		JSONObject response;		
+		ArrayList<RecipeSummary> recipes= new ArrayList<RecipeSummary>();
+
+		try
+		{
+			String url = this.endpoint + "recipes"
+					+ this.buildQueryString(params, filters);
+			
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+
+			for (int i = 0; i < arr.length(); i++) {
+				try {
+					RecipeSummary rec = new RecipeSummary(arr.getJSONObject(i));
+					recipes.add(rec);
+				} catch (JSONException e) {
+					continue;
+				} catch (RecipeParseException e) {
+					continue;
+				}
+			}
+
+			this.pag = parsePaginationInfo(response);
+
+		}
+		catch (APICallException e)
+		{
+			throw e;
+		}
+		catch (Exception e)
+		{
+			// some other exception occurred. Wrap it as an APICallException and
+			// re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+
+		return recipes;
 	}
 
 	/*
