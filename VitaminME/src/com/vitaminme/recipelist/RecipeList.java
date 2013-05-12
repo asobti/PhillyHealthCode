@@ -188,6 +188,7 @@ public class RecipeList extends BaseActivity
 								+ "%7B%22nutrients%22%3A%5B";
 
 						if (nutrients != null && nutrients.size() > 0)
+						{
 							for (Nutrient n : nutrients)
 							{
 								// %7B%22id%22%3A203%7D
@@ -195,9 +196,9 @@ public class RecipeList extends BaseActivity
 									apiParams.url += "%7B%22id%22%3A" + n.id
 											+ "%7D%2C";
 							}
+						}
 						apiParams.url = apiParams.url.substring(0,
 								apiParams.url.length() - 3);
-
 						apiParams.url += "%5D%7D";
 
 						if (ingredients != null && ingredients.size() > 0)
@@ -209,10 +210,8 @@ public class RecipeList extends BaseActivity
 											+ "%7D%2C";
 							}
 						}
-
 						apiParams.url = apiParams.url.substring(0,
 								apiParams.url.length() - 3);
-
 						apiParams.url += "%5D%7D";
 
 						apiParams.url += "&start=" + startIndex;

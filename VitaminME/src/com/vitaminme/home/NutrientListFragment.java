@@ -130,8 +130,11 @@ public class NutrientListFragment extends SherlockFragment implements
 					startActivity(intent);
 				}
 				else
-					Toast.makeText(activity.getBaseContext(),
-							"Nothing selected", Toast.LENGTH_SHORT).show();
+				{
+					PopUpSelection();
+					// Toast.makeText(activity.getBaseContext(),
+					// "Nothing selected", Toast.LENGTH_SHORT).show();
+				}
 
 			}
 		});
