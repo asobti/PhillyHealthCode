@@ -32,6 +32,7 @@ import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.api.ApiCallParams;
 import com.vitaminme.api.ApiCallTask;
+import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.ParseRecipes;
@@ -61,6 +62,7 @@ public class RecipeList extends BaseActivity
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
 	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
+	static List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -82,6 +84,8 @@ public class RecipeList extends BaseActivity
 
 		nutrients = (List<Nutrient>) getIntent().getSerializableExtra(
 				"Nutrients");
+		ingredients = (List<Ingredient>) getIntent().getSerializableExtra(
+				"Ingredients");
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
 				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
@@ -183,17 +187,34 @@ public class RecipeList extends BaseActivity
 						apiParams.url += "?filter="
 								+ "%7B%22nutrients%22%3A%5B";
 
-						for (Nutrient n : nutrients)
-						{
-							// %7B%22id%22%3A203%7D
-							if (n.value == -1 || n.value == 1)
-								apiParams.url += "%7B%22id%22%3A" + n.id
-										+ "%7D%2C";
-						}
+						if (nutrients != null && nutrients.size() > 0)
+							for (Nutrient n : nutrients)
+							{
+								// %7B%22id%22%3A203%7D
+								if (n.value == -1 || n.value == 1)
+									apiParams.url += "%7B%22id%22%3A" + n.id
+											+ "%7D%2C";
+							}
 						apiParams.url = apiParams.url.substring(0,
 								apiParams.url.length() - 3);
 
 						apiParams.url += "%5D%7D";
+
+						if (ingredients != null && ingredients.size() > 0)
+						{
+							for (Ingredient i : ingredients)
+							{
+								if (i.value == -1 || i.value == 1)
+									apiParams.url += "%7B%22id%22%3A" + i.id
+											+ "%7D%2C";
+							}
+						}
+
+						apiParams.url = apiParams.url.substring(0,
+								apiParams.url.length() - 3);
+
+						apiParams.url += "%5D%7D";
+
 						apiParams.url += "&start=" + startIndex;
 						apiParams.url += "&count=" + count;
 						apiParams.callBackObject = new ParseRecipes(
