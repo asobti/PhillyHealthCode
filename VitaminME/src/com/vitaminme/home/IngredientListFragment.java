@@ -61,8 +61,9 @@ public class IngredientListFragment extends SherlockFragment implements
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-	ArrayList<Ingredient> myIngredients = new ArrayList<Ingredient>();
-	AtomicReference<Object> selectionRef = new AtomicReference<Object>(myIngredients);
+	ArrayList<Ingredient> selectedIngredients = new ArrayList<Ingredient>();
+	AtomicReference<Object> selectionRef = new AtomicReference<Object>(
+			selectedIngredients);
 	ProgressDialog progressDialog;
 	ImageButton x;
 	Activity activity;
@@ -103,28 +104,28 @@ public class IngredientListFragment extends SherlockFragment implements
 		TextView text = (TextView) footerView.findViewById(R.id.text);
 		text.setText("Click to search for ingredients");
 		lv.addFooterView(footerView);
-		
 
-//		searchView.setOnQueryTextListener(new OnQueryTextListener(){
-//
-//			@Override
-//			public boolean onQueryTextSubmit(String query) {
-//				// TODO Auto-generated method stub
-//				if(query.equals("")){
-//					adapter = new IngredientListAdapter(activity, myIngredients, selectionRef);
-//					lv.setAdapter(adapter);
-//				}
-//				return false;
-//			}
-//
-//			@Override
-//			public boolean onQueryTextChange(String newText) {
-//				
-//				return false;
-//			}
-//			
-//			
-//		});
+		// searchView.setOnQueryTextListener(new OnQueryTextListener(){
+		//
+		// @Override
+		// public boolean onQueryTextSubmit(String query) {
+		// // TODO Auto-generated method stub
+		// if(query.equals("")){
+		// adapter = new IngredientListAdapter(activity, selectedIngredients,
+		// selectionRef);
+		// lv.setAdapter(adapter);
+		// }
+		// return false;
+		// }
+		//
+		// @Override
+		// public boolean onQueryTextChange(String newText) {
+		//
+		// return false;
+		// }
+		//
+		//
+		// });
 		footerView.setOnClickListener(new OnClickListener()
 		{
 
@@ -148,25 +149,21 @@ public class IngredientListFragment extends SherlockFragment implements
 			@Override
 			public void onClick(View v)
 			{
-				boolean next = false;
 				vib.vibrate(20);
 
-				for (Ingredient n : ingredients)
-				{
-					if (n.value == 1 || n.value == -1)
-						next = true;
-				}
-
-				if (next)
+				if (selectedIngredients != null
+						&& selectedIngredients.size() > 0)
 				{
 					Intent intent = new Intent(activity, RecipeList.class);
-					intent.putExtra("Ingredients", ingredients);
+					intent.putExtra("Ingredients", selectedIngredients);
 					startActivity(intent);
 				}
 				else
-					Toast.makeText(activity.getBaseContext(),
-							"Nothing selected", Toast.LENGTH_SHORT).show();
-
+				{
+					PopUpSelection();
+					// Toast.makeText(activity.getBaseContext(),
+					// "Nothing selected", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -217,15 +214,17 @@ public class IngredientListFragment extends SherlockFragment implements
 		boolean empty = false;
 
 		box.setTitle("Selected Ingredients");
-		for (Ingredient n : myIngredients)
+		for (Ingredient n : selectedIngredients)
 		{
-			if(n.value>0){
+			if (n.value > 0)
+			{
 				list = list + " + " + n.term.toString() + "\n";
 			}
 		}
-		for (Ingredient n : myIngredients)
+		for (Ingredient n : selectedIngredients)
 		{
-			if(n.value<0){
+			if (n.value < 0)
+			{
 				list = list + " - " + n.term.toString() + "\n";
 			}
 		}
@@ -254,7 +253,7 @@ public class IngredientListFragment extends SherlockFragment implements
 							for (int i = 0; i < ingredients.size(); i++)
 							{
 								ingredients.get(i).value = 0;
-								myIngredients.clear();
+								selectedIngredients.clear();
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -321,8 +320,8 @@ public class IngredientListFragment extends SherlockFragment implements
 				}
 
 				ingredients = ing;
-				adapter = new IngredientListAdapter(activity, ingredients, selectionRef);
-				
+				adapter = new IngredientListAdapter(activity, ingredients,
+						selectionRef);
 
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
@@ -378,7 +377,8 @@ public class IngredientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
-//				System.out.println("query: " + query + " query length: " + query.length());
+				// System.out.println("query: " + query + " query length: " +
+				// query.length());
 
 				if (query.length() > 2 && !searched)
 				{
@@ -406,12 +406,12 @@ public class IngredientListFragment extends SherlockFragment implements
 						new getIngredients().execute(filter);
 					}
 				}
-				else if (!myIngredients.isEmpty()){
-						adapter = new IngredientListAdapter(activity, myIngredients, selectionRef);
-						lv.setAdapter(adapter);
-					}
-					
-				
+				else if (!selectedIngredients.isEmpty())
+				{
+					adapter = new IngredientListAdapter(activity,
+							selectedIngredients, selectionRef);
+					lv.setAdapter(adapter);
+				}
 
 			}
 		}

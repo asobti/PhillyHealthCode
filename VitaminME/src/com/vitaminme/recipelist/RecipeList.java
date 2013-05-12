@@ -1,5 +1,7 @@
 package com.vitaminme.recipelist;
 
+import java.io.Serializable;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -32,13 +34,13 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
-import com.vitaminme.data.Recipe;
 import com.vitaminme.data.RecipeSummary;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
-//import com.vitaminme.recipe.RecipeDetails;
+import com.vitaminme.recipe.RecipeDetails;
 
 public class RecipeList extends BaseActivity
 {
@@ -52,6 +54,7 @@ public class RecipeList extends BaseActivity
 	int count = 20;
 	int firstVisibleItem = 0;
 	int totalNumResults = 1;
+	boolean runningBg = false;
 
 	List<RecipeSummary> recipeList;
 	List<String> images = new ArrayList<String>();
@@ -59,6 +62,7 @@ public class RecipeList extends BaseActivity
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
 	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
+	static List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -67,9 +71,14 @@ public class RecipeList extends BaseActivity
 		setContentView(R.layout.activity_recipe_list);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);		
-
-		nutrients = (List<Nutrient>) getIntent().getSerializableExtra(
-				"Nutrients");
+		
+		Serializable nutrientsExtra = getIntent().getSerializableExtra("Nutrients");
+		if (nutrientsExtra != null) 
+			nutrients = (List<Nutrient>)nutrientsExtra;
+		
+		Serializable ingExtra = getIntent().getSerializableExtra("Ingredients");
+		if (ingExtra != null) 
+			ingredients = (List<Ingredient>)ingExtra;
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
 				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
@@ -90,9 +99,7 @@ public class RecipeList extends BaseActivity
 				R.layout.activity_recipe_list_footer, null, false);
 		listView.addFooterView(footerView, null, false);
 
-		setListeners();
-		
-		new GetRecipes().execute();
+		setListeners();		
 	}
 
 	public void fillListView()
@@ -140,9 +147,9 @@ public class RecipeList extends BaseActivity
 			{
 				vibe.vibrate(20);
 				System.out.println("Clicked: " + ids.get(position));
-//				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
-//				intent.putExtra("recipe_id", ids.get(position));
-//				startActivity(intent);
+				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
+				intent.putExtra("recipe_id", ids.get(position));
+				startActivity(intent);
 			}
 		});
 
@@ -162,13 +169,15 @@ public class RecipeList extends BaseActivity
 				int lastInScreen = firstVisibleItemInScreen + visibleItemCount;
 
 				if (lastInScreen == totalItemCount
-						&& startIndex < totalNumResults)
-				{
-					firstVisibleItem = firstVisibleItemInScreen;					
-					new GetRecipes().execute();
+						&& startIndex < totalNumResults) {
+					firstVisibleItem = firstVisibleItemInScreen;
+					
+					if (!runningBg) {
+						runningBg = true;
+						new GetRecipes().execute();					
+					}
 				}
 			}
-
 		});
 	}
 
@@ -286,6 +295,20 @@ public class RecipeList extends BaseActivity
 		@Override
 		protected ArrayList<RecipeSummary> doInBackground(Void... arg0) {
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
+			params.add(new SimpleEntry<String, String>("start", Integer.toString(startIndex)));
+			params.add(new SimpleEntry<String, String>("count", Integer.toString(count)));
+			
+			/*for(Nutrient n : nutrients) {
+				String k = String.format("nutrient[%s]",n.tag);
+				String v = (n.value == 1) ? "HIGH" : "LOW";
+				params.add(new SimpleEntry<String, String>(k, v));
+			}*/
+			
+			for(Ingredient i : ingredients) {
+				String k = (i.value == 1) ? "allowedIngredient[]" : "excludedIngredient[]";
+				String v = i.searchValue;
+				params.add(new SimpleEntry<String, String>(k, v));
+			}
 			
 			try {
 				return api.getRecipes(params);
@@ -301,6 +324,8 @@ public class RecipeList extends BaseActivity
 			if (progressDialog != null && progressDialog.isShowing()) {
 				progressDialog.hide();
 			}
+			
+			runningBg = false;
 			
 			if (rec != null && rec.size() > 0) {
 				Pagination pagination = api.getPaginationObject();
