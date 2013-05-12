@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -21,11 +22,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.SearchView.OnSuggestionListener;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
+import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 
 public class UserProfile extends BaseActivity {
 	private Vibrator vib;
@@ -45,10 +49,10 @@ public class UserProfile extends BaseActivity {
 	ListView excludesListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
 	ExcludesListAdapter excludesAdapter;
-	TextWatcher searchFieldWatcher;
-	ImageButton x;
+	OnQueryTextListener searchFieldWatcher;
 	List<String> myExcludesList = new ArrayList<String>();
-	AutoCompleteTextView searchBarIngredients;
+	SearchView searchBarIngredients;
+	SuggestionsSimpleCursorAdapter simple;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 	ProgressDialog mDialog;
 	List<String> ingredientsArray = new ArrayList<String>();
@@ -98,77 +102,61 @@ public class UserProfile extends BaseActivity {
 		setListViewHeight(excludesListView);
 
 		// Ingredient autocomplete serach
-		for (int i = 0; i < ingredients.size(); i++) {
-			ingredientsArray.add(ingredients.get(i).term.toString());
-		}
+//		for (int i = 0; i < ingredients.size(); i++) {
+//			ingredientsArray.add(ingredients.get(i).term.toString());
+//		}
 
 		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
 		addIgnoreButton.setVisibility(View.INVISIBLE);
-		x = (ImageButton) findViewById(R.id.x_button);
-		x.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				vib.vibrate(20);
-				searchBarIngredients.setText("");
-				x.setVisibility(View.INVISIBLE);
-				ignoreSearchAdapter.notifyDataSetChanged();
+		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
+		searchBarIngredients.setQueryHint("Search for Ingredients");
+		searchFieldWatcher = new OnQueryTextListener() {
 
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				// TODO Auto-generated method stub
+				return false;
 			}
-		});
-		searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
-		searchFieldWatcher = new TextWatcher() {
 
 			@Override
-			public void onTextChanged(CharSequence cs, int arg1, int arg2,
-					int arg3) {
-				if (searchBarIngredients.getText().toString().equals("")) {
-					x.setVisibility(View.INVISIBLE);
-				} else {
-					x.setVisibility(View.VISIBLE);
-				}
+			public boolean onQueryTextChange(String newText) {
+//				if (searchBarIngredients.getQuery().toString().equals("")) {
+//					x.setVisibility(View.INVISIBLE);
+//				} else {
+//					x.setVisibility(View.VISIBLE);
+//				}
 
-				if (cs.length() > 2 && !searched) {
+				if (newText.length() > 2 && !searched) {
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							searchBarIngredients.getText().toString());
+							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
-					searchBarIngredients.showDropDown();
+//					searchBarIngredients.showDropDown();
 					searched = true;
 				}
-				if (cs.length() == 2 && searched) {
+				if (newText.length() == 2 && searched) {
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							searchBarIngredients.getText().toString());
+							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
-					searchBarIngredients.showDropDown();
+//					searchBarIngredients.showDropDown();
 					searched = false;
 				}
 
 				addIgnoreButton.setVisibility(View.INVISIBLE);
 				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-						searchBarIngredients.getText().toString());
+						searchBarIngredients.getQuery().toString());
 				new getIngredients().execute(filter);
-
+				return true;
 			}
 
-			@Override
-			public void afterTextChanged(Editable arg0) {
-				// TODO Auto-generated method stub
 
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1,
-					int arg2, int arg3) {
-				// TODO Auto-generated method stub
-
-			}
 		};
-		searchBarIngredients.addTextChangedListener(searchFieldWatcher);
-		searchBarIngredients.setOnItemClickListener(new OnItemClickListener() {
+		searchBarIngredients.setOnQueryTextListener(searchFieldWatcher);
+		searchBarIngredients.setOnSuggestionListener(new OnSuggestionListener() {
+
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					final int position, long arg3) {
-				x.setVisibility(View.INVISIBLE);
+			public boolean onSuggestionClick(int position) {
+				searchBarIngredients.setQuery(simple.getCursor().getString(0), false);
 				addIgnoreButton.setVisibility(View.VISIBLE);
 				InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(
@@ -181,13 +169,13 @@ public class UserProfile extends BaseActivity {
 						boolean inList = false;
 						for (int i = 0; i < myExcludesList.size(); i++) {
 							if (myExcludesList.get(i).equals(
-									searchBarIngredients.getText().toString())) {
+									searchBarIngredients.getQuery().toString())) {
 								Log.v("mytag", "inside if");
 								Toast.makeText(
 										UserProfile.this,
 										"You already have "
 												+ searchBarIngredients
-														.getText().toString()
+														.getQuery().toString()
 												+ " in your list",
 										Toast.LENGTH_LONG).show();
 								inList = true;
@@ -195,15 +183,20 @@ public class UserProfile extends BaseActivity {
 						}
 						if (!inList) {
 							myExcludesList.add(0, searchBarIngredients
-									.getText().toString());
+									.getQuery().toString());
 							excludesAdapter.notifyDataSetChanged();
 						}
-						searchBarIngredients.setText("");
+						searchBarIngredients.setQuery("", false);
 					}
-
 				});
-
+				return false;
 			}
+			@Override
+			public boolean onSuggestionSelect(int position) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+			
 
 		});
 
@@ -264,25 +257,27 @@ public class UserProfile extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(final ArrayList<Ingredient> nut) {
-			// if (mDialog.isShowing())
-			// {
-			// mDialog.hide();
-			// }
 
 			if (nut != null && nut.size() > 0) {
 				ingredients = nut;
-				ingredientsArray.clear();
-				for (int i = 0; i < ingredients.size(); i++) {
-					ingredientsArray.add(ingredients.get(i).term.toString());
-				}
-				Log.v("mytag",
-						"ingredients found = " + ingredientsArray.toString());
-				ignoreSearchAdapter = new ArrayAdapter<String>(
-						UserProfile.this,
-						android.R.layout.simple_dropdown_item_1line,
-						ingredientsArray);
-				searchBarIngredients = (AutoCompleteTextView) findViewById(R.id.searchBar);
-				searchBarIngredients.setAdapter(ignoreSearchAdapter);
+				
+			    String[] columnNames = {"term","_id"};
+			    int[] columnTextId = new int[] { android.R.id.text1 };
+			    MatrixCursor cursor = new MatrixCursor(columnNames);
+			    int id = 0;
+			    for(Ingredient i : ingredients){
+			        cursor.addRow(new String[] {i.term, Integer.toString(id++)});
+			    }        
+				
+				
+				simple = new SuggestionsSimpleCursorAdapter(
+						UserProfile.this, android.R.layout.simple_list_item_1,
+						cursor, columnNames, columnTextId, 0);
+				
+				searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
+				searchBarIngredients.setSuggestionsAdapter(simple);
+				
+				
 
 			} else if (nut == null) {
 				Toast.makeText(UserProfile.this, "No network found",
