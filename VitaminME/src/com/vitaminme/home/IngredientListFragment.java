@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,6 +40,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnCloseListener;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
@@ -57,6 +61,8 @@ public class IngredientListFragment extends SherlockFragment implements
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
 	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+	ArrayList<Ingredient> myIngredients = new ArrayList<Ingredient>();
+	AtomicReference<Object> selectionRef = new AtomicReference<Object>(myIngredients);
 	ProgressDialog progressDialog;
 	ImageButton x;
 	Activity activity;
@@ -97,6 +103,28 @@ public class IngredientListFragment extends SherlockFragment implements
 		TextView text = (TextView) footerView.findViewById(R.id.text);
 		text.setText("Click to search for ingredients");
 		lv.addFooterView(footerView);
+		
+
+//		searchView.setOnQueryTextListener(new OnQueryTextListener(){
+//
+//			@Override
+//			public boolean onQueryTextSubmit(String query) {
+//				// TODO Auto-generated method stub
+//				if(query.equals("")){
+//					adapter = new IngredientListAdapter(activity, myIngredients, selectionRef);
+//					lv.setAdapter(adapter);
+//				}
+//				return false;
+//			}
+//
+//			@Override
+//			public boolean onQueryTextChange(String newText) {
+//				
+//				return false;
+//			}
+//			
+//			
+//		});
 		footerView.setOnClickListener(new OnClickListener()
 		{
 
@@ -185,29 +213,21 @@ public class IngredientListFragment extends SherlockFragment implements
 	private void PopUpSelection()
 	{
 		AlertDialog.Builder box = new AlertDialog.Builder(activity);
-		ArrayList<Ingredient> selectedMinus = new ArrayList<Ingredient>();
-		ArrayList<Ingredient> selectedPlus = new ArrayList<Ingredient>();
 		String list = "";
 		boolean empty = false;
-		for (int i = 0; i < ingredients.size(); i++)
-		{
-			if (ingredients.get(i).value == -1)
-			{
-				selectedMinus.add(ingredients.get(i));
-			}
-			else if (ingredients.get(i).value == 1)
-			{
-				selectedPlus.add(ingredients.get(i));
-			}
-		}
+
 		box.setTitle("Selected Ingredients");
-		for (Ingredient n : selectedPlus)
+		for (Ingredient n : myIngredients)
 		{
-			list = list + " + " + n.term.toString() + "\n";
+			if(n.value>0){
+				list = list + " + " + n.term.toString() + "\n";
+			}
 		}
-		for (Ingredient n : selectedMinus)
+		for (Ingredient n : myIngredients)
 		{
-			list = list + " - " + n.term.toString() + "\n";
+			if(n.value<0){
+				list = list + " - " + n.term.toString() + "\n";
+			}
 		}
 		if (list == "")
 		{
@@ -234,6 +254,7 @@ public class IngredientListFragment extends SherlockFragment implements
 							for (int i = 0; i < ingredients.size(); i++)
 							{
 								ingredients.get(i).value = 0;
+								myIngredients.clear();
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -300,7 +321,8 @@ public class IngredientListFragment extends SherlockFragment implements
 				}
 
 				ingredients = ing;
-				adapter = new IngredientListAdapter(activity, ingredients);
+				adapter = new IngredientListAdapter(activity, ingredients, selectionRef);
+				
 
 				lv.setAdapter(adapter);
 				lv.setTextFilterEnabled(true);
@@ -374,6 +396,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				}
 				else if (query.length() != 0)
 				{
+
 					if (IngredientListFragment.this.adapter != null)
 					{
 						ApiFilter filter = new ApiFilter("term",
@@ -383,6 +406,12 @@ public class IngredientListFragment extends SherlockFragment implements
 						new getIngredients().execute(filter);
 					}
 				}
+				else if (!myIngredients.isEmpty()){
+						adapter = new IngredientListAdapter(activity, myIngredients, selectionRef);
+						lv.setAdapter(adapter);
+					}
+					
+				
 
 			}
 		}
