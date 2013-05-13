@@ -51,8 +51,8 @@ public class pageLayoutNutrition extends Fragment
 		TextView caloriesFromFat = (TextView) vg
 				.findViewById(R.id.calories_from_fat);
 
-		if (recipe.energy != null)
-			calories.setText("Calories " + recipe.energy.value);
+		if (recipe.getEnergy() != null)
+			calories.setText("Calories " + recipe.getEnergy().value);
 		else
 			calories.setText("Calories NA");
 		if (recipe.getFatNutrient() != null)

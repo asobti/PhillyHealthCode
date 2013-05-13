@@ -1,5 +1,6 @@
 package com.vitaminme.data;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RecipeNutrient
@@ -10,21 +11,17 @@ public class RecipeNutrient
 	public RecipeNutrientUnit unit;
 	public double fraction;
 	
-	public RecipeNutrient(JSONObject obj) {
-		try {
-			this.attribute = obj.getString("attribute");
-			this.name = obj.getString("description");
-			this.value = obj.getDouble("value");
-			this.unit = new RecipeNutrientUnit(obj.getJSONObject("unit"));
-			
-			// calculate fraction value
-			if (RecipeNutrientBaseline.baselines.containsKey(this.attribute)) {
-				this.fraction = this.value / RecipeNutrientBaseline.baselines.get(this.attribute);
-			} else {
-				this.fraction = -1d;
-			}
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+	public RecipeNutrient(JSONObject obj) throws JSONException {		
+		this.attribute = obj.getString("attribute");
+		this.name = obj.getString("description");
+		this.value = obj.getDouble("value");
+		this.unit = new RecipeNutrientUnit(obj.getJSONObject("unit"));
+		
+		// calculate fraction value
+		if (RecipeNutrientBaseline.baselines.containsKey(this.attribute)) {
+			this.fraction = this.value / RecipeNutrientBaseline.baselines.get(this.attribute);
+		} else {
+			this.fraction = -1d;
 		}
 	}
 	
