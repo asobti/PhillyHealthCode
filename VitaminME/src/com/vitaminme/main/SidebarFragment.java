@@ -272,8 +272,6 @@ public class SidebarFragment extends Fragment
 			{
 				closeSidebar(activity);
 			}
-
-//			setSelector(R.id.selectFavorites);
 		}
 		else if (fragmentItemName.equals("User Profile"))
 		{
@@ -288,50 +286,7 @@ public class SidebarFragment extends Fragment
 			{
 				closeSidebar(activity);
 			}
-//			setSelector(R.id.selectUserProfile);
-		}
-		// else if (fragmentItemName.equals("Temp:SearchBar"))
-		// {
-		// if (!(activity instanceof SearchBar))
-		// {
-		// closeSidebar(activity);
-		//
-		// Intent intent = new Intent(activity, SearchBar.class);
-		// activity.startActivity(intent);
-		// }
-		// else
-		// {
-		// closeSidebar(activity);
-		// }
-		// }
-		// else if (fragmentItemName.equals("Temp:TestDB"))
-		// {
-		// if (!(activity instanceof TestDB))
-		// {
-		// closeSidebar(activity);
-		//
-		// Intent intent = new Intent(activity, TestDB.class);
-		// activity.startActivity(intent);
-		// }
-		// else
-		// {
-		// closeSidebar(activity);
-		// }
-		// }
-		// else if (fragmentItemName.equals("Temp:ScrollingListView"))
-		// {
-		// if (!(activity instanceof ScrollingListView))
-		// {
-		// closeSidebar(activity);
-		//
-		// Intent intent = new Intent(activity, ScrollingListView.class);
-		// activity.startActivity(intent);
-		// }
-		// else
-		// {
-		// closeSidebar(activity);
-		// }
-		// }
+		}		
 	}
 
 	private void setSelector(int selector)

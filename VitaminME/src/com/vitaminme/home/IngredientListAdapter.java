@@ -52,33 +52,6 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 		TextView nutrientText = (TextView) v.findViewById(R.id.itemName);
 		nutrientText.setText(thisIngredient.term);
 
-		// nutrientText.setSelected(true);
-		// nutrientText.setOnClickListener(new OnClickListener()
-		// {
-		//
-		// @Override
-		// public void onClick(View arg0)
-		// {
-		// AlertDialog.Builder box = new AlertDialog.Builder(context);
-		// box.setTitle(ingredients.get(position).term);
-		// box.setMessage(ingredients.get(position).term + " info");
-		// box.setPositiveButton("Go Back",
-		// new DialogInterface.OnClickListener()
-		// {
-		//
-		// public void onClick(DialogInterface dialog,
-		// int which)
-		// {
-		// // do nothing
-		// }
-		// });
-		// AlertDialog helpDialog = box.create();
-		// helpDialog.show();
-		//
-		// }
-		//
-		// });
-
 		ImageButton plus = (ImageButton) v.findViewById((R.id.plus_icon));
 		ImageButton minus = (ImageButton) v.findViewById(R.id.minus_icon);
 		int myIndex = 0;
@@ -103,7 +76,6 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 
 			@Override
 			public void onClick(View v) {
-				// v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 				vib.vibrate(20);
 				if (thisIngredient.value == 0) {
 					thisIngredient.value = 1;
@@ -250,9 +222,4 @@ public class IngredientListAdapter extends ArrayAdapter<String> implements
 		}
 		return false;
 	}
-	// @Override
-	// public void notifyDataSetChanged(){
-	//
-	// }
-
 }

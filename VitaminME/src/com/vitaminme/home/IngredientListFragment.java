@@ -105,27 +105,6 @@ public class IngredientListFragment extends SherlockFragment implements
 		text.setText("Click to search for ingredients");
 		lv.addFooterView(footerView);
 
-		// searchView.setOnQueryTextListener(new OnQueryTextListener(){
-		//
-		// @Override
-		// public boolean onQueryTextSubmit(String query) {
-		// // TODO Auto-generated method stub
-		// if(query.equals("")){
-		// adapter = new IngredientListAdapter(activity, selectedIngredients,
-		// selectionRef);
-		// lv.setAdapter(adapter);
-		// }
-		// return false;
-		// }
-		//
-		// @Override
-		// public boolean onQueryTextChange(String newText) {
-		//
-		// return false;
-		// }
-		//
-		//
-		// });
 		footerView.setOnClickListener(new OnClickListener()
 		{
 
@@ -160,9 +139,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				}
 				else
 				{
-					PopUpSelection();
-					// Toast.makeText(activity.getBaseContext(),
-					// "Nothing selected", Toast.LENGTH_SHORT).show();
+					PopUpSelection();					
 				}
 			}
 		});
@@ -294,11 +271,6 @@ public class IngredientListFragment extends SherlockFragment implements
 			{
 				filters.add(f);
 			}
-			// 9172 ingredients in db
-
-			// example filter
-			// filters.add(new ApiFilter("term", ApiFilterOp.like, "alt"));
-
 			try
 			{
 				return api.getIngredients(params, filters);
@@ -377,9 +349,7 @@ public class IngredientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
-				// System.out.println("query: " + query + " query length: " +
-				// query.length());
-
+				
 				if (query.length() > 2 && !searched)
 				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
@@ -416,5 +386,4 @@ public class IngredientListFragment extends SherlockFragment implements
 			}
 		}
 	};
-
 }
