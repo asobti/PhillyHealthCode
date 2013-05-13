@@ -20,7 +20,7 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.android.BaseActivity;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.widgets.ExpandableHeightGridView;
 
 public class Favorites extends BaseActivity

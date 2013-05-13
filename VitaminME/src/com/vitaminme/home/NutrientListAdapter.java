@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.vitaminme.data.Nutrient;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class NutrientListAdapter extends ArrayAdapter<String> implements
 		Filterable

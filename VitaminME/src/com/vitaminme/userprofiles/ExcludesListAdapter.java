@@ -16,7 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class ExcludesListAdapter extends ArrayAdapter<String> {
 	private Context context;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.Window;
 import com.vitaminme.android.BaseActivity;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.services.UpdateNutrientsDB;
 
 public class Home extends BaseActivity {

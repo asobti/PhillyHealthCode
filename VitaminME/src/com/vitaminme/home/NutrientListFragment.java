@@ -39,7 +39,7 @@ import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.database.VitaminME_DB_DataSource;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.recipelist.RecipeList;
 
 public class NutrientListFragment extends SherlockFragment implements

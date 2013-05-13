@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class ScrollingListViewListAdapter extends ArrayAdapter<String>
 {

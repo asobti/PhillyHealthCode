@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class ScrollingListView extends Activity
 {

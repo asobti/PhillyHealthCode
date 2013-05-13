@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.vitaminme.android.BaseActivity;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class TestDB extends BaseActivity
 {

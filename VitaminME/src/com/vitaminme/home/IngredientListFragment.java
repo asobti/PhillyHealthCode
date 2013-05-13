@@ -44,7 +44,7 @@ import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.recipelist.RecipeList;
 
 public class IngredientListFragment extends SherlockFragment implements

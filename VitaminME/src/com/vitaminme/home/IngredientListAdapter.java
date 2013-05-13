@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.vitaminme.data.Ingredient;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class IngredientListAdapter extends ArrayAdapter<String> implements
 		Filterable {

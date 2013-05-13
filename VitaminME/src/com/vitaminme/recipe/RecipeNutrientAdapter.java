@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.vitaminme.data.RecipeNutrient;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class RecipeNutrientAdapter extends ArrayAdapter<RecipeNutrient> {
 

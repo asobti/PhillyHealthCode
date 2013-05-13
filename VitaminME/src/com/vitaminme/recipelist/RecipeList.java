@@ -39,7 +39,7 @@ import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.recipe.RecipeDetails;
 
 public class RecipeList extends BaseActivity

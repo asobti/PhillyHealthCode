@@ -40,7 +40,7 @@ import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Allergy;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 
 public class UserProfile extends BaseActivity {
