@@ -1,9 +1,8 @@
 package com.vitaminme.test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map.Entry;
 
 import android.app.Activity;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnActionExpandListener;
 import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.api.ApiAdapter;

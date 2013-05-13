@@ -3,7 +3,6 @@ package com.vitaminme.widgets;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View.MeasureSpec;
 import android.widget.TextView;
 
 public class AutoFitTextView extends TextView

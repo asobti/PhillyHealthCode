@@ -5,11 +5,11 @@ import org.joda.time.Days;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.vitaminme.data.DataStore;
-import com.vitaminme.database.VitaminME_DB_DataSource;
-
 import android.app.IntentService;
 import android.content.Intent;
+
+import com.vitaminme.data.DataStore;
+import com.vitaminme.database.VitaminME_DB_DataSource;
 
 public class UpdateNutrientsDB extends IntentService
 {

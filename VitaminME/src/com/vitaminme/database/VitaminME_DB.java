@@ -1,23 +1,23 @@
 package com.vitaminme.database;
 
-import java.util.ArrayList;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Map.Entry;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.data.DataStore;
-import com.vitaminme.data.Nutrient;
-import com.vitaminme.exceptions.APICallException;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
+
+import com.vitaminme.api.ApiAdapter;
+import com.vitaminme.data.DataStore;
+import com.vitaminme.data.Nutrient;
+import com.vitaminme.exceptions.APICallException;
 
 public class VitaminME_DB extends SQLiteOpenHelper
 {
