@@ -39,7 +39,6 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final String ingredientText = ingredients.get(position);
 		this.parent = parent;
-		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.ingredient_exclude_item, parent,
@@ -60,7 +59,6 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				vib.vibrate(20);
 				if (notSure) {
 					timer.cancel();
 					tv1.setText(ingredientText);
@@ -84,7 +82,6 @@ public class ExcludesListAdapter extends ArrayAdapter<String> {
 
 			@Override
 			public void onClick(View arg0) {
-				vib.vibrate(20);
 				ingredients.remove(position);
 				sureButton.setVisibility(View.INVISIBLE);
 				notifyDataSetChanged();

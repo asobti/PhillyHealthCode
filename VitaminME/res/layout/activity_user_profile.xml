@@ -90,8 +90,7 @@
             android:layout_below="@id/commonDietsTitle"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp"
-            android:entries="@array/common_diets_list" />
+            android:layout_marginTop="6dp" />
 
         <TableRow
             android:id="@+id/tableRow3"
