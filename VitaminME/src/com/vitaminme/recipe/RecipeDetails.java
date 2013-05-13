@@ -7,9 +7,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
 public class RecipeDetails extends BaseActivity

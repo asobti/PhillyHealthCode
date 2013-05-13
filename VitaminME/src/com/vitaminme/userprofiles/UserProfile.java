@@ -33,13 +33,13 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Allergy;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 

@@ -27,10 +27,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.SearchView;
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 
 public class SearchBar extends BaseActivity implements

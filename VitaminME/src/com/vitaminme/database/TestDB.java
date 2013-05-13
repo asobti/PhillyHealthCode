@@ -3,7 +3,7 @@ package com.vitaminme.database;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.vitaminme.main.BaseActivity;
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.main.R;
 
 public class TestDB extends BaseActivity

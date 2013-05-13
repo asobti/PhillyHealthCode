@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Window;
-import com.vitaminme.main.BaseActivity;
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.services.UpdateNutrientsDB;
 

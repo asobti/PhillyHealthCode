@@ -33,12 +33,12 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
-import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
 import com.vitaminme.recipe.RecipeDetails;
 
