@@ -9,7 +9,7 @@ public abstract class Schema {
 	
 	public String create_statement() {
 		String query = "CREATE " + this.table_name;
-		query += "(";
+		query += " (";
 		
 		for (Entry<String, String> kvp : this.fields.entrySet()) {
 			query += String.format("%s %s,", kvp.getKey(), kvp.getValue());
