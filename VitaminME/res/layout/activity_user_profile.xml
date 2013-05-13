@@ -36,6 +36,18 @@
             android:text="EXCLUDE INGREDIENTS"
             style="@style/Header1" />
 
+        <ImageButton
+            android:id="@+id/x_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignRight="@+id/searchBar"
+            android:layout_alignTop="@+id/searchBar"
+            android:layout_marginRight="4dp"
+            android:background="@color/trans"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/x_black_thin_icon"
+            android:visibility="invisible" />
 
         <TableRow
             android:id="@+id/tableRow2"
@@ -113,7 +125,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
-            android:text="Search for ingredients that you wish to always exclude from your recipe searches."
+            android:text="Find ingredients that you wish to always exclude from your recipe searches."
             android:textSize="14sp"
             android:textStyle="italic" />
     </RelativeLayout>
