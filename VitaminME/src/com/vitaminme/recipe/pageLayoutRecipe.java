@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.vitaminme.data.ImageSize;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class pageLayoutRecipe extends Fragment
 {

@@ -5,7 +5,7 @@ import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.widget.SearchView;
 
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class Suggestions extends Activity implements
 		SearchView.OnQueryTextListener

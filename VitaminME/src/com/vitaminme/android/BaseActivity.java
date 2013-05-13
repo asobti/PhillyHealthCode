@@ -15,7 +15,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.slidingmenu.lib.SlidingMenu;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class BaseActivity extends SlidingFragmentActivity
 {

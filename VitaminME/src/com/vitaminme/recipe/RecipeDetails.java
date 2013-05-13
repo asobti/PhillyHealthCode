@@ -10,7 +10,7 @@ import android.view.View;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class RecipeDetails extends BaseActivity
 {

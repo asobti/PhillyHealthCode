@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.vitaminme.home.Home;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class MainActivity extends Activity
 {

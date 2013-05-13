@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class RecipeSelectedAdapter extends ArrayAdapter<String>
 {

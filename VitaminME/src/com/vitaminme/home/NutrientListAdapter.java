@@ -18,7 +18,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.vitaminme.data.Nutrient;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class NutrientListAdapter extends ArrayAdapter<String> implements
 		Filterable
@@ -72,9 +72,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 						});
 				AlertDialog helpDialog = box.create();
 				helpDialog.show();
-
 			}
-
 		});
 
 		ImageButton plus = (ImageButton) v.findViewById((R.id.plus_icon));

@@ -31,7 +31,7 @@ import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class SearchBar extends BaseActivity implements
 		SearchView.OnQueryTextListener, SearchView.OnSuggestionListener

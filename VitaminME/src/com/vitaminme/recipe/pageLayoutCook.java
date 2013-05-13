@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.vitaminme.data.Recipe;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 
 public class pageLayoutCook extends Fragment
 {

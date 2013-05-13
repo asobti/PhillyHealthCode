@@ -1,8 +1,17 @@
 package com.vitaminme.database;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Map.Entry;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -10,7 +19,9 @@ import org.joda.time.format.DateTimeFormatter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 
@@ -24,7 +35,7 @@ public class VitaminME_DB extends SQLiteOpenHelper
 	public static final String COLUMN_ID = "_id";
 	public static final String TABLE_STARRED_RECIPES = "starred_recipes";
 	public static final String TABLE_RECENTLY_VIEWED = "recently_viewed";
-	public static final String TABLE_NUTRIENTS_LIST = "nutrients_list";
+	public static final String TABLE_NUTRIENTS_LIST = "nutrients";
 	public static final String RECIPE_ID = "recipe_id";
 	public static final String NUTRIENT_ID = "nutrient_id";
 
@@ -33,6 +44,14 @@ public class VitaminME_DB extends SQLiteOpenHelper
 
 	private Context context;
 	private SQLiteDatabase db;
+
+	private static String DATABASE_PATH = "/data/data/com.vitaminme.android/databases/";
+
+	// private static String DATABASE_PATH = "/data/data/"
+	// + context.getApplicationContext().getPackageName() + "/databases/";
+	// private static String DATABASE_PATH = context.getApplicationContext()
+	// .getFilesDir().getParentFile().getPath()
+	// + "/databases/";
 
 	// @formatter:off
 	// FIX THIS AYUSH
@@ -77,34 +96,123 @@ public class VitaminME_DB extends SQLiteOpenHelper
 
 	private static VitaminME_DB mInstance = null;
 
-	private VitaminME_DB(Context context)
+	public VitaminME_DB(Context context)
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = context;
 	}
 
-	public static VitaminME_DB getInstance(Context context)
+	// Open the database, so we can query it
+	public boolean openDataBase() throws SQLException
 	{
-		// Use the application context, which will ensure that you
-		// don't accidentally leak an Activity's context.
-		if (mInstance == null)
+		String mPath = DATABASE_PATH + DATABASE_NAME;
+		db = SQLiteDatabase.openDatabase(mPath, null,
+				SQLiteDatabase.CREATE_IF_NECESSARY);
+		return db != null;
+	}
+
+	public void createDataBase() throws IOException
+	{
+		boolean mDataBaseExist = checkDataBase();
+		if (!mDataBaseExist)
 		{
-			mInstance = new VitaminME_DB(context.getApplicationContext());
+			this.getReadableDatabase();
+			this.close();
+			try
+			{
+				copyDataBase();
+			}
+			catch (IOException mIOException)
+			{
+				throw new Error("ErrorCopyingDataBase");
+			}
 		}
-		return mInstance;
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
+		System.out.println("Creating DB tables...");
+
 		this.db = db;
 
-		db.execSQL(CREATE_TABLE_STARRED_RECIPES);
+		 db.execSQL(CREATE_TABLE_STARRED_RECIPES);
 
-		db.execSQL(CREATE_TABLE_RECENTLY_VIEWED);
+		 db.execSQL(CREATE_TABLE_RECENTLY_VIEWED);
 
-		db.execSQL(CREATE_TABLE_NUTRIENTS_LIST);
-		addNutrients();
+		// db.execSQL(CREATE_TABLE_NUTRIENTS_LIST);
+		// addNutrients();
+	}
+
+	private void copyDataBase() throws IOException
+	{
+		System.out.println("Copying/unzipping DB");
+
+		// Open your local db as the input stream
+		InputStream myInput = context.getAssets().open(
+				"db/" + DATABASE_NAME + ".zip");
+
+		System.out.println("db open " + myInput);
+
+		// Path to the just created empty db
+		String outFileName = DATABASE_PATH + DATABASE_NAME;
+
+		// Open the empty db as the output stream
+		OutputStream myOutput = new FileOutputStream(outFileName);
+
+		ZipInputStream zis = new ZipInputStream(
+				new BufferedInputStream(myInput));
+		try
+		{
+			ZipEntry ze;
+			while ((ze = zis.getNextEntry()) != null)
+			{
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				byte[] buffer = new byte[1024];
+				int count;
+				while ((count = zis.read(buffer)) != -1)
+				{
+					baos.write(buffer, 0, count);
+					// Log.d("", buffer.toString());
+				}
+				baos.writeTo(myOutput);
+			}
+		}
+		catch (Exception ex)
+		{
+			System.out.println("Error copying/unzipping DB");
+		}
+		finally
+		{
+			zis.close();
+			myOutput.flush();
+			myOutput.close();
+			myInput.close();
+		}
+
+		// Close the streams
+		myOutput.flush();
+		myOutput.close();
+		myInput.close();
+
+	}
+
+	@Override
+	public synchronized void close()
+	{
+		if (db != null)
+			db.close();
+
+		super.close();
+	}
+
+	private boolean checkDataBase()
+	{
+		String myPath = DATABASE_PATH + DATABASE_NAME;
+
+		File dbFile = new File(DATABASE_PATH + DATABASE_NAME);
+		System.out.println("DB exists? " + dbFile);
+		return dbFile.exists();
 	}
 
 	public void addNutrients()

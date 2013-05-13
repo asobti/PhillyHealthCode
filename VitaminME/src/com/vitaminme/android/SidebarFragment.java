@@ -19,7 +19,7 @@ import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.IngredientListFragment;
 import com.vitaminme.home.NutrientListFragment;
-import com.vitaminme.main.R;
+import com.vitaminme.android.R;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
 
