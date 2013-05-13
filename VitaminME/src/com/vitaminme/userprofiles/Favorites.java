@@ -20,8 +20,8 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.main.BaseActivity;
-import com.vitaminme.main.ExpandableHeightGridView;
 import com.vitaminme.main.R;
+import com.vitaminme.widgets.ExpandableHeightGridView;
 
 public class Favorites extends BaseActivity
 {
@@ -49,7 +49,7 @@ public class Favorites extends BaseActivity
 		{
 			images.add("http://images6.fanpop.com/image/photos/33400000/YUMMY-FAST-FOOD-fast-food-33414496-1280-720.jpg");
 		}
-		
+
 		ExpandableHeightGridView gv1 = (ExpandableHeightGridView) findViewById(R.id.gridView1);
 		gv1.setExpanded(true);
 		gv1.setEmptyView(findViewById(R.id.emptyFavorites));

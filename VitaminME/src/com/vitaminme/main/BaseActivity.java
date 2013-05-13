@@ -1,8 +1,16 @@
 package com.vitaminme.main;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -54,6 +62,47 @@ public class BaseActivity extends SlidingFragmentActivity
 					{
 						dialog.setTitle("Help")
 								.setMessage(helpMessage)
+								.setIcon(R.drawable.info)
+								.setPositiveButton("OK",
+										new DialogInterface.OnClickListener()
+										{
+											public void onClick(
+													DialogInterface dialog,
+													int id)
+											{
+
+											}
+										}).show();
+						return false;
+					}
+				}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+		menu.add("About Yummly").setIcon(R.drawable.info)
+				.setOnMenuItemClickListener(new OnMenuItemClickListener()
+				{
+					@Override
+					public boolean onMenuItemClick(MenuItem item)
+					{
+						LayoutInflater inflater = getLayoutInflater();
+						ViewGroup vg = new RelativeLayout(getBaseContext());
+						View view = inflater.inflate(R.layout.about_yummly, vg);
+
+						Typeface tf = Typeface.createFromAsset(getAssets(),
+								"fonts/Lato-Bold.ttf");
+						Typeface tf2 = Typeface.createFromAsset(getAssets(),
+								"fonts/Lato-Regular.ttf");
+
+						TextView tv1 = (TextView) view
+								.findViewById(R.id.aboutVitaminText);
+						tv1.setTypeface(tf);
+						TextView tv2 = (TextView) view
+								.findViewById(R.id.aboutYummlyText);
+						tv2.setTypeface(tf2);
+						TextView tv3 = (TextView) view
+								.findViewById(R.id.aboutYummlyLink);
+						tv3.setTypeface(tf2);
+
+						dialog.setView(view)
 								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
 										new DialogInterface.OnClickListener()

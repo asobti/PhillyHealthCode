@@ -1,4 +1,4 @@
-package com.vitaminme.main;
+package com.vitaminme.widgets;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -39,7 +39,7 @@
         android:adjustViewBounds="true"
         android:src="@drawable/yummly" />
 
-    <com.vitaminme.main.AutoFitTextView
+    <com.vitaminme.widgets.AutoFitTextView
         android:id="@+id/yummlyText"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         android:textColor="@color/white"
         android:textSize="50sp" />
 
-    <com.vitaminme.main.AutoFitTextView
+    <com.vitaminme.widgets.AutoFitTextView
         android:id="@+id/vitaminText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

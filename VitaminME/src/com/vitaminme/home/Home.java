@@ -127,14 +127,14 @@ public class Home extends BaseActivity
 		{
 			mSplashDialog = new Dialog(this, R.style.SplashScreen);
 			mSplashDialog.setContentView(R.layout.splashscreen);
+			Typeface tf = Typeface.createFromAsset(getAssets(),
+					"fonts/Lato-Bold.ttf");
 			TextView tv1 = (TextView) mSplashDialog
 					.findViewById(R.id.vitaminText);
-			tv1.setTypeface(Typeface.createFromAsset(getAssets(),
-					"fonts/Lato-Bold.ttf"));
+			tv1.setTypeface(tf);
 			TextView tv2 = (TextView) mSplashDialog
 					.findViewById(R.id.yummlyText);
-			tv2.setTypeface(Typeface.createFromAsset(getAssets(),
-					"fonts/Lato-Bold.ttf"));
+			tv2.setTypeface(tf);
 			mSplashDialog.setCancelable(false);
 			mSplashDialog.show();
 			firstDisplay = false;
