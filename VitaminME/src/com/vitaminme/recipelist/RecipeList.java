@@ -81,7 +81,7 @@ public class RecipeList extends BaseActivity
 			ingredients = (List<Ingredient>)ingExtra;
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
 				.showImageForEmptyUri(R.drawable.ic_stub)
 				.showImageOnFail(R.drawable.ic_error)
 				// .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)

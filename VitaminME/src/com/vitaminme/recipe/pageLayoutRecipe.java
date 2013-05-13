@@ -140,7 +140,7 @@ public class pageLayoutRecipe extends Fragment
 			{
 				Log.e("vitaminme", "ERROR in AsyncTask: " + e.toString());
 				e.printStackTrace();
-				mainImage.setImageResource(R.drawable.ic_launcher_vm_2);
+				mainImage.setImageResource(R.drawable.ic_launcher);
 			}
 			return null;
 		}

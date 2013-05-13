@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_launcher_vm_2" />
+            android:src="@drawable/ic_launcher" />
     </RelativeLayout>
 
     <ImageView

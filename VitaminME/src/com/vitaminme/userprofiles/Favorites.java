@@ -37,7 +37,7 @@ public class Favorites extends BaseActivity
 		setContentView(R.layout.activity_favorites);
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_launcher_vm_2)
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
 				.showImageForEmptyUri(R.drawable.ic_stub)
 				.showImageOnFail(R.drawable.ic_error).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(

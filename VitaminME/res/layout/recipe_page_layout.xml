@@ -21,7 +21,7 @@
             android:contentDescription="recipe_image_main"
             android:focusableInTouchMode="true"
             android:scaleType="center"
-            android:src="@drawable/ic_launcher_vm_2" />
+            android:src="@drawable/ic_launcher" />
 
         <View
             android:id="@+id/view1"

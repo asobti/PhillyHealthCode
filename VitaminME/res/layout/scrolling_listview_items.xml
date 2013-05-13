@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_vm_2" >
+        android:src="@drawable/ic_launcher" >
 
     </ImageView>
 
