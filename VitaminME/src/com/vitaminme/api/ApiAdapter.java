@@ -30,28 +30,27 @@ import com.vitaminme.data.Diet;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
+import com.vitaminme.data.Recipe;
+import com.vitaminme.data.RecipeSummary;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.exceptions.APILimitExceededException;
+import com.vitaminme.exceptions.RecipeParseException;
 
 /*
  * This class is responsible for all communications with the API
  * Exists as a singleton
  */
-public class ApiAdapter
-{
+public class ApiAdapter {
 	private static ApiAdapter _instance = null;
 
 	private final String endpoint = "http://vitaminme.notimplementedexception.me/";
 	private Pagination pag;
 
-	private ApiAdapter()
-	{
+	private ApiAdapter() {
 	}
 
-	public static ApiAdapter getInstance()
-	{
-		if (ApiAdapter._instance == null)
-		{
+	public static ApiAdapter getInstance() {
+		if (ApiAdapter._instance == null) {
 			ApiAdapter._instance = new ApiAdapter();
 		}
 
@@ -59,34 +58,27 @@ public class ApiAdapter
 	}
 
 	public ArrayList<Nutrient> getNutrients(
-			ArrayList<Entry<String, String>> params) throws APICallException
-	{
+			ArrayList<Entry<String, String>> params) throws APICallException {
 		return this.getNutrients(params, new ArrayList<ApiFilter>());
 	}
 
 	public ArrayList<Nutrient> getNutrients(
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
-			throws APICallException
-	{
-		JSONObject response;		
+			throws APICallException {
+		JSONObject response;
 		ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
 
-		try
-		{
+		try {
 			String url = this.endpoint + "nutrients"
 					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
-			for (int i = 0; i < arr.length(); i++)
-			{
-				try
-				{
+			for (int i = 0; i < arr.length(); i++) {
+				try {
 					Nutrient nut = new Nutrient(arr.getJSONObject(i));
 					nutrients.add(nut);
-				}
-				catch (JSONException e)
-				{
+				} catch (JSONException e) {
 					// unable to parse this particular object
 					// ignore and continue
 					continue;
@@ -95,13 +87,9 @@ public class ApiAdapter
 
 			this.pag = parsePaginationInfo(response);
 
-		}
-		catch (APICallException e)
-		{
+		} catch (APICallException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// some other exception occurred. Wrap it as an APICallException and
 			// re-throw
 			throw new APICallException(e.getMessage(), e.getCause());
@@ -109,36 +97,28 @@ public class ApiAdapter
 
 		return nutrients;
 	}
-	
-	public ArrayList<Diet> getDiets(
-			ArrayList<Entry<String, String>> params) throws APICallException
-	{
+
+	public ArrayList<Diet> getDiets(ArrayList<Entry<String, String>> params)
+			throws APICallException {
 		return this.getDiets(params, new ArrayList<ApiFilter>());
 	}
 
-	public ArrayList<Diet> getDiets(
-			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
-			throws APICallException
-	{
+	public ArrayList<Diet> getDiets(ArrayList<Entry<String, String>> params,
+			List<ApiFilter> filters) throws APICallException {
 		JSONObject response;
 		ArrayList<Diet> diets = new ArrayList<Diet>();
 
-		try
-		{
+		try {
 			String url = this.endpoint + "diets"
-					+ this.buildQueryString(params, filters);			
+					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
-			for (int i = 0; i < arr.length(); i++)
-			{
-				try
-				{
+			for (int i = 0; i < arr.length(); i++) {
+				try {
 					Diet dt = new Diet(arr.getJSONObject(i));
 					diets.add(dt);
-				}
-				catch (JSONException e)
-				{
+				} catch (JSONException e) {
 					// unable to parse this particular object
 					// ignore and continue
 					continue;
@@ -147,13 +127,9 @@ public class ApiAdapter
 
 			this.pag = parsePaginationInfo(response);
 
-		}
-		catch (APICallException e)
-		{
+		} catch (APICallException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// some other exception occurred. Wrap it as an APICallException and
 			// re-throw
 			throw new APICallException(e.getMessage(), e.getCause());
@@ -161,36 +137,29 @@ public class ApiAdapter
 
 		return diets;
 	}
-	
+
 	public ArrayList<Allergy> getAllergies(
-			ArrayList<Entry<String, String>> params) throws APICallException
-	{
+			ArrayList<Entry<String, String>> params) throws APICallException {
 		return this.getAllergies(params, new ArrayList<ApiFilter>());
 	}
 
 	public ArrayList<Allergy> getAllergies(
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
-			throws APICallException
-	{
-		JSONObject response;		
+			throws APICallException {
+		JSONObject response;
 		ArrayList<Allergy> allergies = new ArrayList<Allergy>();
 
-		try
-		{
+		try {
 			String url = this.endpoint + "diets"
 					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
-			for (int i = 0; i < arr.length(); i++)
-			{
-				try
-				{
+			for (int i = 0; i < arr.length(); i++) {
+				try {
 					Allergy all = new Allergy(arr.getJSONObject(i));
 					allergies.add(all);
-				}
-				catch (JSONException e)
-				{
+				} catch (JSONException e) {
 					// unable to parse this particular object
 					// ignore and continue
 					continue;
@@ -199,13 +168,9 @@ public class ApiAdapter
 
 			this.pag = parsePaginationInfo(response);
 
-		}
-		catch (APICallException e)
-		{
+		} catch (APICallException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// some other exception occurred. Wrap it as an APICallException and
 			// re-throw
 			throw new APICallException(e.getMessage(), e.getCause());
@@ -215,35 +180,28 @@ public class ApiAdapter
 	}
 
 	public ArrayList<Ingredient> getIngredients(
-			ArrayList<Entry<String, String>> params) throws APICallException
-	{
+			ArrayList<Entry<String, String>> params) throws APICallException {
 		return this.getIngredients(params, new ArrayList<ApiFilter>());
 	}
 
 	public ArrayList<Ingredient> getIngredients(
 			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
-			throws APICallException
-	{
-		JSONObject response;		
+			throws APICallException {
+		JSONObject response;
 		ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-		try
-		{
+		try {
 			String url = this.endpoint + "ingredients"
 					+ this.buildQueryString(params, filters);
-			
+
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");
 
-			for (int i = 0; i < arr.length(); i++)
-			{
-				try
-				{
+			for (int i = 0; i < arr.length(); i++) {
+				try {
 					Ingredient ing = new Ingredient(arr.getJSONObject(i));
 					ingredients.add(ing);
-				}
-				catch (JSONException e)
-				{
+				} catch (JSONException e) {
 					// unable to parse this particular object
 					// ignore and continue
 					continue;
@@ -252,13 +210,9 @@ public class ApiAdapter
 
 			this.pag = parsePaginationInfo(response);
 
-		}
-		catch (APICallException e)
-		{
+		} catch (APICallException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			// some other exception occurred. Wrap it as an APICallException and
 			// re-throw
 			throw new APICallException(e.getMessage(), e.getCause());
@@ -267,32 +221,79 @@ public class ApiAdapter
 		return ingredients;
 	}
 
+	public ArrayList<RecipeSummary> getRecipes(
+			ArrayList<Entry<String, String>> params) throws APICallException {
+		return this.getRecipes(params, new ArrayList<ApiFilter>());
+	}
+
+	public ArrayList<RecipeSummary> getRecipes(
+			ArrayList<Entry<String, String>> params, List<ApiFilter> filters)
+			throws APICallException {
+		JSONObject response;
+		ArrayList<RecipeSummary> recipes = new ArrayList<RecipeSummary>();
+
+		try {
+			String url = this.endpoint + "recipes"
+					+ this.buildQueryString(params, filters);
+
+			response = this.get(url);
+			JSONArray arr = response.getJSONArray("objects");
+
+			for (int i = 0; i < arr.length(); i++) {
+				try {
+					RecipeSummary rec = new RecipeSummary(arr.getJSONObject(i));
+					recipes.add(rec);
+				} catch (JSONException e) {
+					continue;
+				} catch (RecipeParseException e) {
+					continue;
+				}
+			}
+
+			this.pag = parsePaginationInfo(response);
+
+		} catch (APICallException e) {
+			throw e;
+		} catch (Exception e) {
+			// some other exception occurred. Wrap it as an APICallException and
+			// re-throw
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+
+		return recipes;
+	}
+	
+	public Recipe getRecipe(String id) throws APICallException {
+		Recipe recipe = null;
+		JSONObject response;
+		
+		try {
+			String url = this.endpoint + "recipes/" + id;
+			response = this.get(url);
+			
+			recipe = new Recipe(response);
+		} catch (APICallException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new APICallException(e.getMessage(), e.getCause());
+		}
+		
+		return recipe;
+	}
+
 	/*
 	 * Returns the pagination object for the last query
 	 */
-	public Pagination getPaginationObject()
-	{
+	public Pagination getPaginationObject() {
 		return this.pag;
 	}
 
-	private Pagination parsePaginationInfo(JSONObject resp)
-	{
+	private Pagination parsePaginationInfo(JSONObject resp) throws JSONException {
 		Pagination pag = new Pagination();
 
-		try
-		{
-			pag.total_pages = resp.getInt("total_pages");
-			pag.num_results = resp.getInt("num_results");
-			pag.page_results = resp.getInt("page_results");
-		}
-		catch (JSONException e)
-		{
-			// is there a better way to handle this?
-			// How critical is pagination info? If extremely critical
-			// this should throw an APICallException, and client
-			// should not proceed in that case
-			pag = null;
-		}
+		pag.total_pages = resp.getInt("total_pages");
+		pag.num_results = resp.getInt("num_results");
+		pag.page_results = resp.getInt("page_results");
 
 		return pag;
 	}
@@ -302,8 +303,7 @@ public class ApiAdapter
 	 * concatenated to a url
 	 */
 	private String buildQueryString(ArrayList<Entry<String, String>> params,
-			List<ApiFilter> filters) throws UnsupportedEncodingException
-	{
+			List<ApiFilter> filters) throws UnsupportedEncodingException {
 		if (params.size() > 0) {
 			String queryString = "?";
 			for (Entry<String, String> entry : params) {
@@ -311,10 +311,11 @@ public class ApiAdapter
 						entry.getValue());
 			}
 
-			if (filters.size() > 0)	{
+			if (filters.size() > 0) {
 				Gson gson = new Gson();
 				String filter_json = gson.toJson(filters);
-				queryString += "filter=" + URLEncoder.encode(filter_json, "UTF-8") + '&';
+				queryString += "filter="
+						+ URLEncoder.encode(filter_json, "UTF-8") + '&';
 			}
 
 			// trim the trailing ampersand
@@ -329,8 +330,7 @@ public class ApiAdapter
 	 * Makes a get request to the url
 	 */
 	private JSONObject get(String url) throws APICallException,
-			ClientProtocolException, IOException
-	{
+			ClientProtocolException, IOException {
 		JSONObject response;
 		String jsonString;
 
@@ -347,15 +347,13 @@ public class ApiAdapter
 		HttpResponse resp = client.execute(request);
 		StatusLine status = resp.getStatusLine();
 
-		if (status.getStatusCode() == HttpStatus.SC_OK)
-		{
+		if (status.getStatusCode() == HttpStatus.SC_OK) {
 			Header contentEncoding = resp.getFirstHeader("Content-Encoding");
 			InputStream instream = resp.getEntity().getContent();
 
 			// was the response gzip'ed?
 			if (contentEncoding != null
-					&& contentEncoding.getValue().equalsIgnoreCase("gzip"))
-			{
+					&& contentEncoding.getValue().equalsIgnoreCase("gzip")) {
 				instream = new GZIPInputStream(instream);
 			}
 
@@ -364,29 +362,21 @@ public class ApiAdapter
 			StringBuilder responseString = new StringBuilder();
 			String line;
 
-			while ((line = reader.readLine()) != null)
-			{
+			while ((line = reader.readLine()) != null) {
 				responseString.append(line);
 			}
 
 			jsonString = responseString.toString();
 
-			try
-			{
+			try {
 				response = new JSONObject(jsonString);
-			}
-			catch (JSONException e)
-			{
+			} catch (JSONException e) {
 				throw new APICallException(
 						"Unable to parse API response as valid JSON object");
 			}
-		}
-		else if (status.getStatusCode() == HttpStatus.SC_CONFLICT)
-		{
+		} else if (status.getStatusCode() == HttpStatus.SC_CONFLICT) {
 			throw new APILimitExceededException("Yummly API Limit Exceeded");
-		}
-		else
-		{
+		} else {
 			throw new APICallException("API responded with status code "
 					+ status.getStatusCode());
 		}

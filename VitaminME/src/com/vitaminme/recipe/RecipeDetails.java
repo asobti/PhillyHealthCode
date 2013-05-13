@@ -1,15 +1,14 @@
 package com.vitaminme.recipe;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
-import com.vitaminme.api.ApiCallParams;
-import com.vitaminme.api.ApiCallTask;
+import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Pagination;
-import com.vitaminme.data.ParseRecipe;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.main.BaseActivity;
 import com.vitaminme.main.R;
@@ -20,8 +19,7 @@ public class RecipeDetails extends BaseActivity
 	private ViewPager myViewPager;
 	private ViewPagerAdapter myPagerAdapter;
 	String recipe_id = "";
-	Recipe recipe = new Recipe();
-	ProgressDialog mDialog;
+	private Recipe recipe;	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -33,49 +31,7 @@ public class RecipeDetails extends BaseActivity
 		recipe_id = getIntent().getStringExtra("recipe_id");
 		System.out.println("recipe ID: " + recipe_id);
 
-		GetRecipe();
-	}
-
-	public void GetRecipe()
-	{
-		ApiCallParams apiParams = new ApiCallParams();
-		apiParams.url = "http://vitaminme.notimplementedexception.me/recipes/"
-				+ recipe_id;
-
-		apiParams.callBackObject = new ParseRecipe(RecipeDetails.this);
-
-		ApiCallTask task = new ApiCallTask();
-		task.execute(apiParams);
-
-		mDialog = new ProgressDialog(RecipeDetails.this);
-		mDialog.setMessage(getResources().getText(R.string.loading_message));
-		mDialog.setCancelable(false);
-		mDialog.show();
-	}
-
-	public void callback(Recipe recipe, Pagination pagination)
-	{
-		// runningBG = false;
-		// totalNumResults = pagination.num_results;
-
-		// System.out.println("counter: " + counter);
-
-		// if (counter < pagination.num_results)
-		// {
-		// System.out.println("num_recipe: " + recipes.size());
-		// System.out.println("num_results: " + pagination.num_results);
-		this.recipe = recipe;
-		setTitle(recipe.name);
-		// System.out.println("num_results: " + pagination.num_results);
-		if (mDialog.isShowing())
-			mDialog.dismiss();
-		setUpView();
-		setTab();
-
-		// fillListView();
-		// counter += pagination.page_results;
-		// }
-
+		new GetRecipe().execute(recipe_id);
 	}
 
 	private void setUpView()
@@ -129,25 +85,44 @@ public class RecipeDetails extends BaseActivity
 		});
 
 	}
+	
+	private final class GetRecipe extends AsyncTask<String, Void, Recipe> {
+		ProgressDialog mDialog;
+		private ApiAdapter api = ApiAdapter.getInstance();
+		
+		@Override
+		protected void onPreExecute() {
+			mDialog = new ProgressDialog(RecipeDetails.this);
+			mDialog.setMessage(getResources().getText(R.string.loading_message));
+			mDialog.setCancelable(false);
+			mDialog.show();
+		}
 
-	// @Override
-	// public boolean onOptionsItemSelected(MenuItem item)
-	// {
-	// switch (item.getItemId())
-	// {
-	// // case android.R.id.home:
-	// // onBackPressed();
-	// // finish();
-	// // return true;
-	// case R.id.add_favorite:
-	// Toast.makeText(getBaseContext(), "Added to images (not really)",
-	// Toast.LENGTH_SHORT).show();
-	// case R.id.user_profile:
-	// // open user profile
-	// Intent intent = new Intent(this, UserProfile.class);
-	// startActivity(intent);
-	// default:
-	// return super.onOptionsItemSelected(item);
-	// }
-	// }
+		@Override
+		protected Recipe doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			try {
+				return api.getRecipe(params[0]);
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		
+		@Override
+		protected void onPostExecute(Recipe r) {
+			if (r != null) {
+				recipe = r;
+				setTitle(recipe.name);
+				
+				
+				if (mDialog.isShowing())
+					mDialog.dismiss();
+				
+				setUpView();
+				setTab();
+			} else {
+				//toast: Internet connection issue
+			}
+		}		
+	}
 }

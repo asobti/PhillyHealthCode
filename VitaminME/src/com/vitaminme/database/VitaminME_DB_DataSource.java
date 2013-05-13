@@ -242,10 +242,11 @@ public class VitaminME_DB_DataSource
 	// FIX THIS AYUSH
 	private Recipe cursorToRecipe(Cursor cursor)
 	{
-		Recipe recipe = new Recipe();
-		recipe.id = cursor.getString(cursor
-				.getColumnIndexOrThrow(VitaminME_DB.RECIPE_ID));
-		return recipe;
+		return null;
+//		Recipe recipe = new Recipe();
+//		recipe.id = cursor.getString(cursor
+//				.getColumnIndexOrThrow(VitaminME_DB.RECIPE_ID));
+//		return recipe;
 	}
 
 	private Nutrient cursorToNutrient(Cursor cursor)
