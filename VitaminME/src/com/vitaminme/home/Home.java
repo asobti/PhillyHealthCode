@@ -11,7 +11,11 @@ import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Window;
+<<<<<<< Updated upstream
 import com.vitaminme.android.BaseActivity;
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 import com.vitaminme.services.UpdateNutrientsDB;
 

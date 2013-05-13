@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.vitaminme.android.R;
 import com.vitaminme.home.Home;
 import com.vitaminme.android.R;
 

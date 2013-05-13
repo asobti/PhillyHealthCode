@@ -19,7 +19,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+<<<<<<< Updated upstream
 import com.vitaminme.android.BaseActivity;
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 import com.vitaminme.widgets.ExpandableHeightGridView;
 

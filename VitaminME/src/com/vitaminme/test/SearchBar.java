@@ -31,6 +31,10 @@ import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
+<<<<<<< Updated upstream
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 
 public class SearchBar extends BaseActivity implements

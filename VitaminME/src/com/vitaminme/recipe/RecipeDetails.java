@@ -10,6 +10,10 @@ import android.view.View;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Recipe;
+<<<<<<< Updated upstream
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 
 public class RecipeDetails extends BaseActivity

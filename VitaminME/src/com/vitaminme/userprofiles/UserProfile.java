@@ -40,10 +40,15 @@ import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Allergy;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
+<<<<<<< Updated upstream
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 
-public class UserProfile extends BaseActivity {
+public class UserProfile extends BaseActivity
+{
 	private Vibrator vib;
 	boolean firstStart = true;
 	boolean searched = false;
@@ -63,40 +68,54 @@ public class UserProfile extends BaseActivity {
 	List<String> ingredientsArray = new ArrayList<String>();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		// Common diet Spinner
+<<<<<<< Updated upstream
 		allergySpinner = (Spinner) findViewById(R.id.spinner1);
 		new getAllergies().execute();
 		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+=======
+		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
+>>>>>>> Stashed changes
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				if (!firstStart) {
+					int arg2, long arg3)
+			{
+				if (!firstStart)
+				{
 					// need diet object with ingredients
 					// veg Example
 					myExcludesList.add(allergiesAdapter.getItem(arg2).longDescription);
 					excludesAdapter.notifyDataSetChanged();
 
-				} else {
+				}
+				else
+				{
 					firstStart = false;
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
 				// TODO Auto-generated method stub
 
 			}
 		});
 
 		excludesAdapter = new ExcludesListAdapter(UserProfile.this,
-				myExcludesList) {
+				myExcludesList)
+		{
 			@Override
-			public void notifyDataSetChanged() {
+			public void notifyDataSetChanged()
+			{
 				super.notifyDataSetChanged();
 				setListViewHeight(excludesListView);
 			}
@@ -106,6 +125,7 @@ public class UserProfile extends BaseActivity {
 		excludesListView.setAdapter(excludesAdapter);
 		setListViewHeight(excludesListView);
 
+<<<<<<< Updated upstream
 		// Ingredient autocomplete serach
 		// for (int i = 0; i < ingredients.size(); i++) {
 		// ingredientsArray.add(ingredients.get(i).term.toString());
@@ -117,14 +137,23 @@ public class UserProfile extends BaseActivity {
 		searchBarIngredients.setQueryHint("Search for Ingredients");
 		searchBarIngredients.setIconifiedByDefault(false);
 		searchFieldWatcher = new OnQueryTextListener() {
+=======
+		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
+		searchBarIngredients.setQueryHint("Search for Ingredients");
+		searchBarIngredients.setIconified(false);
+		searchFieldWatcher = new OnQueryTextListener()
+		{
+>>>>>>> Stashed changes
 
 			@Override
-			public boolean onQueryTextSubmit(String query) {
+			public boolean onQueryTextSubmit(String query)
+			{
 				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
+<<<<<<< Updated upstream
 			public boolean onQueryTextChange(String newText) {
 				// if (searchBarIngredients.getQuery().toString().equals("")) {
 				// x.setVisibility(View.INVISIBLE);
@@ -137,17 +166,29 @@ public class UserProfile extends BaseActivity {
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
 					// searchBarIngredients.showDropDown();
-					searched = true;
-				}
-				if (newText.length() == 2 && searched) {
+=======
+			public boolean onQueryTextChange(String newText)
+			{
+				if (newText.length() > 2 && !searched)
+				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
+>>>>>>> Stashed changes
+					searched = true;
+				}
+				if (newText.length() == 2 && searched)
+				{
+					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+							searchBarIngredients.getQuery().toString());
+					new getIngredients().execute(filter);
+<<<<<<< Updated upstream
 					// searchBarIngredients.showDropDown();
+=======
+>>>>>>> Stashed changes
 					searched = false;
 				}
 
-				addIgnoreButton.setVisibility(View.INVISIBLE);
 				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 						searchBarIngredients.getQuery().toString());
 				new getIngredients().execute(filter);
@@ -156,6 +197,7 @@ public class UserProfile extends BaseActivity {
 
 		};
 		searchBarIngredients.setOnQueryTextListener(searchFieldWatcher);
+<<<<<<< Updated upstream
 		searchBarIngredients
 				.setOnSuggestionListener(new OnSuggestionListener() {
 
@@ -213,20 +255,67 @@ public class UserProfile extends BaseActivity {
 						// TODO Auto-generated method stub
 						return false;
 					}
+=======
+		searchBarIngredients.setOnSuggestionListener(new OnSuggestionListener()
+		{
+			@Override
+			public boolean onSuggestionClick(int position)
+			{
+				searchBarIngredients.setQuery(simple.getCursor().getString(0),
+						false);
+
+				vib.vibrate(20);
+				boolean inList = false;
+				for (int i = 0; i < myExcludesList.size(); i++)
+				{
+					if (myExcludesList.get(i).equals(
+							searchBarIngredients.getQuery().toString()))
+					{
+						Log.v("mytag", "inside if");
+						Toast.makeText(
+								UserProfile.this,
+								"You already have "
+										+ searchBarIngredients.getQuery()
+												.toString() + " in your list",
+								Toast.LENGTH_LONG).show();
+						inList = true;
+					}
+				}
+				if (!inList)
+				{
+					myExcludesList.add(0, searchBarIngredients.getQuery()
+							.toString());
+					excludesAdapter.notifyDataSetChanged();
+				}
+				searchBarIngredients.setQuery("", false);
+
+				return true;
+			}
+
+			@Override
+			public boolean onSuggestionSelect(int position)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+>>>>>>> Stashed changes
 
 				});
 
 	}
 
-	public static void setListViewHeight(ListView listView) {
+	public static void setListViewHeight(ListView listView)
+	{
 		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter == null) {
+		if (listAdapter == null)
+		{
 			// pre-condition
 			return;
 		}
 
 		int totalHeight = 0;
-		for (int i = 0; i < listAdapter.getCount(); i++) {
+		for (int i = 0; i < listAdapter.getCount(); i++)
+		{
 			View listItem = listAdapter.getView(i, null, listView);
 			listItem.measure(0, 0);
 			totalHeight += listItem.getMeasuredHeight();
@@ -240,13 +329,15 @@ public class UserProfile extends BaseActivity {
 	}
 
 	private final class getIngredients extends
-			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>> {
+			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>>
+	{
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -255,33 +346,45 @@ public class UserProfile extends BaseActivity {
 		}
 
 		@Override
-		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg) {
+		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg)
+		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "1000"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 
-			for (ApiFilter f : arg) {
+			for (ApiFilter f : arg)
+			{
 				filters.add(f);
 			}
 
-			try {
+			try
+			{
 				return api.getIngredients(params, filters);
-			} catch (APICallException e) {
+			}
+			catch (APICallException e)
+			{
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Ingredient> nut) {
+		protected void onPostExecute(final ArrayList<Ingredient> nut)
+		{
 
-			if (nut != null && nut.size() > 0) {
+			if (nut != null && nut.size() > 0)
+			{
 				ingredients = nut;
 
 				String[] columnNames = { "term", "_id" };
 				int[] columnTextId = new int[] { android.R.id.text1 };
 				MatrixCursor cursor = new MatrixCursor(columnNames);
 				int id = 0;
+<<<<<<< Updated upstream
 				for (Ingredient i : ingredients) {
+=======
+				for (Ingredient i : ingredients)
+				{
+>>>>>>> Stashed changes
 					cursor.addRow(new String[] { i.term, Integer.toString(id++) });
 				}
 
@@ -292,13 +395,19 @@ public class UserProfile extends BaseActivity {
 				searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 				searchBarIngredients.setSuggestionsAdapter(simple);
 
-			} else if (nut == null) {
+			}
+			else if (nut == null)
+			{
 				Toast.makeText(UserProfile.this, "No network found",
 						Toast.LENGTH_LONG).show();
-			} else if (nut.size() == 0) {
+			}
+			else if (nut.size() == 0)
+			{
 				Toast.makeText(UserProfile.this, "No ingredients found",
 						Toast.LENGTH_LONG).show();
-			} else {
+			}
+			else
+			{
 				Toast.makeText(UserProfile.this,
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();

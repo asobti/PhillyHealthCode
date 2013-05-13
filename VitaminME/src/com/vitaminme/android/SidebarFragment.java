@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.vitaminme.android.R;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.IngredientListFragment;

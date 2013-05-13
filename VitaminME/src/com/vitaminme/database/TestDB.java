@@ -3,7 +3,11 @@ package com.vitaminme.database;
 import android.os.Bundle;
 import android.widget.TextView;
 
+<<<<<<< Updated upstream
 import com.vitaminme.android.BaseActivity;
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 
 public class TestDB extends BaseActivity

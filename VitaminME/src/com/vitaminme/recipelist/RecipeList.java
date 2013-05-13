@@ -39,6 +39,10 @@ import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
+<<<<<<< Updated upstream
+=======
+import com.vitaminme.main.BaseActivity;
+>>>>>>> Stashed changes
 import com.vitaminme.android.R;
 import com.vitaminme.recipe.RecipeDetails;
 
