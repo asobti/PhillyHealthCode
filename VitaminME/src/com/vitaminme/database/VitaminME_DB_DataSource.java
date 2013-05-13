@@ -1,5 +1,6 @@
 package com.vitaminme.database;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -20,12 +21,29 @@ public class VitaminME_DB_DataSource
 
 	public VitaminME_DB_DataSource(Context context)
 	{
-		this.dbHelper = VitaminME_DB.getInstance(context);
+		// this.dbHelper = VitaminME_DB.getInstance(context);
+		this.dbHelper = new VitaminME_DB(context);
 		this.context = context;
+	}
+
+	public VitaminME_DB_DataSource createDatabase() throws SQLException
+	{
+		try
+		{
+			dbHelper.createDataBase();
+		}
+		catch (IOException ex)
+		{
+			System.out.println("Unable to create DB: " + ex.getMessage());
+			throw new Error("UnableToCreateDatabase");
+		}
+		return this;
 	}
 
 	public void open() throws SQLException
 	{
+		dbHelper.openDataBase();
+		dbHelper.close();
 		db = dbHelper.getWritableDatabase();
 	}
 
@@ -217,7 +235,7 @@ public class VitaminME_DB_DataSource
 	public void updateNutrientsDB()
 	{
 		db.execSQL("DELETE FROM " + VitaminME_DB.TABLE_NUTRIENTS_LIST);
-		dbHelper.addNutrients();
+		//dbHelper.addNutrients();
 	}
 
 	public int getNutrientDBCount()
@@ -233,18 +251,19 @@ public class VitaminME_DB_DataSource
 	private Recipe cursorToRecipe(Cursor cursor)
 	{
 		return null;
-//		Recipe recipe = new Recipe();
-//		recipe.id = cursor.getString(cursor
-//				.getColumnIndexOrThrow(VitaminME_DB.RECIPE_ID));
-//		return recipe;
+		// Recipe recipe = new Recipe();
+		// recipe.id = cursor.getString(cursor
+		// .getColumnIndexOrThrow(VitaminME_DB.RECIPE_ID));
+		// return recipe;
 	}
 
 	private Nutrient cursorToNutrient(Cursor cursor)
 	{
 		Nutrient nutrient = new Nutrient();
 		nutrient.id = cursor.getInt(cursor
-				.getColumnIndexOrThrow(VitaminME_DB.NUTRIENT_ID));
-		nutrient.name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+				.getColumnIndexOrThrow(VitaminME_DB.COLUMN_ID));
+		nutrient.name = cursor.getString(cursor
+				.getColumnIndexOrThrow("description"));
 		nutrient.tag = cursor
 				.getString(cursor.getColumnIndexOrThrow("tagname"));
 		nutrient.unit = cursor.getString(cursor.getColumnIndexOrThrow("unit"));

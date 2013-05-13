@@ -72,9 +72,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 						});
 				AlertDialog helpDialog = box.create();
 				helpDialog.show();
-
 			}
-
 		});
 
 		ImageButton plus = (ImageButton) v.findViewById((R.id.plus_icon));

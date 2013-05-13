@@ -15,7 +15,8 @@ import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.services.UpdateNutrientsDB;
 
-public class Home extends BaseActivity {
+public class Home extends BaseActivity
+{
 	Fragment mContent;
 	HashMap<String, Fragment> Fragments = new HashMap<String, Fragment>();
 
@@ -24,7 +25,8 @@ public class Home extends BaseActivity {
 	static boolean firstDisplay = true;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		showSplashScreen();
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
@@ -35,7 +37,8 @@ public class Home extends BaseActivity {
 
 		Bundle extras = getIntent().getExtras();
 		String fragmentName = "";
-		if (extras != null) {
+		if (extras != null)
+		{
 			fragmentName = extras.getString("fragmentName");
 		}
 		// fragmentName = getResources().getString(
@@ -50,25 +53,32 @@ public class Home extends BaseActivity {
 
 		if (fragmentName.isEmpty()
 				|| fragmentName.equals(getResources().getString(
-						R.string.name_fragment_home))) {
+						R.string.name_fragment_home)))
+		{
 
 			mContent = new HomeFragment();
 			currentFragment = getResources().getString(
 					R.string.name_fragment_home);
-		} else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_nutrients))) {
+		}
+		else if (fragmentName.equals(getResources().getString(
+				R.string.name_fragment_search_nutrients)))
+		{
 			mContent = new NutrientListFragment();
 			currentFragment = getResources().getString(
 					R.string.name_fragment_search_nutrients);
 
-		} else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_ingredients))) {
+		}
+		else if (fragmentName.equals(getResources().getString(
+				R.string.name_fragment_search_ingredients)))
+		{
 			mContent = new NutrientListFragment(); // CHANGE THIS
 			currentFragment = getResources().getString(
 					R.string.name_fragment_search_ingredients);
 
-		} else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_recipe_name))) {
+		}
+		else if (fragmentName.equals(getResources().getString(
+				R.string.name_fragment_search_recipe_name)))
+		{
 			mContent = new NutrientListFragment();
 			currentFragment = getResources().getString(
 					R.string.name_fragment_search_recipe_name);
@@ -79,7 +89,8 @@ public class Home extends BaseActivity {
 
 	}
 
-	private void performChecks() {
+	private void performChecks()
+	{
 		setSupportProgressBarIndeterminateVisibility(false);
 
 		// Update NutrientsDB
@@ -88,8 +99,10 @@ public class Home extends BaseActivity {
 
 	}
 
-	protected void showSplashScreen() {
-		if (firstDisplay == true) {
+	protected void showSplashScreen()
+	{
+		if (firstDisplay == true)
+		{
 			mSplashDialog = new Dialog(this, R.style.SplashScreen);
 			mSplashDialog.setContentView(R.layout.splashscreen);
 			Typeface tf = Typeface.createFromAsset(getAssets(),
@@ -106,9 +119,11 @@ public class Home extends BaseActivity {
 
 			// Set Runnable to remove splash screen just in case
 			final Handler handler = new Handler();
-			handler.postDelayed(new Runnable() {
+			handler.postDelayed(new Runnable()
+			{
 				@Override
-				public void run() {
+				public void run()
+				{
 					removeSplashScreen();
 				}
 			}, 10000);
@@ -117,20 +132,24 @@ public class Home extends BaseActivity {
 		setTheme(R.style.AppTheme);
 	}
 
-	protected void removeSplashScreen() {
-		if (mSplashDialog != null) {
+	protected void removeSplashScreen()
+	{
+		if (mSplashDialog != null)
+		{
 			mSplashDialog.dismiss();
 			mSplashDialog = null;
 		}
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
+	public void onSaveInstanceState(Bundle savedInstanceState)
+	{
 		super.onSaveInstanceState(savedInstanceState);
 	}
 
 	@Override
-	public void onBackPressed() {
+	public void onBackPressed()
+	{
 		super.onBackPressed();
 		finish();
 	}

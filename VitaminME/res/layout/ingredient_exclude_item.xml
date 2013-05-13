@@ -3,44 +3,44 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/object_background"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp" >
 
     <TextView
         android:id="@+id/ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
         android:text="Test"
-        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/ingredient_remove_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/ingredient_name"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
+        android:adjustViewBounds="true"
         android:background="@android:color/transparent"
         android:fadingEdge="horizontal"
-        android:padding="6dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/x_icon" />
+        android:src="@drawable/cancel_bold" />
 
     <ImageButton
         android:id="@+id/cancel_remove_button"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/ingredient_name"
+        android:adjustViewBounds="true"
         android:background="@android:color/transparent"
-        android:padding="2dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/green_checkcircle_icon" />
+        android:src="@drawable/check_green" />
 
 </RelativeLayout>

@@ -8,8 +8,7 @@ public abstract class Schema {
 	public HashMap<String, String> fields = new HashMap<String, String>();
 	
 	public String create_statement() {
-		String query = "CREATE " + this.table_name;
-		query += " (";
+		String query = String.format("CREATE table %s (", this.table_name);		
 		
 		for (Entry<String, String> kvp : this.fields.entrySet()) {
 			query += String.format("%s %s,", kvp.getKey(), kvp.getValue());

@@ -43,11 +43,11 @@ import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.android.R;
 import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 
-public class UserProfile extends BaseActivity {
+public class UserProfile extends BaseActivity
+{
 	private Vibrator vib;
 	boolean firstStart = true;
 	boolean searched = false;
-	Button addIgnoreButton;
 	ListView excludesListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
 	ExcludesListAdapter excludesAdapter;
@@ -63,40 +63,49 @@ public class UserProfile extends BaseActivity {
 	List<String> ingredientsArray = new ArrayList<String>();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		// Common diet Spinner
 		allergySpinner = (Spinner) findViewById(R.id.spinner1);
 		new getAllergies().execute();
-		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		{
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				if (!firstStart) {
+					int arg2, long arg3)
+			{
+				if (!firstStart)
+				{
 					// need diet object with ingredients
 					// veg Example
 					myExcludesList.add(allergiesAdapter.getItem(arg2).longDescription);
 					excludesAdapter.notifyDataSetChanged();
 
-				} else {
+				}
+				else
+				{
 					firstStart = false;
 				}
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void onNothingSelected(AdapterView<?> arg0)
+			{
 				// TODO Auto-generated method stub
 
 			}
 		});
 
 		excludesAdapter = new ExcludesListAdapter(UserProfile.this,
-				myExcludesList) {
+				myExcludesList)
+		{
 			@Override
-			public void notifyDataSetChanged() {
+			public void notifyDataSetChanged()
+			{
 				super.notifyDataSetChanged();
 				setListViewHeight(excludesListView);
 			}
@@ -106,48 +115,39 @@ public class UserProfile extends BaseActivity {
 		excludesListView.setAdapter(excludesAdapter);
 		setListViewHeight(excludesListView);
 
-		// Ingredient autocomplete serach
-		// for (int i = 0; i < ingredients.size(); i++) {
-		// ingredientsArray.add(ingredients.get(i).term.toString());
-		// }
-
-		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
-		addIgnoreButton.setVisibility(View.INVISIBLE);
 		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 		searchBarIngredients.setQueryHint("Search for Ingredients");
-		searchBarIngredients.setIconifiedByDefault(false);
-		searchFieldWatcher = new OnQueryTextListener() {
+		// searchBarIngredients.setIconifiedByDefault(false);
+		searchBarIngredients.setIconified(false);
+		searchFieldWatcher = new OnQueryTextListener()
+		{
 
 			@Override
-			public boolean onQueryTextSubmit(String query) {
+			public boolean onQueryTextSubmit(String query)
+			{
 				// TODO Auto-generated method stub
 				return false;
 			}
 
 			@Override
-			public boolean onQueryTextChange(String newText) {
-				// if (searchBarIngredients.getQuery().toString().equals("")) {
-				// x.setVisibility(View.INVISIBLE);
-				// } else {
-				// x.setVisibility(View.VISIBLE);
-				// }
+			public boolean onQueryTextChange(String newText)
+			{
 
-				if (newText.length() > 2 && !searched) {
+				if (newText.length() > 2 && !searched)
+				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
-					// searchBarIngredients.showDropDown();
 					searched = true;
 				}
-				if (newText.length() == 2 && searched) {
+				if (newText.length() == 2 && searched)
+				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
-					// searchBarIngredients.showDropDown();
 					searched = false;
 				}
 
-				addIgnoreButton.setVisibility(View.INVISIBLE);
 				ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 						searchBarIngredients.getQuery().toString());
 				new getIngredients().execute(filter);
@@ -156,77 +156,70 @@ public class UserProfile extends BaseActivity {
 
 		};
 		searchBarIngredients.setOnQueryTextListener(searchFieldWatcher);
-		searchBarIngredients
-				.setOnSuggestionListener(new OnSuggestionListener() {
+		searchBarIngredients.setOnSuggestionListener(new OnSuggestionListener()
+		{
 
-					@Override
-					public boolean onSuggestionClick(int position) {
-						searchBarIngredients.setQuery(simple.getCursor()
-								.getString(0), false);
-						addIgnoreButton.setVisibility(View.VISIBLE);
-						InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(
-								searchBarIngredients.getWindowToken(), 0);
-						addIgnoreButton
-								.setOnClickListener(new OnClickListener() {
+			@Override
+			public boolean onSuggestionClick(int position)
+			{
+				searchBarIngredients.setQuery(simple.getCursor().getString(0),
+						false);
+				// InputMethodManager imm = (InputMethodManager)
+				// getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
+				// imm.hideSoftInputFromWindow(
+				// searchBarIngredients.getWindowToken(), 0);
 
-									@Override
-									public void onClick(View arg0) {
-										vib.vibrate(20);
-										boolean inList = false;
-										for (int i = 0; i < myExcludesList
-												.size(); i++) {
-											if (myExcludesList.get(i).equals(
-													searchBarIngredients
-															.getQuery()
-															.toString())) {
-												Log.v("mytag", "inside if");
-												Toast.makeText(
-														UserProfile.this,
-														"You already have "
-																+ searchBarIngredients
-																		.getQuery()
-																		.toString()
-																+ " in your list",
-														Toast.LENGTH_LONG)
-														.show();
-												inList = true;
-											}
-										}
-										if (!inList) {
-											myExcludesList.add(0,
-													searchBarIngredients
-															.getQuery()
-															.toString());
-											excludesAdapter
-													.notifyDataSetChanged();
-										}
-										searchBarIngredients
-												.setQuery("", false);
-									}
-								});
-						return false;
+				vib.vibrate(20);
+				boolean inList = false;
+				for (int i = 0; i < myExcludesList.size(); i++)
+				{
+					if (myExcludesList.get(i).equals(
+							searchBarIngredients.getQuery().toString()))
+					{
+						Log.v("mytag", "inside if");
+						Toast.makeText(
+								UserProfile.this,
+								"You already have "
+										+ searchBarIngredients.getQuery()
+												.toString() + " in your list",
+								Toast.LENGTH_LONG).show();
+						inList = true;
 					}
+				}
+				if (!inList)
+				{
+					myExcludesList.add(0, searchBarIngredients.getQuery()
+							.toString());
+					excludesAdapter.notifyDataSetChanged();
+				}
+				searchBarIngredients.setQuery("", false);
 
-					@Override
-					public boolean onSuggestionSelect(int position) {
-						// TODO Auto-generated method stub
-						return false;
-					}
+				return true;
+			}
 
-				});
+			@Override
+			public boolean onSuggestionSelect(int position)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}
+
+		});
 
 	}
 
-	public static void setListViewHeight(ListView listView) {
+	public static void setListViewHeight(ListView listView)
+	{
 		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter == null) {
+		if (listAdapter == null)
+		{
 			// pre-condition
 			return;
 		}
 
 		int totalHeight = 0;
-		for (int i = 0; i < listAdapter.getCount(); i++) {
+		for (int i = 0; i < listAdapter.getCount(); i++)
+		{
 			View listItem = listAdapter.getView(i, null, listView);
 			listItem.measure(0, 0);
 			totalHeight += listItem.getMeasuredHeight();
@@ -240,13 +233,15 @@ public class UserProfile extends BaseActivity {
 	}
 
 	private final class getIngredients extends
-			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>> {
+			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>>
+	{
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -255,33 +250,41 @@ public class UserProfile extends BaseActivity {
 		}
 
 		@Override
-		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg) {
+		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg)
+		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "1000"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 
-			for (ApiFilter f : arg) {
+			for (ApiFilter f : arg)
+			{
 				filters.add(f);
 			}
 
-			try {
+			try
+			{
 				return api.getIngredients(params, filters);
-			} catch (APICallException e) {
+			}
+			catch (APICallException e)
+			{
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Ingredient> nut) {
+		protected void onPostExecute(final ArrayList<Ingredient> nut)
+		{
 
-			if (nut != null && nut.size() > 0) {
+			if (nut != null && nut.size() > 0)
+			{
 				ingredients = nut;
 
 				String[] columnNames = { "term", "_id" };
 				int[] columnTextId = new int[] { android.R.id.text1 };
 				MatrixCursor cursor = new MatrixCursor(columnNames);
 				int id = 0;
-				for (Ingredient i : ingredients) {
+				for (Ingredient i : ingredients)
+				{
 					cursor.addRow(new String[] { i.term, Integer.toString(id++) });
 				}
 
@@ -292,13 +295,19 @@ public class UserProfile extends BaseActivity {
 				searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 				searchBarIngredients.setSuggestionsAdapter(simple);
 
-			} else if (nut == null) {
+			}
+			else if (nut == null)
+			{
 				Toast.makeText(UserProfile.this, "No network found",
 						Toast.LENGTH_LONG).show();
-			} else if (nut.size() == 0) {
+			}
+			else if (nut.size() == 0)
+			{
 				Toast.makeText(UserProfile.this, "No ingredients found",
 						Toast.LENGTH_LONG).show();
-			} else {
+			}
+			else
+			{
 				Toast.makeText(UserProfile.this,
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();
@@ -311,13 +320,15 @@ public class UserProfile extends BaseActivity {
 	}
 
 	private final class getAllergies extends
-			AsyncTask<ApiFilter, Void, ArrayList<Allergy>> {
+			AsyncTask<ApiFilter, Void, ArrayList<Allergy>>
+	{
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -326,32 +337,45 @@ public class UserProfile extends BaseActivity {
 		}
 
 		@Override
-		protected ArrayList<Allergy> doInBackground(ApiFilter... arg) {
+		protected ArrayList<Allergy> doInBackground(ApiFilter... arg)
+		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "100"));
 
-			try {
+			try
+			{
 				return api.getAllergies(params);
-			} catch (APICallException e) {
+			}
+			catch (APICallException e)
+			{
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Allergy> allergiesReturned) {
+		protected void onPostExecute(final ArrayList<Allergy> allergiesReturned)
+		{
 
-			if (allergiesReturned != null && allergiesReturned.size() > 0) {
+			if (allergiesReturned != null && allergiesReturned.size() > 0)
+			{
 				allergies = allergiesReturned;
-				allergiesAdapter = new AllergySpinnerAdapter(allergies, UserProfile.this);
+				allergiesAdapter = new AllergySpinnerAdapter(allergies,
+						UserProfile.this);
 				allergySpinner.setAdapter(allergiesAdapter);
 
-			} else if (allergiesReturned == null) {
+			}
+			else if (allergiesReturned == null)
+			{
 				Toast.makeText(UserProfile.this, "No network found",
 						Toast.LENGTH_LONG).show();
-			} else if (allergiesReturned.size() == 0) {
+			}
+			else if (allergiesReturned.size() == 0)
+			{
 				Toast.makeText(UserProfile.this, "No ingredients found",
 						Toast.LENGTH_LONG).show();
-			} else {
+			}
+			else
+			{
 				Toast.makeText(UserProfile.this,
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();
@@ -361,49 +385,55 @@ public class UserProfile extends BaseActivity {
 				mDialog.dismiss();
 
 		}
-		
-		
+
 	}
-	
-	public class AllergySpinnerAdapter extends BaseAdapter implements	SpinnerAdapter {
+
+	public class AllergySpinnerAdapter extends BaseAdapter implements
+			SpinnerAdapter
+	{
 		private final ArrayList<Allergy> content;
 		private final Activity activity;
-	
-		public AllergySpinnerAdapter(ArrayList<Allergy> content, Activity activity) {
+
+		public AllergySpinnerAdapter(ArrayList<Allergy> content,
+				Activity activity)
+		{
 			super();
 			this.content = content;
 			this.activity = activity;
 		}
 
 		@Override
-		public int getCount() {
+		public int getCount()
+		{
 			// TODO Auto-generated method stub
 			return content.size();
 		}
 
 		@Override
-		public Allergy getItem(int arg0) {
+		public Allergy getItem(int arg0)
+		{
 			// TODO Auto-generated method stub
 			return content.get(arg0);
 		}
 
 		@Override
-		public long getItemId(int position) {
+		public long getItemId(int position)
+		{
 			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
 			LayoutInflater inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View v = inflater.inflate(android.R.layout.simple_list_item_1, parent,
-					false);
-			
+			View v = inflater.inflate(android.R.layout.simple_list_item_1,
+					parent, false);
+
 			TextView tv = (TextView) v.findViewById(android.R.id.text1);
 			tv.setText(content.get(position).shortDescription);
 
-			
 			return v;
 		}
 
