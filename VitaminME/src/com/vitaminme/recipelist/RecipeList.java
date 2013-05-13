@@ -34,16 +34,12 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.android.BaseActivity;
+import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
-<<<<<<< Updated upstream
-=======
-import com.vitaminme.main.BaseActivity;
->>>>>>> Stashed changes
-import com.vitaminme.android.R;
 import com.vitaminme.recipe.RecipeDetails;
 
 public class RecipeList extends BaseActivity
@@ -74,15 +70,16 @@ public class RecipeList extends BaseActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recipe_list);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);		
-		
-		Serializable nutrientsExtra = getIntent().getSerializableExtra("Nutrients");
-		if (nutrientsExtra != null) 
-			nutrients = (List<Nutrient>)nutrientsExtra;
-		
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		Serializable nutrientsExtra = getIntent().getSerializableExtra(
+				"Nutrients");
+		if (nutrientsExtra != null)
+			nutrients = (List<Nutrient>) nutrientsExtra;
+
 		Serializable ingExtra = getIntent().getSerializableExtra("Ingredients");
-		if (ingExtra != null) 
-			ingredients = (List<Ingredient>)ingExtra;
+		if (ingExtra != null)
+			ingredients = (List<Ingredient>) ingExtra;
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
 				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
@@ -103,7 +100,7 @@ public class RecipeList extends BaseActivity
 				R.layout.activity_recipe_list_footer, null, false);
 		listView.addFooterView(footerView, null, false);
 
-		setListeners();		
+		setListeners();
 	}
 
 	public void fillListView()
@@ -173,12 +170,14 @@ public class RecipeList extends BaseActivity
 				int lastInScreen = firstVisibleItemInScreen + visibleItemCount;
 
 				if (lastInScreen == totalItemCount
-						&& startIndex < totalNumResults) {
+						&& startIndex < totalNumResults)
+				{
 					firstVisibleItem = firstVisibleItemInScreen;
-					
-					if (!runningBg) {
+
+					if (!runningBg)
+					{
 						runningBg = true;
-						new GetRecipes().execute();					
+						new GetRecipes().execute();
 					}
 				}
 			}
@@ -278,13 +277,16 @@ public class RecipeList extends BaseActivity
 		super.onBackPressed();
 		AnimateFirstDisplayListener.displayedImages.clear();
 	}
-	
-	private final class GetRecipes extends AsyncTask<Void, Void, ArrayList<RecipeSummary>> {
+
+	private final class GetRecipes extends
+			AsyncTask<Void, Void, ArrayList<RecipeSummary>>
+	{
 		private final ApiAdapter api = ApiAdapter.getInstance();
 		ProgressDialog progressDialog;
-		
+
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			if (startIndex == 0) // Only show loading screen when empty
 			// screen is loaded onCreate
 			{
@@ -295,64 +297,82 @@ public class RecipeList extends BaseActivity
 				progressDialog.show();
 			}
 		}
-		
+
 		@Override
-		protected ArrayList<RecipeSummary> doInBackground(Void... arg0) {
+		protected ArrayList<RecipeSummary> doInBackground(Void... arg0)
+		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
-			params.add(new SimpleEntry<String, String>("start", Integer.toString(startIndex)));
-			params.add(new SimpleEntry<String, String>("count", Integer.toString(count)));
-			
-			/*for(Nutrient n : nutrients) {
-				String k = String.format("nutrient[%s]",n.tag);
-				String v = (n.value == 1) ? "HIGH" : "LOW";
-				params.add(new SimpleEntry<String, String>(k, v));
-			}*/
-			
-			for(Ingredient i : ingredients) {
-				String k = (i.value == 1) ? "allowedIngredient[]" : "excludedIngredient[]";
+			params.add(new SimpleEntry<String, String>("start", Integer
+					.toString(startIndex)));
+			params.add(new SimpleEntry<String, String>("count", Integer
+					.toString(count)));
+
+			/*
+			 * for(Nutrient n : nutrients) { String k =
+			 * String.format("nutrient[%s]",n.tag); String v = (n.value == 1) ?
+			 * "HIGH" : "LOW"; params.add(new SimpleEntry<String, String>(k,
+			 * v)); }
+			 */
+
+			for (Ingredient i : ingredients)
+			{
+				String k = (i.value == 1) ? "allowedIngredient[]"
+						: "excludedIngredient[]";
 				String v = i.searchValue;
 				params.add(new SimpleEntry<String, String>(k, v));
 			}
-			
-			try {
+
+			try
+			{
 				return api.getRecipes(params);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return null;
 			}
-			
+
 		}
-		
+
 		@Override
-		protected void onPostExecute(ArrayList<RecipeSummary> rec) {			
+		protected void onPostExecute(ArrayList<RecipeSummary> rec)
+		{
 			// hide dialog
-			if (progressDialog != null && progressDialog.isShowing()) {
+			if (progressDialog != null && progressDialog.isShowing())
+			{
 				progressDialog.hide();
 			}
-			
+
 			runningBg = false;
-			
-			if (rec != null && rec.size() > 0) {
+
+			if (rec != null && rec.size() > 0)
+			{
 				Pagination pagination = api.getPaginationObject();
-				
+
 				totalNumResults = pagination.num_results;
 				setTitle("Recipe List: " + totalNumResults + " items found");
-				
-				if (startIndex < totalNumResults) {
+
+				if (startIndex < totalNumResults)
+				{
 					recipeList = rec;
 					startIndex += pagination.page_results;
 					setTitle("Recipe List: " + totalNumResults + " items found");
 					fillListView();
 				}
-				
-				if (startIndex >= totalNumResults) {
+
+				if (startIndex >= totalNumResults)
+				{
 					listView.removeFooterView(footerView);
 				}
-			} else if (rec == null) {
+			}
+			else if (rec == null)
+			{
 				// toast: Internet connection issue
-			} else if (rec.size() == 0) {
+			}
+			else if (rec.size() == 0)
+			{
 				// toast: No results
 			}
-		}		
+		}
 	}
 
 }

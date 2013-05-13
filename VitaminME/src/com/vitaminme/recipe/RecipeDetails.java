@@ -8,13 +8,9 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
 import com.vitaminme.android.BaseActivity;
+import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Recipe;
-<<<<<<< Updated upstream
-=======
-import com.vitaminme.main.BaseActivity;
->>>>>>> Stashed changes
-import com.vitaminme.android.R;
 
 public class RecipeDetails extends BaseActivity
 {
@@ -22,7 +18,7 @@ public class RecipeDetails extends BaseActivity
 	private ViewPager myViewPager;
 	private ViewPagerAdapter myPagerAdapter;
 	String recipe_id = "";
-	private Recipe recipe;	
+	private Recipe recipe;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -88,13 +84,15 @@ public class RecipeDetails extends BaseActivity
 		});
 
 	}
-	
-	private final class GetRecipe extends AsyncTask<String, Void, Recipe> {
+
+	private final class GetRecipe extends AsyncTask<String, Void, Recipe>
+	{
 		ProgressDialog mDialog;
 		private ApiAdapter api = ApiAdapter.getInstance();
-		
+
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(RecipeDetails.this);
 			mDialog.setMessage(getResources().getText(R.string.loading_message));
 			mDialog.setCancelable(false);
@@ -102,30 +100,37 @@ public class RecipeDetails extends BaseActivity
 		}
 
 		@Override
-		protected Recipe doInBackground(String... params) {
+		protected Recipe doInBackground(String... params)
+		{
 			// TODO Auto-generated method stub
-			try {
+			try
+			{
 				return api.getRecipe(params[0]);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return null;
 			}
 		}
-		
+
 		@Override
-		protected void onPostExecute(Recipe r) {
-			if (r != null) {
+		protected void onPostExecute(Recipe r)
+		{
+			if (r != null)
+			{
 				recipe = r;
 				setTitle(recipe.name);
-				
-				
+
 				if (mDialog.isShowing())
 					mDialog.dismiss();
-				
+
 				setUpView();
 				setTab();
-			} else {
-				//toast: Internet connection issue
 			}
-		}		
+			else
+			{
+				// toast: Internet connection issue
+			}
+		}
 	}
 }

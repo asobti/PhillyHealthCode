@@ -28,14 +28,10 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.android.BaseActivity;
+import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
-<<<<<<< Updated upstream
-=======
-import com.vitaminme.main.BaseActivity;
->>>>>>> Stashed changes
-import com.vitaminme.android.R;
 
 public class SearchBar extends BaseActivity implements
 		SearchView.OnQueryTextListener, SearchView.OnSuggestionListener
@@ -87,19 +83,19 @@ public class SearchBar extends BaseActivity implements
 								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		searchMenu.expandActionView();
 
-//		menu.add("Save")
-//
-//		.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-//
-//		menu.add("Search").setShowAsAction(
-//				MenuItem.SHOW_AS_ACTION_IF_ROOM
-//						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-//
-//		menu.add("Refresh")
-//
-//		.setShowAsAction(
-//				MenuItem.SHOW_AS_ACTION_IF_ROOM
-//						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		// menu.add("Save")
+		//
+		// .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		//
+		// menu.add("Search").setShowAsAction(
+		// MenuItem.SHOW_AS_ACTION_IF_ROOM
+		// | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		//
+		// menu.add("Refresh")
+		//
+		// .setShowAsAction(
+		// MenuItem.SHOW_AS_ACTION_IF_ROOM
+		// | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		return super.onCreateOptionsMenu(menu);
 	}

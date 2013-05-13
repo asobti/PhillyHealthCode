@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.SearchView;
 
 import com.vitaminme.android.R;
+import com.vitaminme.userprofiles.SuggestionsSimpleCursorAdapter;
 
 public class Suggestions extends Activity implements
 		SearchView.OnQueryTextListener

@@ -1,4 +1,4 @@
-package com.vitaminme.test;
+package com.vitaminme.userprofiles;
 
 import android.content.Context;
 import android.database.Cursor;

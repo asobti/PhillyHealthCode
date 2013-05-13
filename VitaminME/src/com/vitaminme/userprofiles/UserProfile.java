@@ -15,14 +15,11 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -34,25 +31,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vitaminme.android.BaseActivity;
+import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Allergy;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
-<<<<<<< Updated upstream
-=======
-import com.vitaminme.main.BaseActivity;
->>>>>>> Stashed changes
-import com.vitaminme.android.R;
-import com.vitaminme.test.SuggestionsSimpleCursorAdapter;
 
 public class UserProfile extends BaseActivity
 {
 	private Vibrator vib;
 	boolean firstStart = true;
 	boolean searched = false;
-	Button addIgnoreButton;
 	ListView excludesListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
 	ExcludesListAdapter excludesAdapter;
@@ -74,15 +65,10 @@ public class UserProfile extends BaseActivity
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		// Common diet Spinner
-<<<<<<< Updated upstream
 		allergySpinner = (Spinner) findViewById(R.id.spinner1);
 		new getAllergies().execute();
-		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-=======
-		Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-		spinner.setOnItemSelectedListener(new OnItemSelectedListener()
+		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener()
 		{
->>>>>>> Stashed changes
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -125,25 +111,11 @@ public class UserProfile extends BaseActivity
 		excludesListView.setAdapter(excludesAdapter);
 		setListViewHeight(excludesListView);
 
-<<<<<<< Updated upstream
-		// Ingredient autocomplete serach
-		// for (int i = 0; i < ingredients.size(); i++) {
-		// ingredientsArray.add(ingredients.get(i).term.toString());
-		// }
-
-		addIgnoreButton = (Button) findViewById(R.id.addIgnoreButton);
-		addIgnoreButton.setVisibility(View.INVISIBLE);
-		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
-		searchBarIngredients.setQueryHint("Search for Ingredients");
-		searchBarIngredients.setIconifiedByDefault(false);
-		searchFieldWatcher = new OnQueryTextListener() {
-=======
 		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 		searchBarIngredients.setQueryHint("Search for Ingredients");
 		searchBarIngredients.setIconified(false);
 		searchFieldWatcher = new OnQueryTextListener()
 		{
->>>>>>> Stashed changes
 
 			@Override
 			public boolean onQueryTextSubmit(String query)
@@ -153,20 +125,6 @@ public class UserProfile extends BaseActivity
 			}
 
 			@Override
-<<<<<<< Updated upstream
-			public boolean onQueryTextChange(String newText) {
-				// if (searchBarIngredients.getQuery().toString().equals("")) {
-				// x.setVisibility(View.INVISIBLE);
-				// } else {
-				// x.setVisibility(View.VISIBLE);
-				// }
-
-				if (newText.length() > 2 && !searched) {
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							searchBarIngredients.getQuery().toString());
-					new getIngredients().execute(filter);
-					// searchBarIngredients.showDropDown();
-=======
 			public boolean onQueryTextChange(String newText)
 			{
 				if (newText.length() > 2 && !searched)
@@ -174,7 +132,6 @@ public class UserProfile extends BaseActivity
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
->>>>>>> Stashed changes
 					searched = true;
 				}
 				if (newText.length() == 2 && searched)
@@ -182,10 +139,6 @@ public class UserProfile extends BaseActivity
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							searchBarIngredients.getQuery().toString());
 					new getIngredients().execute(filter);
-<<<<<<< Updated upstream
-					// searchBarIngredients.showDropDown();
-=======
->>>>>>> Stashed changes
 					searched = false;
 				}
 
@@ -197,67 +150,9 @@ public class UserProfile extends BaseActivity
 
 		};
 		searchBarIngredients.setOnQueryTextListener(searchFieldWatcher);
-<<<<<<< Updated upstream
-		searchBarIngredients
-				.setOnSuggestionListener(new OnSuggestionListener() {
-
-					@Override
-					public boolean onSuggestionClick(int position) {
-						searchBarIngredients.setQuery(simple.getCursor()
-								.getString(0), false);
-						addIgnoreButton.setVisibility(View.VISIBLE);
-						InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
-						imm.hideSoftInputFromWindow(
-								searchBarIngredients.getWindowToken(), 0);
-						addIgnoreButton
-								.setOnClickListener(new OnClickListener() {
-
-									@Override
-									public void onClick(View arg0) {
-										vib.vibrate(20);
-										boolean inList = false;
-										for (int i = 0; i < myExcludesList
-												.size(); i++) {
-											if (myExcludesList.get(i).equals(
-													searchBarIngredients
-															.getQuery()
-															.toString())) {
-												Log.v("mytag", "inside if");
-												Toast.makeText(
-														UserProfile.this,
-														"You already have "
-																+ searchBarIngredients
-																		.getQuery()
-																		.toString()
-																+ " in your list",
-														Toast.LENGTH_LONG)
-														.show();
-												inList = true;
-											}
-										}
-										if (!inList) {
-											myExcludesList.add(0,
-													searchBarIngredients
-															.getQuery()
-															.toString());
-											excludesAdapter
-													.notifyDataSetChanged();
-										}
-										searchBarIngredients
-												.setQuery("", false);
-									}
-								});
-						return false;
-					}
-
-					@Override
-					public boolean onSuggestionSelect(int position) {
-						// TODO Auto-generated method stub
-						return false;
-					}
-=======
 		searchBarIngredients.setOnSuggestionListener(new OnSuggestionListener()
 		{
+
 			@Override
 			public boolean onSuggestionClick(int position)
 			{
@@ -298,9 +193,8 @@ public class UserProfile extends BaseActivity
 				// TODO Auto-generated method stub
 				return false;
 			}
->>>>>>> Stashed changes
 
-				});
+		});
 
 	}
 
@@ -379,12 +273,8 @@ public class UserProfile extends BaseActivity
 				int[] columnTextId = new int[] { android.R.id.text1 };
 				MatrixCursor cursor = new MatrixCursor(columnNames);
 				int id = 0;
-<<<<<<< Updated upstream
-				for (Ingredient i : ingredients) {
-=======
 				for (Ingredient i : ingredients)
 				{
->>>>>>> Stashed changes
 					cursor.addRow(new String[] { i.term, Integer.toString(id++) });
 				}
 
@@ -420,13 +310,15 @@ public class UserProfile extends BaseActivity
 	}
 
 	private final class getAllergies extends
-			AsyncTask<ApiFilter, Void, ArrayList<Allergy>> {
+			AsyncTask<ApiFilter, Void, ArrayList<Allergy>>
+	{
 
 		private ProgressDialog mDialog;
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
-		protected void onPreExecute() {
+		protected void onPreExecute()
+		{
 			mDialog = new ProgressDialog(UserProfile.this);
 			mDialog.setMessage("Loading...");
 			mDialog.setCancelable(false);
@@ -435,32 +327,45 @@ public class UserProfile extends BaseActivity
 		}
 
 		@Override
-		protected ArrayList<Allergy> doInBackground(ApiFilter... arg) {
+		protected ArrayList<Allergy> doInBackground(ApiFilter... arg)
+		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
 			params.add(new SimpleEntry<String, String>("count", "100"));
 
-			try {
+			try
+			{
 				return api.getAllergies(params);
-			} catch (APICallException e) {
+			}
+			catch (APICallException e)
+			{
 				return null;
 			}
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Allergy> allergiesReturned) {
+		protected void onPostExecute(final ArrayList<Allergy> allergiesReturned)
+		{
 
-			if (allergiesReturned != null && allergiesReturned.size() > 0) {
+			if (allergiesReturned != null && allergiesReturned.size() > 0)
+			{
 				allergies = allergiesReturned;
-				allergiesAdapter = new AllergySpinnerAdapter(allergies, UserProfile.this);
+				allergiesAdapter = new AllergySpinnerAdapter(allergies,
+						UserProfile.this);
 				allergySpinner.setAdapter(allergiesAdapter);
 
-			} else if (allergiesReturned == null) {
+			}
+			else if (allergiesReturned == null)
+			{
 				Toast.makeText(UserProfile.this, "No network found",
 						Toast.LENGTH_LONG).show();
-			} else if (allergiesReturned.size() == 0) {
+			}
+			else if (allergiesReturned.size() == 0)
+			{
 				Toast.makeText(UserProfile.this, "No ingredients found",
 						Toast.LENGTH_LONG).show();
-			} else {
+			}
+			else
+			{
 				Toast.makeText(UserProfile.this,
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();
@@ -470,49 +375,55 @@ public class UserProfile extends BaseActivity
 				mDialog.dismiss();
 
 		}
-		
-		
+
 	}
-	
-	public class AllergySpinnerAdapter extends BaseAdapter implements	SpinnerAdapter {
+
+	public class AllergySpinnerAdapter extends BaseAdapter implements
+			SpinnerAdapter
+	{
 		private final ArrayList<Allergy> content;
 		private final Activity activity;
-	
-		public AllergySpinnerAdapter(ArrayList<Allergy> content, Activity activity) {
+
+		public AllergySpinnerAdapter(ArrayList<Allergy> content,
+				Activity activity)
+		{
 			super();
 			this.content = content;
 			this.activity = activity;
 		}
 
 		@Override
-		public int getCount() {
+		public int getCount()
+		{
 			// TODO Auto-generated method stub
 			return content.size();
 		}
 
 		@Override
-		public Allergy getItem(int arg0) {
+		public Allergy getItem(int arg0)
+		{
 			// TODO Auto-generated method stub
 			return content.get(arg0);
 		}
 
 		@Override
-		public long getItemId(int position) {
+		public long getItemId(int position)
+		{
 			// TODO Auto-generated method stub
 			return position;
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
 			LayoutInflater inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View v = inflater.inflate(android.R.layout.simple_list_item_1, parent,
-					false);
-			
+			View v = inflater.inflate(android.R.layout.simple_list_item_1,
+					parent, false);
+
 			TextView tv = (TextView) v.findViewById(android.R.id.text1);
 			tv.setText(content.get(position).shortDescription);
 
-			
 			return v;
 		}
 
