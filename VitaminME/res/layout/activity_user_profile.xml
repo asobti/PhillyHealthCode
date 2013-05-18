@@ -98,6 +98,49 @@
             android:text="Find ingredients that you wish to always exclude from your recipe searches."
             android:textSize="14sp"
             android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/allergyTitle"
+            style="@style/Header1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/spinner1"
+            android:layout_marginTop="4dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="5dp"
+            android:text="ALLERGIES" />
+
+        <Spinner
+            android:id="@+id/spinner2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/allergyTitle"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp" />
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/allergyTitle"
+            android:background="@color/spotify"
+            android:visibility="visible" >
+        </TableRow>
+
+        <ListView
+            android:id="@+id/diet_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spinner2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
+            android:divider="@color/trans"
+            android:dividerHeight="4sp" >
+        </ListView>
     </RelativeLayout>
 
 </ScrollView>
