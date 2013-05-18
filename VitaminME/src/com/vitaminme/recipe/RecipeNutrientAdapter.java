@@ -44,17 +44,23 @@ public class RecipeNutrientAdapter extends ArrayAdapter<RecipeNutrient> {
 
 		RecipeNutrient nut = nutrients.get(position);
 		nutrient.setText(nut.name);
-		nutQuant.setText(nut.value + nut.unit.abbr);
-		if (nut.getPercentVal() != "NA")
-			per = nut.getPercentVal().substring(0,
-					nut.getPercentVal().length() - 1);
-		else {
-			per = nut.getPercentVal();
-			percentSign.setText("");
-			percent.setTextColor(Color.GRAY);
+		if(nut.unit != null){
+			nutQuant.setText(nut.value + nut.unit.abbr);
+			if (nut.getPercentVal() != "NA")
+				per = nut.getPercentVal().substring(0,
+						nut.getPercentVal().length() - 1);
+			else {
+				per = nut.getPercentVal();
+				percentSign.setText("");
+				percent.setTextColor(Color.GRAY);
+			}
+			percent.setText(per);
 		}
-
-		percent.setText(per);
+		else{
+			nutQuant.setText("");
+			percent.setText("");
+			percentSign.setText("");
+		}	
 
 		return v;
 	}

@@ -4,45 +4,14 @@
     android:id="@+id/scrollview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:clickable="true"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp" >
+        android:layout_margin="5dp"
+        android:background="@drawable/nutrition_boarder" >
 
-        <TableRow
-            android:id="@+id/boarder_top"
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_alignTop="@+id/scrollview"
-            android:background="@color/black" >
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/boarder_left"
-            android:layout_width="1dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:background="@color/black" >
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/boarder_right"
-            android:layout_width="1dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:background="@color/black" >
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/boarder_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/black" >
-        </TableRow>
 
         <TextView
             android:id="@+id/nut_facts_header"
@@ -80,7 +49,7 @@
             android:layout_below="@+id/servings_per"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_marginRight="17dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -102,7 +71,7 @@
             android:layout_below="@+id/amount_per_serving"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_marginRight="17dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -131,7 +100,7 @@
             android:layout_below="@+id/calories"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_marginRight="17dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -151,21 +120,23 @@
             android:layout_below="@+id/daily_value"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="9dp"
+            android:layout_marginRight="17dp"
             android:layout_marginTop="2dp"
             android:background="@color/black" >
         </TableRow>
 
-        <ListView
+        <LinearLayout
             android:id="@+id/nutrient_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/bar_light2"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="9dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginRight="9dp" >
-        </ListView>
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="9dp"
+            android:orientation="vertical" >
+
+        </LinearLayout>
     </RelativeLayout>
 
 </ScrollView>

@@ -16,6 +16,8 @@ import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ImageView.ScaleType;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,7 +50,7 @@ public class pageLayoutRecipe extends Fragment
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.recipe_page_layout, null);
 
-		ListView list = (ListView) vg.findViewById(R.id.list);
+		
 		TextView recipeName = (TextView) vg.findViewById(R.id.textView1);
 		TextView courseType = (TextView) vg.findViewById(R.id.courseType);
 		TextView cookingTime = (TextView) vg.findViewById(R.id.cookingTime);
@@ -73,23 +75,14 @@ public class pageLayoutRecipe extends Fragment
 //		});
 		
 		recipeName.setSelected(true);
-		adapter = new RecipeSelectedAdapter(getActivity(), recipe.ingredients);
-		list.setAdapter(adapter);
-
-		int totalHeight = 0;
-		int desiredWidth = MeasureSpec.makeMeasureSpec(list.getWidth(),
-				MeasureSpec.AT_MOST);
-		for (int i = 0; i < adapter.getCount(); i++)
-		{
-			View listItem = adapter.getView(i, null, list);
-			listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-			totalHeight += (listItem.getMeasuredHeight() * 1.1);
-		}
-		ViewGroup.LayoutParams params = list.getLayoutParams();
-		params.height = totalHeight
-				+ (list.getDividerHeight() * (list.getCount() + 1));
-		list.setLayoutParams(params);
-		list.requestLayout();
+		LinearLayout list = (LinearLayout) vg.findViewById(R.id.list);
+		ListAdapter adapter = new RecipeSelectedAdapter(getActivity(), recipe.ingredients);
+		for (int i = 0; i < adapter.getCount(); i++) {
+			  View item = adapter.getView(i, null, null);
+			  list.addView(item);
+			}
+		
+	
 
 		recipeName.setTextColor(Color.WHITE);
 		recipeName.setText(recipe.name);

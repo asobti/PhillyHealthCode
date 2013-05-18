@@ -41,12 +41,9 @@ public class pageLayoutCook extends Fragment
 	{
 		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.cook_page_layout,
 				null);
-
-		loadText = (TextView) vg.findViewById(R.id.loadingText);
 		Pbar = (ProgressBar) vg.findViewById(R.id.pB1);
 		box = (View) vg.findViewById(R.id.view1);
 		Pbar.bringToFront();
-		loadText.bringToFront();
 
 		WebView wv = (WebView) vg.findViewById(R.id.webView1);
 		wv.getSettings().setJavaScriptEnabled(true);
@@ -57,19 +54,17 @@ public class pageLayoutCook extends Fragment
 		{
 			public void onProgressChanged(WebView view, int progress)
 			{
-				if (progress < 100 && Pbar.getVisibility() == ProgressBar.GONE)
+				if (progress < 97 && Pbar.getVisibility() == ProgressBar.GONE)
 				{
 					box.setVisibility(View.VISIBLE);
 					Pbar.setVisibility(ProgressBar.VISIBLE);
-					loadText.setVisibility(View.VISIBLE);
 
 				}
 				Pbar.setProgress(progress);
-				if (progress == 100)
+				if (progress >= 97)
 				{
 					box.setVisibility(View.GONE);
 					Pbar.setVisibility(ProgressBar.GONE);
-					loadText.setVisibility(View.GONE);
 
 				}
 			}

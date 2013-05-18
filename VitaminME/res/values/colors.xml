@@ -20,6 +20,7 @@
     <color name="spotify">#81B71A</color>
     <color name="back_gray">#222222</color>
     <color name="light_gray">#BEBCBC</color>
+    <color name="gray50">#59000000</color>
     <color name="trans">#00000000</color>
     <color name="background_gray">#ecebe7</color>
     <color name="sidebar_divider">#373737</color>

@@ -25,6 +25,14 @@ public class RecipeNutrient
 		}
 	}
 	
+	public RecipeNutrient(String name) {
+		// Blank constructor
+		this.attribute = "";
+		this.name = name;
+		this.value = 0;
+		this.unit = null;
+	}
+
 	public String getPercentVal() {
 		if (this.fraction < 0) {
 			return "NA";

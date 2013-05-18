@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.data.RecipeNutrient;
 import com.vitaminme.android.R;
@@ -22,7 +25,7 @@ public class pageLayoutNutrition extends Fragment
 
 	Recipe recipe;
 	Context context;
-	private RecipeNutrientAdapter adapter;
+//	private RecipeNutrientAdapter adapter;
 
 	public static Fragment newInstance(Context context)
 	{
@@ -65,26 +68,17 @@ public class pageLayoutNutrition extends Fragment
 
 		servingPer.setText("Servings per Recipe : " + recipe.servingSize);
 		List<RecipeNutrient> nutrients = recipe.nutrients;
-		ListView listView = (ListView) vg.findViewById(R.id.nutrient_list);
-		adapter = new RecipeNutrientAdapter(context, nutrients);
-		listView.setAdapter(adapter);
+		nutrients.add(new RecipeNutrient(""));
+		
+		
+		LinearLayout listView = (LinearLayout) vg.findViewById(R.id.nutrient_list);
+		ListAdapter adapter = new RecipeNutrientAdapter(context, nutrients);
+		for (int i = 0; i < adapter.getCount(); i++) {
+			  View item = adapter.getView(i, null, null);
+			  listView.addView(item);
+			}
+		
 
-		int totalHeight = 0;
-		MeasureSpec.makeMeasureSpec(listView.getWidth(),
-				MeasureSpec.AT_MOST);
-		Log.v("mytag", "adapter view count : " + adapter.getCount());
-		for (int i = 0; i < adapter.getCount(); i++)
-		{
-			// View listItem = adapter.getView(i, null, listView);
-			// listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-			// Log.v("mytag", "measured height " +
-			// listItem.getMeasuredHeight());
-			totalHeight += 30;
-		}
-
-		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight;
-		listView.setLayoutParams(params);
 		listView.requestLayout();
 		title.setFocusableInTouchMode(true);
 		title.requestFocus();
