@@ -15,11 +15,13 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -30,6 +32,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
@@ -45,16 +52,19 @@ public class UserProfile extends BaseActivity {
 	boolean firstStart = true;
 	boolean firstStartDiet = true;
 	boolean searched = false;
-	ListView excludesListView;
+	ListView myIngredientListView;
 	ListView myDietListView;
+	ListView myAllergyListView;
 	ArrayAdapter<String> ignoreSearchAdapter;
-	ObjectListAdapter excludesAdapter;
+	ObjectListAdapter myIngredientAdapter;
 	ObjectListAdapter myDietAdapter;
+	ObjectListAdapter myAllergyAdapter;
 	AllergySpinnerAdapter allergiesAdapter;
 	DietSpinnerAdapter dietSpinnerAdapter;
 	OnQueryTextListener searchFieldWatcher;
-	List<String> myExcludesList = new ArrayList<String>();
+	List<String> myIngredientList = new ArrayList<String>();
 	List<String> myDietList = new ArrayList<String>();
+	List<String> myAllergyList = new ArrayList<String>();
 	SearchView searchBarIngredients;
 	Spinner allergySpinner;
 	Spinner dietSpinner;
@@ -71,8 +81,7 @@ public class UserProfile extends BaseActivity {
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 		
-		// Common diet Spinner
-		allergySpinner = (Spinner) findViewById(R.id.spinner1);
+		allergySpinner = (Spinner) findViewById(R.id.allergySpinner);
 		new getAllergies().execute();
 		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -80,10 +89,8 @@ public class UserProfile extends BaseActivity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				if (!firstStartDiet) {
-					// need diet object with ingredients
-					// veg Example
-					myExcludesList.add(allergiesAdapter.getItem(arg2).longDescription);
-					excludesAdapter.notifyDataSetChanged();
+					myAllergyList.add(allergiesAdapter.getItem(arg2).longDescription);
+					myAllergyAdapter.notifyDataSetChanged();
 
 				} else {
 					firstStartDiet = false;
@@ -98,7 +105,7 @@ public class UserProfile extends BaseActivity {
 		});
 		
 		// diet spinner
-		dietSpinner = (Spinner) findViewById(R.id.spinner2);
+		dietSpinner = (Spinner) findViewById(R.id.dietSpinner);
 		new getDiets().execute();
 		dietSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -106,8 +113,6 @@ public class UserProfile extends BaseActivity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				if (!firstStart) {
-					// need diet object with ingredients
-					// veg Example
 					myDietList.add(dietSpinnerAdapter.getItem(arg2).shortDescription);
 					myDietAdapter.notifyDataSetChanged();
 
@@ -123,12 +128,12 @@ public class UserProfile extends BaseActivity {
 			}
 		});
 
-		excludesAdapter = new ObjectListAdapter(UserProfile.this,
-				myExcludesList) {
+		myIngredientAdapter = new ObjectListAdapter(UserProfile.this,
+				myIngredientList) {
 			@Override
 			public void notifyDataSetChanged() {
 				super.notifyDataSetChanged();
-				setListViewHeight(excludesListView);
+				setListViewHeight(myIngredientListView);
 			}
 
 		};
@@ -142,13 +147,23 @@ public class UserProfile extends BaseActivity {
 			}
 
 		};
-		excludesListView = (ListView) findViewById(R.id.excludes_list);
-		excludesListView.setAdapter(excludesAdapter);
-		setListViewHeight(excludesListView);
+		myAllergyAdapter = new ObjectListAdapter(UserProfile.this,
+				myAllergyList) {
+			@Override
+			public void notifyDataSetChanged() {
+				super.notifyDataSetChanged();
+				setListViewHeight(myAllergyListView);
+			}
+
+		};
+		myIngredientListView = (ListView) findViewById(R.id.ingredient_list);
+		myIngredientListView.setAdapter(myIngredientAdapter);
 		
 		myDietListView = (ListView) findViewById(R.id.diet_list);
 		myDietListView.setAdapter(myDietAdapter);
-		setListViewHeight(myDietListView);
+		
+		myAllergyListView = (ListView) findViewById(R.id.allergy_list);
+		myAllergyListView.setAdapter(myAllergyAdapter);
 
 		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 		searchBarIngredients.setQueryHint("Search for Ingredients");
@@ -194,8 +209,8 @@ public class UserProfile extends BaseActivity {
 
 						vib.vibrate(20);
 						boolean inList = false;
-						for (int i = 0; i < myExcludesList.size(); i++) {
-							if (myExcludesList.get(i).equals(
+						for (int i = 0; i < myIngredientList.size(); i++) {
+							if (myIngredientList.get(i).equals(
 									searchBarIngredients.getQuery().toString())) {
 								Log.v("mytag", "inside if");
 								Toast.makeText(
@@ -209,9 +224,9 @@ public class UserProfile extends BaseActivity {
 							}
 						}
 						if (!inList) {
-							myExcludesList.add(0, searchBarIngredients
+							myIngredientList.add(0, searchBarIngredients
 									.getQuery().toString());
-							excludesAdapter.notifyDataSetChanged();
+							myIngredientAdapter.notifyDataSetChanged();
 						}
 						searchBarIngredients.setQuery("", false);
 
@@ -226,12 +241,55 @@ public class UserProfile extends BaseActivity {
 
 				});
 
+		// Facebook Login
+		final Button fbLogin = (Button) findViewById(R.id.login_button);
+		fbLogin.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+			Session.openActiveSession(UserProfile.this, true,
+			new Session.StatusCallback() {
+	
+				@Override
+				public void call(Session session, SessionState state, Exception exception) {
+					// TODO Auto-generated method stub
+
+					if (session.isOpened()) {
+						// make request to the /me API
+						Request.executeMeRequestAsync(session,
+						new Request.GraphUserCallback() {
+				
+						@Override
+						public void onCompleted(
+						GraphUser user,
+						Response response) {
+						if (user != null) {
+							// fbLogin.setVisibility(View.INVISIBLE);
+							TextView loginResults = (TextView) findViewById(R.id.login_info);
+							loginResults.setText("You are logged into Facebook as "
+							+ user.getName() + "\n" + " ID = " + user.getId());
+						}
+						}
+						});
+			
+					}
+					
+				}
+				});
+	
+			}
+
+		});
+
+
+		
+		
+		
 	}
 
 	public static void setListViewHeight(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
-			// pre-condition
 			return;
 		}
 
@@ -520,3 +578,4 @@ public class UserProfile extends BaseActivity {
 	}
 
 }
+

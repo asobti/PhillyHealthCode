@@ -150,7 +150,7 @@ public class ApiAdapter {
 		ArrayList<Allergy> allergies = new ArrayList<Allergy>();
 
 		try {
-			String url = this.endpoint + "diets"
+			String url = this.endpoint + "allergies"
 					+ this.buildQueryString(params, filters);
 			response = this.get(url);
 			JSONArray arr = response.getJSONArray("objects");

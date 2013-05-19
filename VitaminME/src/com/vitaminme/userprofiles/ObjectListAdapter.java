@@ -22,7 +22,8 @@ public class ObjectListAdapter extends ArrayAdapter<String>
 {
 	private Context context;
 	private ViewGroup parent;
-	private boolean notSure = false;
+	private Vibrator vib;
+	boolean notSure = false;
 	private List<String> ingredients = new ArrayList<String>();
 
 	public ObjectListAdapter(Context context, List<String> ingredients)
@@ -30,15 +31,16 @@ public class ObjectListAdapter extends ArrayAdapter<String>
 		super(context, R.layout.ingredient_exclude_item, ingredients);
 		this.context = context;
 		this.ingredients = ingredients;
+		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
-	public View getView(final int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, final ViewGroup parent)
 	{
 		final String ingredientText = ingredients.get(position);
 		this.parent = parent;
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inflater.inflate(R.layout.ingredient_exclude_item, parent,
+		final View v = inflater.inflate(R.layout.ingredient_exclude_item, parent,
 				false);
 
 		final TextView tv1 = (TextView) v.findViewById(R.id.ingredient_name);
@@ -66,6 +68,7 @@ public class ObjectListAdapter extends ArrayAdapter<String>
 					ingredientRemoveButton.setVisibility(View.VISIBLE);
 					notSure = false;
 					notifyDataSetChanged();
+					parent.removeView(v);
 				}
 				else
 				{
@@ -96,7 +99,7 @@ public class ObjectListAdapter extends ArrayAdapter<String>
 
 	}
 
-	private class MyCounter extends CountDownTimer
+	public class MyCounter extends CountDownTimer
 	{
 		ImageButton b;
 

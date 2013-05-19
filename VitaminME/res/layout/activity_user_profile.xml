@@ -19,7 +19,7 @@
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="4dp"
-            android:textSize="16sp" >
+            android:textSize="16sp"         >
         </SearchView>
 
         <TextView
@@ -44,44 +44,60 @@
         </TableRow>
 
         <ListView
-            android:id="@+id/excludes_list"
-            android:layout_width="match_parent"
+            android:id="@+id/ingredient_list"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/message"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="4dp"
             android:divider="@color/trans"
-            android:dividerHeight="4sp" >
+            android:dividerHeight="4sp"
+            android:orientation="vertical" >
+
         </ListView>
 
         <TextView
-            android:id="@+id/commonDietsTitle"
+            android:id="@+id/allergiesTitle"
             style="@style/Header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/excludes_list"
+            android:layout_below="@id/ingredient_list"
             android:layout_marginTop="4dp"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="5dp"
-            android:text="COMMON DIETS" />
+            android:text="ALLERGIES" />
 
         <Spinner
-            android:id="@+id/spinner1"
+            android:id="@+id/allergySpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/commonDietsTitle"
+            android:layout_below="@id/allergiesTitle"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp" />
+
+        <ListView
+            android:id="@+id/allergy_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/allergySpinner"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="4dp"
+            android:divider="@color/trans"
+            android:dividerHeight="4sp"
+            android:orientation="vertical" >
+
+        </ListView>
 
         <TableRow
             android:id="@+id/tableRow3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@+id/commonDietsTitle"
+            android:layout_below="@+id/allergiesTitle"
             android:background="@color/spotify"
             android:visibility="visible" >
         </TableRow>
@@ -100,23 +116,23 @@
             android:textStyle="italic" />
 
         <TextView
-            android:id="@+id/allergyTitle"
+            android:id="@+id/dietTitle"
             style="@style/Header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/spinner1"
+            android:layout_below="@id/allergy_list"
             android:layout_marginTop="4dp"
             android:paddingLeft="6dp"
             android:paddingRight="6dp"
             android:paddingTop="5dp"
-            android:text="ALLERGIES" />
+            android:text="COMMON DIETS" />
 
         <Spinner
-            android:id="@+id/spinner2"
+            android:id="@+id/dietSpinner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/allergyTitle"
+            android:layout_below="@id/dietTitle"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="6dp" />
@@ -125,22 +141,43 @@
             android:id="@+id/tableRow3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@+id/allergyTitle"
+            android:layout_below="@+id/dietTitle"
             android:background="@color/spotify"
             android:visibility="visible" >
         </TableRow>
 
         <ListView
             android:id="@+id/diet_list"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner2"
+            android:layout_below="@+id/dietSpinner"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="4dp"
             android:divider="@color/trans"
-            android:dividerHeight="4sp" >
+            android:dividerHeight="4sp"
+            android:orientation="vertical" >
+
         </ListView>
+
+        <com.facebook.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/diet_list"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="6dp" />
+
+        <TextView
+            android:id="@+id/login_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </ScrollView>
