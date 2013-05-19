@@ -15,6 +15,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,16 +40,22 @@ import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
+import com.vitaminme.data.Recipe;
 import com.vitaminme.data.RecipeSummary;
 import com.vitaminme.recipe.RecipeDetails;
+import com.vitaminme.recipe.pageLayoutRecipe;
 
-public class RecipeList extends BaseActivity
+public class RecipeListFragment extends Fragment
 {
+	Context context;
+	LayoutInflater inflater;
+
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
 	ListView listView;
 	View footerView;
 	ItemAdapter itemAdapter;
+	String courseType;
 
 	int startIndex = 0;
 	int count = 20;
@@ -61,50 +68,56 @@ public class RecipeList extends BaseActivity
 	List<String> recipeNames = new ArrayList<String>();
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
-	static ArrayList<Nutrient> nutrients = new ArrayList<Nutrient>();
-	static ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
+	static List<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+	public static Fragment newInstance(Context context)
+	{
+		RecipeListFragment f = new RecipeListFragment();
+		return f;
+	}
+
+	public void constructor(Context context, Bundle bundle, String courseType)
+	{
+		this.context = context;
+		this.courseType = courseType;
+
+		Serializable nutrientsExtra = bundle.getSerializable("Nutrients");
+		if (nutrientsExtra != null)
+			nutrients = (List<Nutrient>) nutrientsExtra;
+
+		Serializable ingExtra = bundle.getSerializable("Ingredients");
+		if (ingExtra != null)
+			ingredients = (List<Ingredient>) ingExtra;
+	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState)
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recipe_list);
+		this.inflater = inflater;
+		ViewGroup vg = (ViewGroup) inflater.inflate(
+				R.layout.activity_recipe_list, null);
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		options = new DisplayImageOptions.Builder().cacheInMemory()
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_stub)
+				.showImageOnFail(R.drawable.ic_error).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context).defaultDisplayImageOptions(options).build();
+		ImageLoader.getInstance().init(config);
 
-		Serializable nutrientsExtra = getIntent().getSerializableExtra(
-				"Nutrients");
-		if (nutrientsExtra != null)
-			nutrients = (ArrayList<Nutrient>) nutrientsExtra;
+		itemAdapter = new ItemAdapter();
+		listView = (ListView) vg.findViewById(android.R.id.list);
 
-		Serializable ingExtra = getIntent().getSerializableExtra("Ingredients");
-		if (ingExtra != null)
-			ingredients = (ArrayList<Ingredient>) ingExtra;
+		footerView = (View) inflater.inflate(
+				R.layout.activity_recipe_list_footer, null, false);
+		listView.addFooterView(footerView, null, false);
 
-		// Intent intent = new Intent(this, RecipeListViewPager.class);
-		// intent.putExtra("Nutrients", nutrients);
-		// startActivity(intent);
+		setListeners();
 
-//		options = new DisplayImageOptions.Builder().cacheInMemory()
-//				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
-//				.showImageForEmptyUri(R.drawable.ic_stub)
-//				.showImageOnFail(R.drawable.ic_error)
-//				// .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
-//				.build();
-//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-//				getApplicationContext()).defaultDisplayImageOptions(options)
-//				.build();
-//		ImageLoader.getInstance().init(config);
-//
-//		itemAdapter = new ItemAdapter();
-//		listView = (ListView) findViewById(android.R.id.list);
-//
-//		footerView = ((LayoutInflater) this
-//				.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
-//				R.layout.activity_recipe_list_footer, null, false);
-//		listView.addFooterView(footerView, null, false);
-//
-//		setListeners();
+		return vg;
 	}
 
 	public void fillListView()
@@ -142,7 +155,7 @@ public class RecipeList extends BaseActivity
 
 	public void setListeners()
 	{
-		final Vibrator vibe = (Vibrator) RecipeList.this
+		final Vibrator vibe = (Vibrator) context
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -152,7 +165,7 @@ public class RecipeList extends BaseActivity
 			{
 				vibe.vibrate(20);
 				System.out.println("Clicked: " + ids.get(position));
-				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
+				Intent intent = new Intent(getActivity(), RecipeDetails.class);
 				intent.putExtra("recipe_id", ids.get(position));
 				startActivity(intent);
 			}
@@ -224,8 +237,8 @@ public class RecipeList extends BaseActivity
 			final ViewHolder holder;
 			if (convertView == null)
 			{
-				view = getLayoutInflater().inflate(
-						R.layout.activity_recipe_list_items, parent, false);
+				view = inflater.inflate(R.layout.activity_recipe_list_items,
+						parent, false);
 				holder = new ViewHolder();
 				holder.text1 = (TextView) view.findViewById(R.id.text1);
 				holder.image = (ImageView) view.findViewById(R.id.image);
@@ -237,7 +250,6 @@ public class RecipeList extends BaseActivity
 			}
 
 			holder.text1.setText(recipeNames.get(position));
-			// holder.text1.setSelected(true);
 
 			imageLoader.displayImage(images.get(position), holder.image,
 					options, animateFirstListener);
@@ -275,12 +287,12 @@ public class RecipeList extends BaseActivity
 		super.onResume();
 	}
 
-	@Override
-	public void onBackPressed()
-	{
-		super.onBackPressed();
-		AnimateFirstDisplayListener.displayedImages.clear();
-	}
+	// @Override
+	// public void onBackPressed()
+	// {
+	// super.onBackPressed();
+	// AnimateFirstDisplayListener.displayedImages.clear();
+	// }
 
 	private final class GetRecipes extends
 			AsyncTask<Void, Void, ArrayList<RecipeSummary>>
@@ -294,7 +306,7 @@ public class RecipeList extends BaseActivity
 			if (startIndex == 0) // Only show loading screen when empty
 			// screen is loaded onCreate
 			{
-				progressDialog = new ProgressDialog(RecipeList.this);
+				progressDialog = new ProgressDialog(context);
 				progressDialog.setMessage(getResources().getText(
 						R.string.loading_message));
 				progressDialog.setCancelable(false);
@@ -353,13 +365,15 @@ public class RecipeList extends BaseActivity
 				Pagination pagination = api.getPaginationObject();
 
 				totalNumResults = pagination.num_results;
-				setTitle("Recipe List: " + totalNumResults + " items found");
+				getActivity().setTitle(
+						"Recipe List: " + totalNumResults + " items found");
 
 				if (startIndex < totalNumResults)
 				{
 					recipeList = rec;
 					startIndex += pagination.page_results;
-					setTitle("Recipe List: " + totalNumResults + " items found");
+					getActivity().setTitle(
+							"Recipe List: " + totalNumResults + " items found");
 					fillListView();
 				}
 

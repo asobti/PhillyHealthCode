@@ -7,12 +7,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="user_profile">User Profile</string>
-    <string name="menu_item_user_profile">User Profile</string>
-    <string name="menu_item_clear_memory_cache">Clear memory cache</string>
-    <string name="menu_item_clear_disc_cache">Clear disc cache</string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_test">Test</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_home">Home</string>
@@ -31,5 +25,6 @@
     <string name="title_activity_test_db">Test db</string>
     <string name="title_activity_scrolling_list_view">ScrollingListView</string>
     <string name="title_activity_suggestions">Suggestions</string>
+    <string name="title_activity_recipe_list_view_pager">Recipe List</string>
 
 </resources>

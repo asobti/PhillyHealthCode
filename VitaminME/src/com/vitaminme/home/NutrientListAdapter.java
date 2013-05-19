@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Vibrator;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 			{
 				AlertDialog.Builder box = new AlertDialog.Builder(context);
 				box.setTitle(nutrients.get(position).name);
-				box.setMessage(nutrients.get(position).info);
+				box.setMessage(Html.fromHtml(nutrients.get(position).info));
 				box.setPositiveButton("OK",
 						new DialogInterface.OnClickListener()
 						{

@@ -39,13 +39,13 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.Ingredient;
 import com.vitaminme.exceptions.APICallException;
-import com.vitaminme.android.R;
-import com.vitaminme.recipelist.RecipeList;
+import com.vitaminme.recipelist.RecipeListViewPager;
 
 public class IngredientListFragment extends SherlockFragment implements
 		SearchView.OnQueryTextListener
@@ -130,7 +130,7 @@ public class IngredientListFragment extends SherlockFragment implements
 				if (selectedIngredients != null
 						&& selectedIngredients.size() > 0)
 				{
-					Intent intent = new Intent(activity, RecipeList.class);
+					Intent intent = new Intent(activity, RecipeListViewPager.class);
 					intent.putExtra("Ingredients", selectedIngredients);
 					startActivity(intent);
 				}
