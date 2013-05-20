@@ -47,7 +47,7 @@
             android:id="@+id/ingredient_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/message"
+            android:layout_below="@+id/searchBar"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="4dp"
@@ -73,11 +73,13 @@
         <Spinner
             android:id="@+id/allergySpinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/allergiesTitle"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="6dp"
+            android:prompt="@string/allergy"
+            android:spinnerMode="dropdown" />
 
         <ListView
             android:id="@+id/allergy_list"
@@ -102,18 +104,18 @@
             android:visibility="visible" >
         </TableRow>
 
-        <TextView
-            android:id="@+id/message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/searchBar"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp"
-            android:text="Find ingredients that you wish to always exclude from your recipe searches."
-            android:textSize="14sp"
-            android:textStyle="italic" />
+<!--         <TextView -->
+<!--             android:id="@+id/message" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignParentLeft="true" -->
+<!--             android:layout_below="@+id/searchBar" -->
+<!--             android:layout_marginLeft="10dp" -->
+<!--             android:layout_marginRight="10dp" -->
+<!--             android:layout_marginTop="6dp" -->
+<!--             android:text="Find ingredients that you wish to always exclude from your recipe searches." -->
+<!--             android:textSize="14sp" -->
+<!--             android:textStyle="italic" /> -->
 
         <TextView
             android:id="@+id/dietTitle"
@@ -131,11 +133,13 @@
         <Spinner
             android:id="@+id/dietSpinner"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_below="@id/dietTitle"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="6dp" />
+            android:layout_marginTop="6dp" 
+            android:prompt="@string/dietprompt"
+            android:spinnerMode="dropdown"/>
 
         <TableRow
             android:id="@+id/tableRow3"

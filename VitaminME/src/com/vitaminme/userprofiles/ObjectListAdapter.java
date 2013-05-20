@@ -68,7 +68,6 @@ public class ObjectListAdapter extends ArrayAdapter<String>
 					ingredientRemoveButton.setVisibility(View.VISIBLE);
 					notSure = false;
 					notifyDataSetChanged();
-					parent.removeView(v);
 				}
 				else
 				{

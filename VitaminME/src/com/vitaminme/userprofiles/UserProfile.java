@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -74,15 +75,19 @@ public class UserProfile extends BaseActivity {
 	ArrayList<Diet> diets = new ArrayList<Diet>();
 	ProgressDialog mDialog;
 	List<String> ingredientsArray = new ArrayList<String>();
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
 		vib = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
+		final InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		
+		// Allergy Spinner
 		allergySpinner = (Spinner) findViewById(R.id.allergySpinner);
 		new getAllergies().execute();
+		allergySpinner.setPrompt("Food Allergies");
 		allergySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -91,6 +96,7 @@ public class UserProfile extends BaseActivity {
 				if (!firstStartDiet) {
 					myAllergyList.add(allergiesAdapter.getItem(arg2).longDescription);
 					myAllergyAdapter.notifyDataSetChanged();
+					imm.hideSoftInputFromWindow(searchBarIngredients.getWindowToken(), 0);
 
 				} else {
 					firstStartDiet = false;
@@ -99,13 +105,13 @@ public class UserProfile extends BaseActivity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
 		
-		// diet spinner
+		// Diet Spinner
 		dietSpinner = (Spinner) findViewById(R.id.dietSpinner);
+		dietSpinner.setPrompt("Common Diets");
 		new getDiets().execute();
 		dietSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -115,6 +121,7 @@ public class UserProfile extends BaseActivity {
 				if (!firstStart) {
 					myDietList.add(dietSpinnerAdapter.getItem(arg2).shortDescription);
 					myDietAdapter.notifyDataSetChanged();
+					imm.hideSoftInputFromWindow(searchBarIngredients.getWindowToken(), 0);
 
 				} else {
 					firstStart = false;
@@ -123,11 +130,11 @@ public class UserProfile extends BaseActivity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});
 
+		// Object List adapters
 		myIngredientAdapter = new ObjectListAdapter(UserProfile.this,
 				myIngredientList) {
 			@Override
@@ -137,7 +144,6 @@ public class UserProfile extends BaseActivity {
 			}
 
 		};
-		
 		myDietAdapter = new ObjectListAdapter(UserProfile.this,
 				myDietList) {
 			@Override
@@ -147,6 +153,7 @@ public class UserProfile extends BaseActivity {
 			}
 
 		};
+		myDietAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		myAllergyAdapter = new ObjectListAdapter(UserProfile.this,
 				myAllergyList) {
 			@Override
@@ -156,15 +163,17 @@ public class UserProfile extends BaseActivity {
 			}
 
 		};
+		myAllergyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		// List Views
 		myIngredientListView = (ListView) findViewById(R.id.ingredient_list);
 		myIngredientListView.setAdapter(myIngredientAdapter);
-		
 		myDietListView = (ListView) findViewById(R.id.diet_list);
 		myDietListView.setAdapter(myDietAdapter);
-		
 		myAllergyListView = (ListView) findViewById(R.id.allergy_list);
 		myAllergyListView.setAdapter(myAllergyAdapter);
 
+		// Search Bar - Ingredients
 		searchBarIngredients = (SearchView) findViewById(R.id.searchBar);
 		searchBarIngredients.setQueryHint("Search for Ingredients");
 		searchBarIngredients.setIconified(false);
@@ -172,7 +181,6 @@ public class UserProfile extends BaseActivity {
 
 			@Override
 			public boolean onQueryTextSubmit(String query) {
-				// TODO Auto-generated method stub
 				return false;
 			}
 
@@ -207,7 +215,6 @@ public class UserProfile extends BaseActivity {
 						searchBarIngredients.setQuery(simple.getCursor()
 								.getString(0), false);
 
-						vib.vibrate(20);
 						boolean inList = false;
 						for (int i = 0; i < myIngredientList.size(); i++) {
 							if (myIngredientList.get(i).equals(
@@ -235,7 +242,6 @@ public class UserProfile extends BaseActivity {
 
 					@Override
 					public boolean onSuggestionSelect(int position) {
-						// TODO Auto-generated method stub
 						return false;
 					}
 
@@ -252,7 +258,6 @@ public class UserProfile extends BaseActivity {
 	
 				@Override
 				public void call(Session session, SessionState state, Exception exception) {
-					// TODO Auto-generated method stub
 
 					if (session.isOpened()) {
 						// make request to the /me API
@@ -286,7 +291,7 @@ public class UserProfile extends BaseActivity {
 		
 		
 	}
-
+	
 	public static void setListViewHeight(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
