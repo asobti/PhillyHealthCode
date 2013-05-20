@@ -25,6 +25,7 @@
     <string name="title_activity_test_db">Test db</string>
     <string name="title_activity_scrolling_list_view">ScrollingListView</string>
     <string name="title_activity_suggestions">Suggestions</string>
-    <string name="title_activity_recipe_list_view_pager">Recipe List</string>
+    <string name="allergy">Food Allergies</string>
+    <string name="dietprompt">Common Diets</string>
 
 </resources>
