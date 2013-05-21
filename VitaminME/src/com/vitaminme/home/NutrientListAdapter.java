@@ -49,7 +49,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 		vib = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
 		TextView nutrientText = (TextView) v.findViewById(R.id.itemName);
-		nutrientText.setText(nutrients.get(position).name);
+		nutrientText.setText(nutrients.get(position).term);
 
 		// nutrientText.setSelected(true);
 		nutrientText.setOnClickListener(new OnClickListener()
@@ -59,7 +59,7 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 			public void onClick(View arg0)
 			{
 				AlertDialog.Builder box = new AlertDialog.Builder(context);
-				box.setTitle(nutrients.get(position).name);
+				box.setTitle(nutrients.get(position).term);
 				box.setMessage(Html.fromHtml(nutrients.get(position).info));
 				box.setPositiveButton("OK",
 						new DialogInterface.OnClickListener()
@@ -202,8 +202,8 @@ public class NutrientListAdapter extends ArrayAdapter<String> implements
 				for (int i = 0; i < count; i++)
 				{
 					Log.v("mylog", "for");
-					final String item = items.get(i).name.toString();
-					final String itemName = items.get(i).name.toString()
+					final String item = items.get(i).term.toString();
+					final String itemName = items.get(i).term.toString()
 							.toLowerCase();
 
 					if (itemName.startsWith(prefixString))

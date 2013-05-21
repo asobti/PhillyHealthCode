@@ -198,11 +198,11 @@ public class NutrientListFragment extends SherlockFragment implements
 		box.setTitle("Selected Nutrients");
 		for (Nutrient n : selectedPlus)
 		{
-			list = list + " + " + n.name.toString() + "\n";
+			list = list + " + " + n.term.toString() + "\n";
 		}
 		for (Nutrient n : selectedMinus)
 		{
-			list = list + " - " + n.name.toString() + "\n";
+			list = list + " - " + n.term.toString() + "\n";
 		}
 		if (list == "")
 		{

@@ -5,17 +5,14 @@ import java.io.Serializable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Nutrient implements Serializable
+public class Nutrient extends DietObject implements Serializable
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3145633552956087855L;
 
-	public int id; // id of nutrient
-	public String name; // name of nutrient
 	public String tag;
-	public int value; // -1, 0, 1
 	public String unit;
 	public String info;
 	public float daily_value;
@@ -26,7 +23,7 @@ public class Nutrient implements Serializable
 
 	public Nutrient(String name)
 	{
-		this.name = name;
+		super.term = name;
 	}
 
 	/*
@@ -34,8 +31,9 @@ public class Nutrient implements Serializable
 	 */
 	public Nutrient(JSONObject jsonObject) throws JSONException
 	{
-		this.id = jsonObject.getInt("id");
-		this.name = jsonObject.getString("description");
+		super.id = jsonObject.getInt("id");
+		super.term = jsonObject.getString("description");
+		super.value = 0;
 		this.tag = jsonObject.getString("tagname");
 		this.unit = jsonObject.getString("unit");
 		this.info = jsonObject.getString("info");
