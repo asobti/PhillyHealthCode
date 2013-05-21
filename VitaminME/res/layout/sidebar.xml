@@ -148,6 +148,45 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/dietBuilder"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/sidebar_items_height"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal" >
+
+            <View
+                android:id="@+id/selectdietBuilder"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:background="@color/spotify"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/dietBuilderImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:adjustViewBounds="true"
+                android:gravity="center"
+                android:scaleType="centerCrop"
+                android:src="@drawable/search" />
+
+            <TextView
+                style="@style/sidebar_text"
+                android:layout_toRightOf="@+id/dietBuilderImage"
+                android:text="Diet Builder" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/sidebar_divider" />
+        </RelativeLayout>
+        
+                <RelativeLayout
             android:id="@+id/searchByRecipeNames"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/sidebar_items_height"

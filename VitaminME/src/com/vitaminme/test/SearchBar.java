@@ -268,7 +268,7 @@ public class SearchBar extends BaseActivity implements
 
 				for (int i = 0; i < nut.size(); i++)
 				{
-					item = nut.get(i).name;
+					item = nut.get(i).term;
 					suggestions.add(item);
 					cursor.addRow(new String[] { Integer.toString(i), item });
 				}

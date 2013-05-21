@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.vitaminme.android.R;
+import com.vitaminme.home.DietBuilderListFragment;
 import com.vitaminme.home.Home;
 import com.vitaminme.home.HomeFragment;
 import com.vitaminme.home.IngredientListFragment;
@@ -95,6 +96,19 @@ public class SidebarFragment extends Fragment
 				switchFragment("RecipeNames");
 			}
 		});
+		
+		RelativeLayout dietBuilder = (RelativeLayout) vg.findViewById(R.id.dietBuilder);
+		dietBuilder.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				vibe.vibrate(20);
+				switchFragment("DietBuilder");
+				
+			}
+			
+		});
+
 
 		RelativeLayout favorites = (RelativeLayout) vg
 				.findViewById(R.id.favorites);
@@ -261,6 +275,47 @@ public class SidebarFragment extends Fragment
 
 			setSelector(R.id.selectIngredients);
 		}
+		else if (fragmentItemName.equals("DietBuilder"))
+		{
+			if (activity instanceof Home)
+			{
+				if (activity
+						.getTitle()
+						.toString()
+						.equals(getResources().getString(
+								R.string.name_fragment_search_dietObject)))
+				{
+
+					closeSidebar(activity);
+				}
+				else
+				{
+					((Home) activity).currentFragment = getResources()
+							.getString(
+									R.string.name_fragment_search_dietObject);
+					((FragmentActivity) activity)
+							.getSupportFragmentManager()
+							.beginTransaction()
+							.replace(R.id.content_frame,
+									new DietBuilderListFragment()).commit();
+					closeSidebar(activity);
+				}
+			}
+			else
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, Home.class);
+				intent.putExtra(
+						"fragmentName",
+						getResources().getString(
+								R.string.name_fragment_search_dietObject));
+				activity.startActivity(intent);
+			}
+
+			setSelector(R.id.selectdietBuilder);
+		}
+
 		else if (fragmentItemName.equals("Favorites"))
 		{
 			if (!(activity instanceof Favorites))
@@ -297,6 +352,7 @@ public class SidebarFragment extends Fragment
 		vg.findViewById(R.id.selectNutrients).setVisibility(View.INVISIBLE);
 		vg.findViewById(R.id.selectIngredients).setVisibility(View.INVISIBLE);
 		vg.findViewById(R.id.selectRecipeNames).setVisibility(View.INVISIBLE);
+		vg.findViewById(R.id.selectdietBuilder).setVisibility(View.INVISIBLE);
 		vg.findViewById(R.id.selectFavorites).setVisibility(View.INVISIBLE);
 		vg.findViewById(R.id.selectUserProfile).setVisibility(View.INVISIBLE);
 		vg.findViewById(selector).setVisibility(View.VISIBLE);

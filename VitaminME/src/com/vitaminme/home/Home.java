@@ -83,7 +83,12 @@ public class Home extends BaseActivity
 			currentFragment = getResources().getString(
 					R.string.name_fragment_search_recipe_name);
 		}
-
+		else if (fragmentName.equals(getResources().getString( R.string.name_fragment_search_dietObject)));
+		{
+			mContent = new DietBuilderListFragment();
+			currentFragment = getResources().getString(R.string.name_fragment_search_dietObject);
+			
+		}
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, mContent).commit();
 

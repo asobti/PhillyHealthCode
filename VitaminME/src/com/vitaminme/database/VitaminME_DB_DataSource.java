@@ -244,7 +244,7 @@ public class VitaminME_DB_DataSource
 		Nutrient nutrient = new Nutrient();
 		nutrient.id = cursor.getInt(cursor
 				.getColumnIndexOrThrow(VitaminME_DB.NUTRIENT_ID));
-		nutrient.name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+		nutrient.term = cursor.getString(cursor.getColumnIndexOrThrow("name"));
 		nutrient.tag = cursor
 				.getString(cursor.getColumnIndexOrThrow("tagname"));
 		nutrient.unit = cursor.getString(cursor.getColumnIndexOrThrow("unit"));

@@ -18,6 +18,7 @@
     <string name="name_fragment_search_recipe_name">RecipeSearch</string>
     <string name="name_fragment_search_nutrients">NutrientSearch</string>
     <string name="name_fragment_search_ingredients">IngredientsSearch</string>
+    <string name="name_fragment_search_dietObject">DietBuilder</string>
     <string name="loading_message">Downloading...</string>
     <string name="title_activity_favorites">Favorites</string>
     <string name="title_fragment_user_profile">User Profile</string>
@@ -27,5 +28,6 @@
     <string name="title_activity_suggestions">Suggestions</string>
     <string name="allergy">Food Allergies</string>
     <string name="dietprompt">Common Diets</string>
+    
 
 </resources>

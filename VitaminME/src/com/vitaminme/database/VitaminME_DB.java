@@ -149,7 +149,7 @@ public class VitaminME_DB extends SQLiteOpenHelper
 				{
 					ContentValues values = new ContentValues();
 					values.put(VitaminME_DB.NUTRIENT_ID, n.id);
-					values.put("name", n.name);
+					values.put("name", n.term);
 					values.put("tagname", n.tag);
 					values.put("unit", n.unit);
 					values.put("info", n.info);
