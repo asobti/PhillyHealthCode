@@ -60,6 +60,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 	ArrayAdapter<String> adapter;
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
+	ArrayList<Nutrient> nutrients;
 	ArrayList<DietObject> allItems = new ArrayList<DietObject>();
 	ArrayList<DietObject> selectedItems = new ArrayList<DietObject>();
 	AtomicReference<Object> selectionRef = new AtomicReference<Object>(
@@ -70,31 +71,30 @@ public class DietBuilderListFragment extends SherlockFragment implements
 	SearchView searchView;
 	MenuItem searchMenu;
 	boolean firstDisplay = true;
+	boolean firstQuery = true;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
 		activity = getActivity();
-		activity.setTitle(R.string.title_fragment_search_ingredients);
+		activity.setTitle(R.string.title_fragment_dietBuilder);
 
 		setHasOptionsMenu(true);
 
 		if (firstDisplay) // Only show loading screen when empty
 		// screen is loaded onCreate
-		{
-			progressDialog = new ProgressDialog(activity);
-			progressDialog.setMessage(getResources().getText(
-					R.string.loading_message));
-			progressDialog.setCancelable(false);
-			progressDialog.show();
-			firstDisplay = false;
+		{				
+			firstDisplay = false;	
+		}
+		else{
+			searchView.setQueryHint("Search");
 		}
 
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.fragment_ingredient_list, null);
 
-		new getItems().execute();
+//		new getItems().execute();
 
 		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -102,8 +102,12 @@ public class DietBuilderListFragment extends SherlockFragment implements
 		View footerView = (View) inflater.inflate(
 				R.layout.fragment_search_footer_search_more, null);
 		TextView text = (TextView) footerView.findViewById(R.id.text);
-		text.setText("Click to search for ingredients");
+		text.setText("Search for nutrients + ingredients");
 		lv.addFooterView(footerView);
+		adapter = new DietObjectListAdapter(activity, selectedItems,selectionRef);
+		lv.setAdapter(adapter);
+
+
 
 		footerView.setOnClickListener(new OnClickListener()
 		{
@@ -145,6 +149,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 		});
 
 		Button reviewButton = (Button) vg.findViewById(R.id.reviewButton);
+		reviewButton.setText("MY DIET");
 		reviewButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -152,7 +157,17 @@ public class DietBuilderListFragment extends SherlockFragment implements
 			public void onClick(View v)
 			{
 				vib.vibrate(20);
-				PopUpSelection();
+				if (!selectedItems.isEmpty())
+				{
+//					adapter = new DietObjectListAdapter(activity, selectedItems,
+//							selectionRef);
+//					lv.setAdapter(adapter);
+//					adapter.notifyDataSetChanged();
+					searchView.setQuery("", false);
+				}
+				else{
+					PopUpSelection();
+				}
 			}
 		});
 
@@ -165,7 +180,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 		// Create the search view
 		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
 		searchView = new SearchView(actionBar.getThemedContext());
-		searchView.setQueryHint("Search Ingredients");
+		searchView.setQueryHint("Search");
 
 		searchView.setOnQueryTextListener(this);
 
@@ -200,7 +215,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 		}
 		if (list == "")
 		{
-			list = "No ingredients selected";
+			list = "Your Diet is empty";
 			empty = true;
 		}
 		box.setMessage(list);
@@ -257,7 +272,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 		protected ArrayList<DietObject> doInBackground(ApiFilter... arg)
 		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
-			params.add(new SimpleEntry<String, String>("count", "20"));
+			params.add(new SimpleEntry<String, String>("count", "100"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 
 			for (ApiFilter f : arg)
@@ -267,18 +282,20 @@ public class DietBuilderListFragment extends SherlockFragment implements
 			try
 			{
 				ArrayList<Ingredient> ing = api.getIngredients(params, filters);
-				ArrayList<Nutrient> nuts = api.getNutrients(params, filters);
+				
+				
+				if(firstQuery){
+					nutrients = api.getNutrients(params);
+					firstQuery = false;
+				}
 				ArrayList<DietObject> items= new ArrayList<DietObject>();
-				
-				for(int i=0; i < nuts.size(); i++){
-					Log.v("mytag", "nut = " +  nuts.get(i).term);
-					items.add(nuts.get(i));
+				if(nutrients != null){
+					items.addAll(nutrients);
 				}
-				for(int i=0; i < ing.size(); i++){
-					Log.v("mytag", "ing = " + ing.get(i).term);
-					items.add(ing.get(i));
+				if(ing != null){
+					items.addAll(ing);
 				}
-				
+
 				return items;
 			}
 			catch (APICallException e)
@@ -300,8 +317,11 @@ public class DietBuilderListFragment extends SherlockFragment implements
 				allItems = items;
 				adapter = new DietObjectListAdapter(activity, allItems,
 						selectionRef);
+				DietBuilderListFragment.this.adapter.getFilter().filter(
+						searchView.getQuery());
 
 				lv.setAdapter(adapter);
+				
 				lv.setTextFilterEnabled(true);
 				adapter.notifyDataSetChanged();
 
@@ -323,8 +343,8 @@ public class DietBuilderListFragment extends SherlockFragment implements
 						Toast.LENGTH_LONG).show();
 			}
 
-			if (progressDialog.isShowing())
-				progressDialog.dismiss();
+//			if (progressDialog.isShowing())
+//				progressDialog.dismiss();
 			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
 					false);
 
@@ -361,6 +381,7 @@ public class DietBuilderListFragment extends SherlockFragment implements
 				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							query);
+					
 					new getItems().execute(filter);
 					searched = true;
 				}
@@ -378,9 +399,9 @@ public class DietBuilderListFragment extends SherlockFragment implements
 					{
 						ApiFilter filter = new ApiFilter("term",
 								ApiFilterOp.like, query);
-						DietBuilderListFragment.this.adapter.getFilter().filter(
-								query);
 						new getItems().execute(filter);
+						
+
 					}
 				}
 				else if (!selectedItems.isEmpty())
@@ -389,7 +410,10 @@ public class DietBuilderListFragment extends SherlockFragment implements
 							selectionRef);
 					lv.setAdapter(adapter);
 				}
-
+				if(adapter != null){
+					adapter.notifyDataSetChanged();
+				}
+				
 			}
 		}
 	};

@@ -27,6 +27,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -365,6 +366,7 @@ public class RecipeListFragment extends Fragment
 				Pagination pagination = api.getPaginationObject();
 
 				totalNumResults = pagination.num_results;
+
 				getActivity().setTitle(
 						"Recipe List: " + totalNumResults + " items found");
 
