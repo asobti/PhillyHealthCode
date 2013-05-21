@@ -68,8 +68,8 @@ public class RecipeListFragment extends Fragment
 	List<String> recipeNames = new ArrayList<String>();
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
-	static List<Nutrient> nutrients = new ArrayList<Nutrient>();
-	static List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	List<Nutrient> nutrients = new ArrayList<Nutrient>();
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
 	public static Fragment newInstance(Context context)
 	{
@@ -115,9 +115,15 @@ public class RecipeListFragment extends Fragment
 				R.layout.activity_recipe_list_footer, null, false);
 		listView.addFooterView(footerView, null, false);
 
-		setListeners();
+		 setListeners();
 
 		return vg;
+	}
+
+	public void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+//		setListeners();
 	}
 
 	public void fillListView()

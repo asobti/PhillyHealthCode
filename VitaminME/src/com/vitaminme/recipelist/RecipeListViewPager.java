@@ -25,6 +25,7 @@ public class RecipeListViewPager extends BaseActivity
 				getSupportFragmentManager(), bundle, this);
 
 		android.support.v4.view.ViewPager pager = (android.support.v4.view.ViewPager) findViewById(R.id.pager);
+		pager.setOffscreenPageLimit(3);
 		pager.setAdapter(adapter);
 
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
