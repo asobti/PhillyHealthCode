@@ -308,7 +308,7 @@ public class ApiAdapter {
 			String queryString = "?";
 			for (Entry<String, String> entry : params) {
 				queryString += String.format("%s=%s&", entry.getKey(),
-						entry.getValue());
+						URLEncoder.encode(entry.getValue(), "UTF-8"));
 			}
 
 			if (filters.size() > 0) {

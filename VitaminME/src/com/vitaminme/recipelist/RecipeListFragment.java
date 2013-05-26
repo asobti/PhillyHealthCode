@@ -101,14 +101,6 @@ public class RecipeListFragment extends Fragment
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.activity_recipe_list, null);
 
-		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_stub)
-				.showImageOnFail(R.drawable.ic_error).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				context).defaultDisplayImageOptions(options).build();
-		ImageLoader.getInstance().init(config);
-
 		itemAdapter = new ItemAdapter();
 		listView = (ListView) vg.findViewById(android.R.id.list);
 
@@ -121,10 +113,17 @@ public class RecipeListFragment extends Fragment
 		return vg;
 	}
 
+	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		// setListeners();
+		options = new DisplayImageOptions.Builder().cacheInMemory()
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_stub)
+				.showImageOnFail(R.drawable.ic_error).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context).defaultDisplayImageOptions(options).build();
+		ImageLoader.getInstance().init(config);
 	}
 
 	public void fillListView()
@@ -288,19 +287,6 @@ public class RecipeListFragment extends Fragment
 		}
 	}
 
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-	}
-
-	// @Override
-	// public void onBackPressed()
-	// {
-	// super.onBackPressed();
-	// AnimateFirstDisplayListener.displayedImages.clear();
-	// }
-
 	private final class GetRecipes extends
 			AsyncTask<Void, Void, ArrayList<RecipeSummary>>
 	{
@@ -321,6 +307,19 @@ public class RecipeListFragment extends Fragment
 			}
 		}
 
+		String convertCourseType(String courseType)
+		{
+			if (courseType.equals("Breakfast"))
+				return "course^course-Breakfast and Brunch";
+			if (courseType.equals("Lunch"))
+				return "course^course-Lunch and Snacks";
+			if (courseType.equals("Dinner"))
+				return "course^course-Main Dishes";
+			if (courseType.equals("Others"))
+				return "";
+			return "";
+		}
+
 		@Override
 		protected ArrayList<RecipeSummary> doInBackground(Void... arg0)
 		{
@@ -329,6 +328,8 @@ public class RecipeListFragment extends Fragment
 					.toString(startIndex)));
 			params.add(new SimpleEntry<String, String>("count", Integer
 					.toString(count)));
+			params.add(new SimpleEntry<String, String>("allowedCourse[]",
+					convertCourseType(courseType)));
 
 			/*
 			 * for(Nutrient n : nutrients) { String k =
