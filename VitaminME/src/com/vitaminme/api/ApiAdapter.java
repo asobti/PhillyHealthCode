@@ -251,6 +251,10 @@ public class ApiAdapter {
 			}
 
 			this.pag = parsePaginationInfo(response);
+			
+			if (this.pag == null){
+				System.out.println("foo");
+			}
 
 		} catch (APICallException e) {
 			throw e;
@@ -339,10 +343,6 @@ public class ApiAdapter {
 
 		// accept gzip'ed data
 		request.addHeader("Accept-Encoding", "gzip");
-
-		// nullify the old pagination object
-		this.pag = null;
-
 		// execute the request
 		HttpResponse resp = client.execute(request);
 		StatusLine status = resp.getStatusLine();

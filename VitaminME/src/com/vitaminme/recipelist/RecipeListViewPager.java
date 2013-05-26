@@ -1,5 +1,7 @@
 package com.vitaminme.recipelist;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,7 +28,7 @@ public class RecipeListViewPager extends BaseActivity
 				getSupportFragmentManager(), bundle, this);
 
 		android.support.v4.view.ViewPager pager = (android.support.v4.view.ViewPager) findViewById(R.id.pager);
-		pager.setOffscreenPageLimit(4);
+		pager.setOffscreenPageLimit(courseType.length); // Cache all fragments in memory for fast switching
 		pager.setAdapter(adapter);
 
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
@@ -49,50 +51,16 @@ public class RecipeListViewPager extends BaseActivity
 		@Override
 		public CharSequence getPageTitle(int position)
 		{
-			// switch (position)
-			// {
-			// case 0:
-			// return "Breakfast";
-			// case 1:
-			// return "Lunch";
-			// case 2:
-			// return "Dinner";
-			// case 3:
-			// return "Others";
-			// }
-			// return "Recipe List";
-			return courseType[position];
+			return courseType[position].toUpperCase();
 		}
 
 		@Override
 		public Fragment getItem(int position)
 		{
 			Fragment f = new Fragment();
-			// switch (position)
-			// {
-			// case 0:
-			// f = RecipeListFragment.newInstance(context);
-			// ((RecipeListFragment) f).constructor(context, bundle,
-			// "Breakfast");
-			// break;
-			// case 1:
-			// f = RecipeListFragment.newInstance(context);
-			// ((RecipeListFragment) f).constructor(context, bundle, "Lunch");
-			// break;
-			// case 2:
-			// f = RecipeListFragment.newInstance(context);
-			// ((RecipeListFragment) f).constructor(context, bundle, "Dinner");
-			// break;
-			// case 3:
-			// f = RecipeListFragment.newInstance(context);
-			// ((RecipeListFragment) f).constructor(context, bundle, "Others");
-			// break;
-			// }
-			
 			f = RecipeListFragment.newInstance(context);
 			((RecipeListFragment) f).constructor(context, bundle,
 					courseType[position]);
-
 			return f;
 		}
 
