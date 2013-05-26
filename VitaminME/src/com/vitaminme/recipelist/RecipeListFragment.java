@@ -116,7 +116,7 @@ public class RecipeListFragment extends Fragment
 				R.layout.activity_recipe_list_footer, null, false);
 		listView.addFooterView(footerView, null, false);
 
-		 setListeners();
+		setListeners();
 
 		return vg;
 	}
@@ -124,7 +124,7 @@ public class RecipeListFragment extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-//		setListeners();
+		// setListeners();
 	}
 
 	public void fillListView()

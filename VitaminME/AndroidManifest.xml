@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.vitaminme.recipelist.RecipeList"
+            android:name="com.vitaminme.recipelist.Unused_RecipeList"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/recipe_list"
             android:screenOrientation="portrait" >

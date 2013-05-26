@@ -42,7 +42,7 @@ import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
 import com.vitaminme.recipe.RecipeDetails;
 
-public class RecipeList extends BaseActivity
+public class Unused_RecipeList extends BaseActivity
 {
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	DisplayImageOptions options;
@@ -142,7 +142,7 @@ public class RecipeList extends BaseActivity
 
 	public void setListeners()
 	{
-		final Vibrator vibe = (Vibrator) RecipeList.this
+		final Vibrator vibe = (Vibrator) Unused_RecipeList.this
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		listView.setOnItemClickListener(new OnItemClickListener()
 		{
@@ -152,7 +152,7 @@ public class RecipeList extends BaseActivity
 			{
 				vibe.vibrate(20);
 				System.out.println("Clicked: " + ids.get(position));
-				Intent intent = new Intent(RecipeList.this, RecipeDetails.class);
+				Intent intent = new Intent(Unused_RecipeList.this, RecipeDetails.class);
 				intent.putExtra("recipe_id", ids.get(position));
 				startActivity(intent);
 			}
@@ -294,7 +294,7 @@ public class RecipeList extends BaseActivity
 			if (startIndex == 0) // Only show loading screen when empty
 			// screen is loaded onCreate
 			{
-				progressDialog = new ProgressDialog(RecipeList.this);
+				progressDialog = new ProgressDialog(Unused_RecipeList.this);
 				progressDialog.setMessage(getResources().getText(
 						R.string.loading_message));
 				progressDialog.setCancelable(false);
