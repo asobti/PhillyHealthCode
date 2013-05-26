@@ -1,28 +1,53 @@
 package com.vitaminme.home;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
+import android.os.Vibrator;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Window;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.services.UpdateNutrientsDB;
+import com.vitaminme.userprofiles.Favorites;
+import com.vitaminme.widgets.ExpandableHeightGridView;
 
 public class Home extends BaseActivity
 {
-	Fragment mContent;
-	HashMap<String, Fragment> Fragments = new HashMap<String, Fragment>();
-
 	protected Dialog mSplashDialog;
-	public String currentFragment = "";
 	static boolean firstDisplay = true;
+
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
+	DisplayImageOptions options;
+	static int imageCounter;
+	static int num_images;
+
+	ArrayList<String> images = new ArrayList<String>();
+
+	static Home activity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -31,66 +56,76 @@ public class Home extends BaseActivity
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.content_frame);
+		setContentView(R.layout.fragment_home);
 
 		performChecks();
 
-		Bundle extras = getIntent().getExtras();
-		String fragmentName = "";
-		if (extras != null)
-		{
-			fragmentName = extras.getString("fragmentName");
-		}
-		// fragmentName = getResources().getString(
-		// R.string.name_fragment_search_nutrients); // For TESTING ONLY
+		activity = this;
+		this.helpMessage = "Home help";
 
-		// if (savedInstanceState != null)
-		// {
-		// Fragments = (HashMap<String, Fragment>) savedInstanceState
-		// .getSerializable("Fragments");
-		// System.out.println("not null saved instance");
-		// }
+		imageCounter = 0;
+		num_images = 0;
 
-		if (fragmentName.isEmpty()
-				|| fragmentName.equals(getResources().getString(
-						R.string.name_fragment_home)))
-		{
+		options = new DisplayImageOptions.Builder().cacheInMemory()
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_stub)
+				.showImageOnFail(R.drawable.ic_error).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getApplicationContext()).defaultDisplayImageOptions(options)
+				.build();
+		ImageLoader.getInstance().init(config);
 
-			mContent = new HomeFragment();
-			currentFragment = getResources().getString(
-					R.string.name_fragment_home);
-		}
-		else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_nutrients)))
-		{
-			mContent = new NutrientListFragment();
-			currentFragment = getResources().getString(
-					R.string.name_fragment_search_nutrients);
+		ExpandableHeightGridView gv1 = (ExpandableHeightGridView) findViewById(R.id.gridView1);
+		gv1.setExpanded(true);
+		gv1.setEmptyView(findViewById(R.id.emptyFavorites));
+		// gv1.setAdapter(new ImageAdapter());
 
-		}
-		else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_ingredients)))
+		for (int i = 0; i < 6; i++)
 		{
-			mContent = new NutrientListFragment(); // CHANGE THIS
-			currentFragment = getResources().getString(
-					R.string.name_fragment_search_ingredients);
+			images.add("http://vafoodbanks.org/wp-content/uploads/2012/06/fresh_food.jpg");
+		}
+		num_images += images.size();
 
-		}
-		else if (fragmentName.equals(getResources().getString(
-				R.string.name_fragment_search_recipe_name)))
+		final ExpandableHeightGridView gv2 = (ExpandableHeightGridView) findViewById(R.id.gridView2);
+		gv2.setExpanded(true);
+		gv2.setEmptyView(findViewById(R.id.emptyRecent));
+		gv2.setAdapter(new ImageAdapter());
+
+		final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		gv1.setOnItemClickListener(new OnItemClickListener()
 		{
-			mContent = new NutrientListFragment();
-			currentFragment = getResources().getString(
-					R.string.name_fragment_search_recipe_name);
-		}
-		else if (fragmentName.equals(getResources().getString( R.string.name_fragment_search_dietObject)));
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id)
+			{
+				vibe.vibrate(20);
+				Toast.makeText(getBaseContext(), "Clicked " + position,
+						Toast.LENGTH_LONG).show();
+				if (position == (images.size() - 1))
+				{
+					Intent intent = new Intent(getBaseContext(),
+							Favorites.class);
+					startActivity(intent);
+				}
+			}
+		});
+		gv2.setOnItemClickListener(new OnItemClickListener()
 		{
-			mContent = new DietBuilderListFragment();
-			currentFragment = getResources().getString(R.string.name_fragment_search_dietObject);
-			
-		}
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.content_frame, mContent).commit();
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id)
+			{
+				vibe.vibrate(20);
+				Toast.makeText(getBaseContext(), "Clicked " + position,
+						Toast.LENGTH_LONG).show();
+				if (position == (images.size() - 1))
+				{
+					Intent intent = new Intent(getBaseContext(),
+							Favorites.class);
+					startActivity(intent);
+				}
+			}
+		});
 
 	}
 
@@ -101,7 +136,6 @@ public class Home extends BaseActivity
 		// Update NutrientsDB
 		Intent intent = new Intent(this, UpdateNutrientsDB.class);
 		startService(intent);
-
 	}
 
 	protected void showSplashScreen()
@@ -143,6 +177,98 @@ public class Home extends BaseActivity
 		{
 			mSplashDialog.dismiss();
 			mSplashDialog = null;
+		}
+	}
+
+	public class ImageAdapter extends BaseAdapter
+	{
+		private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
+
+		private class ViewHolder
+		{
+			public TextView text1;
+			public ImageView image;
+		}
+
+		@Override
+		public int getCount()
+		{
+			return images.size();
+		}
+
+		@Override
+		public Object getItem(int position)
+		{
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position)
+		{
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
+			View view = convertView;
+			final ViewHolder holder;
+			if (convertView == null)
+			{
+				view = getLayoutInflater().inflate(
+						R.layout.fragment_home_gridview_items, parent, false);
+				holder = new ViewHolder();
+				holder.text1 = (TextView) view.findViewById(R.id.textHome);
+				holder.image = (ImageView) view.findViewById(R.id.imageHome);
+				view.setTag(holder);
+			}
+			else
+			{
+				holder = (ViewHolder) view.getTag();
+			}
+
+			if (position == (images.size() - 1))
+			{
+				imageLoader.displayImage("drawable://" + R.drawable.play,
+						holder.image, options, animateFirstListener);
+				holder.text1.setText("See all...");
+			}
+			else
+			{
+				imageLoader.displayImage(images.get(position), holder.image,
+						options, animateFirstListener);
+			}
+
+			return view;
+		}
+	}
+
+	private static class AnimateFirstDisplayListener extends
+			SimpleImageLoadingListener
+	{
+		static final List<String> displayedImages = Collections
+				.synchronizedList(new LinkedList<String>());
+
+		public void onLoadingComplete(String imageUri, View view,
+				Bitmap loadedImage)
+		{
+			if (loadedImage != null)
+			{
+				ImageView imageView = (ImageView) view;
+				boolean firstDisplay = !displayedImages.contains(imageUri);
+				if (firstDisplay)
+				{
+					FadeInBitmapDisplayer.animate(imageView, 500);
+					displayedImages.add(imageUri);
+
+					// Remove splash screen when done loading all images
+					imageCounter++;
+					if (imageCounter >= num_images - 1)
+					{
+						activity.removeSplashScreen();
+					}
+				}
+			}
 		}
 	}
 

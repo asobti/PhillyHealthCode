@@ -49,17 +49,16 @@ public class BaseActivity extends SlidingFragmentActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-
 		// Set ActionBar
-		final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-
+		
+		final AlertDialog.Builder helpDialog = new AlertDialog.Builder(this);
 		menu.add("Help").setIcon(R.drawable.info)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener()
 				{
 					@Override
 					public boolean onMenuItemClick(MenuItem item)
 					{
-						dialog.setTitle("Help")
+						helpDialog.setTitle("Help")
 								.setMessage(helpMessage)
 								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
@@ -76,15 +75,15 @@ public class BaseActivity extends SlidingFragmentActivity
 					}
 				}).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
+		final AlertDialog.Builder aboutDialog = new AlertDialog.Builder(this);
 		menu.add("About Yummly").setIcon(R.drawable.info)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener()
 				{
 					@Override
 					public boolean onMenuItemClick(MenuItem item)
 					{
-						LayoutInflater inflater = getLayoutInflater();
-						ViewGroup vg = new RelativeLayout(getBaseContext());
-						View view = inflater.inflate(R.layout.about_yummly, vg);
+						View view = getLayoutInflater().inflate(
+								R.layout.about_yummly, null);
 
 						Typeface tf = Typeface.createFromAsset(getAssets(),
 								"fonts/Lato-Bold.ttf");
@@ -101,7 +100,7 @@ public class BaseActivity extends SlidingFragmentActivity
 								.findViewById(R.id.aboutYummlyLink);
 						tv3.setTypeface(tf2);
 
-						dialog.setView(view)
+						aboutDialog.setView(view)
 								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
 										new DialogInterface.OnClickListener()

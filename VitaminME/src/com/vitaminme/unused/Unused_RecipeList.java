@@ -1,4 +1,4 @@
-package com.vitaminme.recipelist;
+package com.vitaminme.unused;
 
 import java.io.Serializable;
 import java.util.AbstractMap.SimpleEntry;

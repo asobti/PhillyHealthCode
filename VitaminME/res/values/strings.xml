@@ -30,5 +30,6 @@
     <string name="allergy">Food Allergies</string>
     <string name="dietprompt">Common Diets</string>
     <string name="title_activity_recipe_list_view_pager">Recipe List</string>
+    <string name="title_activity_search_recipes">Search</string>
 
 </resources>

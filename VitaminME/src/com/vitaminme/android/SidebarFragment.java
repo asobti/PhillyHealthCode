@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,13 +14,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
-import com.vitaminme.android.R;
-import com.vitaminme.home.DietBuilderListFragment;
 import com.vitaminme.home.Home;
-import com.vitaminme.home.HomeFragment;
-import com.vitaminme.home.IngredientListFragment;
-import com.vitaminme.home.NutrientListFragment;
-import com.vitaminme.android.R;
+import com.vitaminme.search.SearchRecipes;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
 
@@ -58,31 +52,31 @@ public class SidebarFragment extends Fragment
 			}
 		});
 
-		RelativeLayout searchByNutrients = (RelativeLayout) vg
-				.findViewById(R.id.searchByNutrients);
-		searchByNutrients.setOnClickListener(new OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				vibe.vibrate(20);
-				switchFragment("Nutrients");
-			}
-		});
-
-		RelativeLayout searchByIngredients = (RelativeLayout) vg
-				.findViewById(R.id.searchByIngredients);
-		searchByIngredients.setOnClickListener(new OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				vibe.vibrate(20);
-				switchFragment("Ingredients");
-			}
-		});
+		// RelativeLayout searchByNutrients = (RelativeLayout) vg
+		// .findViewById(R.id.searchByNutrients);
+		// searchByNutrients.setOnClickListener(new OnClickListener()
+		// {
+		//
+		// @Override
+		// public void onClick(View v)
+		// {
+		// vibe.vibrate(20);
+		// switchFragment("Nutrients");
+		// }
+		// });
+		//
+		// RelativeLayout searchByIngredients = (RelativeLayout) vg
+		// .findViewById(R.id.searchByIngredients);
+		// searchByIngredients.setOnClickListener(new OnClickListener()
+		// {
+		//
+		// @Override
+		// public void onClick(View v)
+		// {
+		// vibe.vibrate(20);
+		// switchFragment("Ingredients");
+		// }
+		// });
 
 		RelativeLayout searchByRecipeNames = (RelativeLayout) vg
 				.findViewById(R.id.searchByRecipeNames);
@@ -96,19 +90,20 @@ public class SidebarFragment extends Fragment
 				switchFragment("RecipeNames");
 			}
 		});
-		
-		RelativeLayout dietBuilder = (RelativeLayout) vg.findViewById(R.id.dietBuilder);
-		dietBuilder.setOnClickListener(new OnClickListener(){
+
+		RelativeLayout searchRecipes = (RelativeLayout) vg
+				.findViewById(R.id.searchRecipes);
+		searchRecipes.setOnClickListener(new OnClickListener()
+		{
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View arg0)
+			{
 				vibe.vibrate(20);
-				switchFragment("DietBuilder");
-				
+				switchFragment("SearchRecipes");
 			}
-			
-		});
 
+		});
 
 		RelativeLayout favorites = (RelativeLayout) vg
 				.findViewById(R.id.favorites);
@@ -165,155 +160,33 @@ public class SidebarFragment extends Fragment
 
 		final Activity activity = getActivity();
 
-		if (fragmentItemName.equalsIgnoreCase("Home"))
+		if (fragmentItemName.equals("Home"))
 		{
-			if (activity instanceof Home)
-			{
-				if (((Home) activity).currentFragment.equals(getResources()
-						.getString(R.string.name_fragment_home)))
-				{
-					closeSidebar(activity);
-				}
-				else
-				{
-					((Home) activity).currentFragment = getResources()
-							.getString(R.string.name_fragment_home);
-					((FragmentActivity) activity).getSupportFragmentManager()
-							.beginTransaction()
-							.replace(R.id.content_frame, new HomeFragment())
-							.commit();
-
-					closeSidebar(activity);
-				}
-			}
-			else
+			if (!(activity instanceof Home))
 			{
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra("fragmentName",
-						getResources().getString(R.string.name_fragment_home));
 				activity.startActivity(intent);
 			}
-
-			setSelector(R.id.selectHome);
+			else
+			{
+				closeSidebar(activity);
+			}
 		}
-		else if (fragmentItemName.equals("Nutrients"))
+		else if (fragmentItemName.equals("SearchRecipes"))
 		{
-			if (activity instanceof Home)
+			if (!(activity instanceof SearchRecipes))
 			{
-				if (((Home) activity).currentFragment.equals(getResources()
-						.getString(R.string.name_fragment_search_nutrients)))
+				closeSidebar(activity);
 
-				{
-
-					closeSidebar(activity);
-				}
-				else
-				{
-					((Home) activity).currentFragment = getResources()
-							.getString(R.string.name_fragment_search_nutrients);
-					((FragmentActivity) activity)
-							.getSupportFragmentManager()
-							.beginTransaction()
-							.replace(R.id.content_frame,
-									new NutrientListFragment()).commit();
-					closeSidebar(activity);
-				}
+				Intent intent = new Intent(activity, SearchRecipes.class);
+				activity.startActivity(intent);
 			}
 			else
 			{
 				closeSidebar(activity);
-
-				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra(
-						"fragmentName",
-						getResources().getString(
-								R.string.name_fragment_search_nutrients));
-				activity.startActivity(intent);
 			}
-
-			setSelector(R.id.selectNutrients);
-		}
-		else if (fragmentItemName.equals("Ingredients"))
-		{
-			if (activity instanceof Home)
-			{
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.name_fragment_search_ingredients)))
-				{
-
-					closeSidebar(activity);
-				}
-				else
-				{
-					((Home) activity).currentFragment = getResources()
-							.getString(
-									R.string.name_fragment_search_ingredients);
-					((FragmentActivity) activity)
-							.getSupportFragmentManager()
-							.beginTransaction()
-							.replace(R.id.content_frame,
-									new IngredientListFragment()).commit();
-					closeSidebar(activity);
-				}
-			}
-			else
-			{
-				closeSidebar(activity);
-
-				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra(
-						"fragmentName",
-						getResources().getString(
-								R.string.name_fragment_search_ingredients));
-				activity.startActivity(intent);
-			}
-
-			setSelector(R.id.selectIngredients);
-		}
-		else if (fragmentItemName.equals("DietBuilder"))
-		{
-			if (activity instanceof Home)
-			{
-				if (activity
-						.getTitle()
-						.toString()
-						.equals(getResources().getString(
-								R.string.name_fragment_search_dietObject)))
-				{
-
-					closeSidebar(activity);
-				}
-				else
-				{
-					((Home) activity).currentFragment = getResources()
-							.getString(
-									R.string.name_fragment_search_dietObject);
-					((FragmentActivity) activity)
-							.getSupportFragmentManager()
-							.beginTransaction()
-							.replace(R.id.content_frame,
-									new DietBuilderListFragment()).commit();
-					closeSidebar(activity);
-				}
-			}
-			else
-			{
-				closeSidebar(activity);
-
-				Intent intent = new Intent(activity, Home.class);
-				intent.putExtra(
-						"fragmentName",
-						getResources().getString(
-								R.string.name_fragment_search_dietObject));
-				activity.startActivity(intent);
-			}
-
-			setSelector(R.id.selectdietBuilder);
 		}
 
 		else if (fragmentItemName.equals("Favorites"))
@@ -343,19 +216,7 @@ public class SidebarFragment extends Fragment
 			{
 				closeSidebar(activity);
 			}
-		}		
-	}
-
-	private void setSelector(int selector)
-	{
-		vg.findViewById(R.id.selectHome).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectNutrients).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectIngredients).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectRecipeNames).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectdietBuilder).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectFavorites).setVisibility(View.INVISIBLE);
-		vg.findViewById(R.id.selectUserProfile).setVisibility(View.INVISIBLE);
-		vg.findViewById(selector).setVisibility(View.VISIBLE);
+		}
 	}
 
 	private void closeSidebar(final Activity activity)

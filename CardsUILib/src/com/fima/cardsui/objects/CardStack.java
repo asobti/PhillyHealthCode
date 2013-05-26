@@ -3,7 +3,6 @@ package com.fima.cardsui.objects;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ public class CardStack extends AbstractCard {
 	private static final float _45F = 45f;
 	private static final String NINE_OLD_TRANSLATION_Y = "translationY";
 	private ArrayList<Card> cards;
-	private String title, stackTitleColor;
+	private String title;
 
 	private StackAdapter mAdapter;
 	private int mPosition;
@@ -65,7 +64,6 @@ public class CardStack extends AbstractCard {
 		final TextView title = (TextView) view.findViewById(R.id.stackTitle);
 
 		if (!TextUtils.isEmpty(this.title)) {
-			title.setTextColor(Color.parseColor(stackTitleColor));
 			title.setText(this.title);
 			title.setVisibility(View.VISIBLE);
 		}
@@ -111,23 +109,24 @@ public class CardStack extends AbstractCard {
 			lp.setMargins(0, topPx, 0, 0);
 
 			cardView.setLayoutParams(lp);
-
-			if (swipable) {
+			
+			if (swipable){
 				cardView.setOnTouchListener(new SwipeDismissTouchListener(
 						cardView, card, new OnDismissCallback() {
-
+							
 							@Override
 							public void onDismiss(View view, Object token) {
 								Card c = (Card) token;
 								// call onCardSwiped() listener
 								c.OnSwipeCard();
 								cards.remove(c);
+								
 
 								mAdapter.setItems(mStack, getPosition());
 
 								// refresh();
 								mAdapter.notifyDataSetChanged();
-
+								
 							}
 						}));
 			}
@@ -152,10 +151,6 @@ public class CardStack extends AbstractCard {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String setColor(String color) {
-		return this.stackTitleColor = color;
 	}
 
 	private OnClickListener getClickListener(final CardStack cardStack,
@@ -189,8 +184,7 @@ public class CardStack extends AbstractCard {
 			}
 
 			public void onClickFirstCard(final CardStack cardStack,
-					final RelativeLayout frameLayout, final int index,
-					View[] views) {
+					final RelativeLayout frameLayout, final int index, View[] views) {
 				// run through all the cards
 				for (int i = 0; i < views.length; i++) {
 					ObjectAnimator anim = null;

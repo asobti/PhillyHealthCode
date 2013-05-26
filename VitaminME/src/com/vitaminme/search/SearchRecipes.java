@@ -1,4 +1,4 @@
-package com.vitaminme.home;
+package com.vitaminme.search;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
@@ -9,7 +9,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,10 +19,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,20 +31,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
+import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
 import com.vitaminme.api.ApiFilter;
 import com.vitaminme.api.ApiFilterOp;
+import com.vitaminme.data.DietObject;
 import com.vitaminme.data.Ingredient;
+import com.vitaminme.data.Nutrient;
 import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.recipelist.RecipeListViewPager;
 
-public class IngredientListFragment extends SherlockFragment implements
+public class SearchRecipes extends BaseActivity implements
 		SearchView.OnQueryTextListener
 {
 	private ListView lv;
@@ -57,68 +56,60 @@ public class IngredientListFragment extends SherlockFragment implements
 	ArrayAdapter<String> adapter;
 	EditText inputSearch;
 	ArrayList<HashMap<String, String>> productList;
-	ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
-	ArrayList<Ingredient> selectedIngredients = new ArrayList<Ingredient>();
+	ArrayList<Nutrient> nutrients;
+	ArrayList<DietObject> allItems = new ArrayList<DietObject>();
+	ArrayList<DietObject> selectedItems = new ArrayList<DietObject>();
 	AtomicReference<Object> selectionRef = new AtomicReference<Object>(
-			selectedIngredients);
+			selectedItems);
 	ProgressDialog progressDialog;
 	ImageButton x;
-	Activity activity;
 	SearchView searchView;
 	MenuItem searchMenu;
 	boolean firstDisplay = true;
+	boolean firstQuery = true;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public void onCreate(Bundle savedInstanceState)
 	{
-		activity = getActivity();
-		activity.setTitle(R.string.title_fragment_search_ingredients);
-
-		setHasOptionsMenu(true);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.fragment_ingredient_list);
 
 		if (firstDisplay) // Only show loading screen when empty
 		// screen is loaded onCreate
 		{
-			progressDialog = new ProgressDialog(activity);
-			progressDialog.setMessage(getResources().getText(
-					R.string.loading_message));
-			progressDialog.setCancelable(false);
-			progressDialog.show();
 			firstDisplay = false;
 		}
+		else
+		{
+			searchView.setQueryHint("Search");
+		}
 
-		ViewGroup vg = (ViewGroup) inflater.inflate(
-				R.layout.fragment_ingredient_list, null);
+		vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-		new getIngredients().execute();
-
-		vib = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
-
-		lv = (ListView) vg.findViewById(R.id.listView_IngredientsList);
-		View footerView = (View) inflater.inflate(
+		lv = (ListView) findViewById(R.id.listView_IngredientsList);
+		View footerView = (View) getLayoutInflater().inflate(
 				R.layout.fragment_search_footer_search_more, null);
 		TextView text = (TextView) footerView.findViewById(R.id.text);
-		text.setText("Click to search for ingredients");
+		text.setText("Search for nutrients + ingredients");
 		lv.addFooterView(footerView);
+		adapter = new SearchRecipesAdapter(this, selectedItems, selectionRef);
+		lv.setAdapter(adapter);
 
 		footerView.setOnClickListener(new OnClickListener()
 		{
-
 			@Override
 			public void onClick(View v)
 			{
 				searchMenu.expandActionView();
 				searchView.requestFocus();
-				InputMethodManager imgr = (InputMethodManager) activity
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager imgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 				imgr.toggleSoftInput(InputMethodManager.SHOW_FORCED,
 						InputMethodManager.HIDE_IMPLICIT_ONLY);
 			}
 
 		});
 
-		Button check = (Button) vg.findViewById(R.id.nextButton);
+		Button check = (Button) findViewById(R.id.nextButton);
 		check.setOnClickListener(new OnClickListener()
 		{
 
@@ -127,21 +118,22 @@ public class IngredientListFragment extends SherlockFragment implements
 			{
 				vib.vibrate(20);
 
-				if (selectedIngredients != null
-						&& selectedIngredients.size() > 0)
+				if (selectedItems != null && selectedItems.size() > 0)
 				{
-					Intent intent = new Intent(activity, RecipeListViewPager.class);
-					intent.putExtra("Ingredients", selectedIngredients);
+					Intent intent = new Intent(SearchRecipes.this,
+							RecipeListViewPager.class);
+					intent.putExtra("Ingredients", selectedItems);
 					startActivity(intent);
 				}
 				else
 				{
-					PopUpSelection();					
+					PopUpSelection();
 				}
 			}
 		});
 
-		Button reviewButton = (Button) vg.findViewById(R.id.reviewButton);
+		Button reviewButton = (Button) findViewById(R.id.reviewButton);
+		reviewButton.setText("MY DIET");
 		reviewButton.setOnClickListener(new OnClickListener()
 		{
 
@@ -149,21 +141,28 @@ public class IngredientListFragment extends SherlockFragment implements
 			public void onClick(View v)
 			{
 				vib.vibrate(20);
-				PopUpSelection();
+				if (!selectedItems.isEmpty())
+				{
+					searchView.setQuery("", false);
+				}
+				else
+				{
+					PopUpSelection();
+				}
 			}
 		});
 
-		return vg;
 	}
 
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		super.onCreateOptionsMenu(menu);
+
 		// Search view
 		// Create the search view
-		ActionBar actionBar = getSherlockActivity().getSupportActionBar();
-		searchView = new SearchView(actionBar.getThemedContext());
-		searchView.setQueryHint("Search Ingredients");
 
+		searchView = new SearchView(getSupportActionBar().getThemedContext());
+		searchView.setQueryHint("Search");
 		searchView.setOnQueryTextListener(this);
 
 		searchMenu = menu.add("Search");
@@ -173,38 +172,27 @@ public class IngredientListFragment extends SherlockFragment implements
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
 								| MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		// searchMenu.expandActionView();
-	}
 
-	public void onStart()
-	{
-		super.onStart();
+		return true;
 	}
 
 	private void PopUpSelection()
 	{
-		AlertDialog.Builder box = new AlertDialog.Builder(activity);
+		AlertDialog.Builder box = new AlertDialog.Builder(this);
 		String list = "";
 		boolean empty = false;
 
 		box.setTitle("Selected Ingredients");
-		for (Ingredient n : selectedIngredients)
+		for (DietObject n : selectedItems)
 		{
 			if (n.value > 0)
 			{
 				list = list + " + " + n.term.toString() + "\n";
 			}
 		}
-		for (Ingredient n : selectedIngredients)
-		{
-			if (n.value < 0)
-			{
-				list = list + " - " + n.term.toString() + "\n";
-			}
-		}
 		if (list == "")
 		{
-			list = "No ingredients selected";
+			list = "Your Diet is empty";
 			empty = true;
 		}
 		box.setMessage(list);
@@ -224,10 +212,10 @@ public class IngredientListFragment extends SherlockFragment implements
 
 						public void onClick(DialogInterface dialog, int which)
 						{
-							for (int i = 0; i < ingredients.size(); i++)
+							for (int i = 0; i < allItems.size(); i++)
 							{
-								ingredients.get(i).value = 0;
-								selectedIngredients.clear();
+								allItems.get(i).value = 0;
+								selectedItems.clear();
 								adapter.notifyDataSetChanged();
 							}
 						}
@@ -239,29 +227,22 @@ public class IngredientListFragment extends SherlockFragment implements
 
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState)
-	{
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	private final class getIngredients extends
-			AsyncTask<ApiFilter, Void, ArrayList<Ingredient>>
+	private final class getItems extends
+			AsyncTask<ApiFilter, Void, ArrayList<DietObject>>
 	{
 		private final ApiAdapter api = ApiAdapter.getInstance();
 
 		@Override
 		protected void onPreExecute()
 		{
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					true);
+			setSupportProgressBarIndeterminateVisibility(true);
 		}
 
 		@Override
-		protected ArrayList<Ingredient> doInBackground(ApiFilter... arg)
+		protected ArrayList<DietObject> doInBackground(ApiFilter... arg)
 		{
 			ArrayList<Entry<String, String>> params = new ArrayList<Entry<String, String>>();
-			params.add(new SimpleEntry<String, String>("count", "20"));
+			params.add(new SimpleEntry<String, String>("count", "100"));
 			List<ApiFilter> filters = new ArrayList<ApiFilter>();
 
 			for (ApiFilter f : arg)
@@ -270,7 +251,24 @@ public class IngredientListFragment extends SherlockFragment implements
 			}
 			try
 			{
-				return api.getIngredients(params, filters);
+				ArrayList<Ingredient> ing = api.getIngredients(params, filters);
+
+				if (firstQuery)
+				{
+					nutrients = api.getNutrients(params);
+					firstQuery = false;
+				}
+				ArrayList<DietObject> items = new ArrayList<DietObject>();
+				if (nutrients != null)
+				{
+					items.addAll(nutrients);
+				}
+				if (ing != null)
+				{
+					items.addAll(ing);
+				}
+
+				return items;
 			}
 			catch (APICallException e)
 			{
@@ -279,45 +277,47 @@ public class IngredientListFragment extends SherlockFragment implements
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayList<Ingredient> ing)
+		protected void onPostExecute(final ArrayList<DietObject> items)
 		{
-			if (ing != null && ing.size() > 0)
+			if (items != null && items.size() > 0)
 			{
-				for (Ingredient i : ing)
+				for (DietObject i : items)
 				{
 					i.term = WordUtils.capitalize(i.term);
 				}
 
-				ingredients = ing;
-				adapter = new IngredientListAdapter(activity, ingredients,
-						selectionRef);
+				allItems = items;
+				adapter = new SearchRecipesAdapter(SearchRecipes.this,
+						allItems, selectionRef);
+				SearchRecipes.this.adapter.getFilter().filter(
+						searchView.getQuery());
 
 				lv.setAdapter(adapter);
+
 				lv.setTextFilterEnabled(true);
 				adapter.notifyDataSetChanged();
 
 			}
-			else if (ing == null)
+			else if (items == null)
 			{
-				Toast.makeText(activity, "No network found", Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(getBaseContext(), "No network found",
+						Toast.LENGTH_LONG).show();
 			}
-			else if (ing.size() == 0)
+			else if (items.size() == 0)
 			{
-				Toast.makeText(activity, "No ingredients found",
+				Toast.makeText(getBaseContext(), "No ingredients found",
 						Toast.LENGTH_LONG).show();
 			}
 			else
 			{
-				Toast.makeText(activity,
+				Toast.makeText(getBaseContext(),
 						"There was an error. Please try again",
 						Toast.LENGTH_LONG).show();
 			}
 
-			if (progressDialog.isShowing())
-				progressDialog.dismiss();
-			getSherlockActivity().setSupportProgressBarIndeterminateVisibility(
-					false);
+			// if (progressDialog.isShowing())
+			// progressDialog.dismiss();
+			setSupportProgressBarIndeterminateVisibility(false);
 
 		}
 	}
@@ -346,38 +346,42 @@ public class IngredientListFragment extends SherlockFragment implements
 			if (msg.what == 0)
 			{
 				String query = (String) msg.obj;
-				
+
 				if (query.length() > 2 && !searched)
 				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							query);
-					new getIngredients().execute(filter);
+
+					new getItems().execute(filter);
 					searched = true;
 				}
 				else if (query.length() == 2 && searched)
 				{
 					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
 							query);
-					new getIngredients().execute(filter);
+					new getItems().execute(filter);
 					searched = false;
 				}
 				else if (query.length() != 0)
 				{
 
-					if (IngredientListFragment.this.adapter != null)
+					if (SearchRecipes.this.adapter != null)
 					{
 						ApiFilter filter = new ApiFilter("term",
 								ApiFilterOp.like, query);
-						IngredientListFragment.this.adapter.getFilter().filter(
-								query);
-						new getIngredients().execute(filter);
+						new getItems().execute(filter);
+
 					}
 				}
-				else if (!selectedIngredients.isEmpty())
+				else if (!selectedItems.isEmpty())
 				{
-					adapter = new IngredientListAdapter(activity,
-							selectedIngredients, selectionRef);
+					adapter = new SearchRecipesAdapter(SearchRecipes.this,
+							selectedItems, selectionRef);
 					lv.setAdapter(adapter);
+				}
+				if (adapter != null)
+				{
+					adapter.notifyDataSetChanged();
 				}
 
 			}

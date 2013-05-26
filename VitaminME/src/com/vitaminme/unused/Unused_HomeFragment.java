@@ -1,4 +1,4 @@
-package com.vitaminme.home;
+package com.vitaminme.unused;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,10 +28,11 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.assist.SimpleImageLoadingListener;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.android.R;
+import com.vitaminme.home.Home;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.widgets.ExpandableHeightGridView;
 
-public class HomeFragment extends Fragment
+public class Unused_HomeFragment extends Fragment
 {
 	static Home activity;
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
@@ -205,7 +206,7 @@ public class HomeFragment extends Fragment
 					imageCounter++;
 					if (imageCounter >= num_images - 1)
 					{
-						activity.removeSplashScreen();
+						// activity.removeSplashScreen();
 					}
 				}
 			}

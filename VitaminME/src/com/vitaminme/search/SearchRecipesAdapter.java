@@ -1,4 +1,4 @@
-package com.vitaminme.home;
+package com.vitaminme.search;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,7 +18,7 @@ import com.vitaminme.data.Ingredient;
 import com.vitaminme.android.R;
 import com.vitaminme.data.DietObject;
 
-public class DietObjectListAdapter extends ArrayAdapter<String> implements
+public class SearchRecipesAdapter extends ArrayAdapter<String> implements
 		Filterable
 {
 	private Context context;
@@ -32,7 +32,7 @@ public class DietObjectListAdapter extends ArrayAdapter<String> implements
 
 	AtomicReference<Object> selectionRef;
 
-	public DietObjectListAdapter(Context context,
+	public SearchRecipesAdapter(Context context,
 			ArrayList<DietObject> ingredients,
 			AtomicReference<Object> selectionRef)
 	{

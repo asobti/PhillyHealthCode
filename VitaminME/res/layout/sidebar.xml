@@ -69,7 +69,7 @@
                 android:background="@color/spotify" />
         </RelativeLayout>
 
-        <RelativeLayout
+        <!-- <RelativeLayout
             android:id="@+id/searchByNutrients"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/sidebar_items_height"
@@ -145,10 +145,10 @@
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
                 android:background="@color/sidebar_divider" />
-        </RelativeLayout>
+        </RelativeLayout> -->
 
         <RelativeLayout
-            android:id="@+id/dietBuilder"
+            android:id="@+id/searchRecipes"
             android:layout_width="fill_parent"
             android:layout_height="@dimen/sidebar_items_height"
             android:background="?android:selectableItemBackground"
@@ -177,7 +177,7 @@
             <TextView
                 style="@style/sidebar_text"
                 android:layout_toRightOf="@+id/dietBuilderImage"
-                android:text="Diet Builder" />
+                android:text="Search Recipes" />
 
             <View
                 android:layout_width="match_parent"
