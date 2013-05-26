@@ -3,10 +3,10 @@ package com.vitaminme.recipe;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.widget.Toast;
 
+import com.viewpagerindicator.TabPageIndicator;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
@@ -15,75 +15,40 @@ import com.vitaminme.data.Recipe;
 public class RecipeDetails extends BaseActivity
 {
 
-	private ViewPager myViewPager;
-	private ViewPagerAdapter myPagerAdapter;
 	String recipe_id = "";
 	private Recipe recipe;
+	private android.support.v4.view.ViewPager myViewPager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.page_layout);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		setContentView(R.layout.activity_recipe);
 
 		recipe_id = getIntent().getStringExtra("recipe_id");
-		System.out.println("recipe ID: " + recipe_id);
-
 		new GetRecipe().execute(recipe_id);
 	}
 
 	private void setUpView()
 	{
-		myViewPager = (ViewPager) this.findViewById(R.id.viewPager);
-		myPagerAdapter = new ViewPagerAdapter(this,
+
+		setContentView(R.layout.activity_view_pager);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		myViewPager = (android.support.v4.view.ViewPager) findViewById(R.id.pager);
+
+		ViewPagerAdapter myPagerAdapter = new ViewPagerAdapter(RecipeDetails.this,
 				getSupportFragmentManager(), recipe);
+		myViewPager.setOffscreenPageLimit(3);
 		myViewPager.setAdapter(myPagerAdapter);
+		
+		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+		indicator.setViewPager(myViewPager);
 		myViewPager.setCurrentItem(1);
-	}
-
-	private void setTab()
-	{
-		myViewPager.setOnPageChangeListener(new OnPageChangeListener()
-		{
-			@Override
-			public void onPageScrollStateChanged(int position)
-			{
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2)
-			{
-			}
-
-			@Override
-			public void onPageSelected(int position)
-			{
-				switch (position)
-				{
-				case 0:
-					findViewById(R.id.first_tab).setVisibility(View.VISIBLE);
-					findViewById(R.id.second_tab).setVisibility(View.INVISIBLE);
-					findViewById(R.id.third_tab).setVisibility(View.INVISIBLE);
-					break;
-
-				case 1:
-					findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
-					findViewById(R.id.second_tab).setVisibility(View.VISIBLE);
-					findViewById(R.id.third_tab).setVisibility(View.INVISIBLE);
-					break;
-
-				case 2:
-					findViewById(R.id.first_tab).setVisibility(View.INVISIBLE);
-					findViewById(R.id.second_tab).setVisibility(View.INVISIBLE);
-					findViewById(R.id.third_tab).setVisibility(View.VISIBLE);
-					break;
-				}
-			}
-
-		});
+		
 
 	}
+
 
 	private final class GetRecipe extends AsyncTask<String, Void, Recipe>
 	{
@@ -125,11 +90,15 @@ public class RecipeDetails extends BaseActivity
 					mDialog.dismiss();
 
 				setUpView();
-				setTab();
+				//setTab();
+
 			}
 			else
 			{
-				// toast: Internet connection issue
+				if (mDialog.isShowing())
+					mDialog.dismiss();
+				Toast.makeText(RecipeDetails.this, "Internet Connection Issue",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

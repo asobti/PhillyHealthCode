@@ -4,12 +4,12 @@
     android:id="@+id/scrollview"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:padding="4dp"
     android:fillViewport="true">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:background="@drawable/nutrition_boarder" >
 
 
@@ -49,7 +49,7 @@
             android:layout_below="@+id/servings_per"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="17dp"
+            android:layout_marginRight="9dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -71,7 +71,7 @@
             android:layout_below="@+id/amount_per_serving"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="17dp"
+            android:layout_marginRight="9dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -100,7 +100,7 @@
             android:layout_below="@+id/calories"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="17dp"
+            android:layout_marginRight="9dp"
             android:layout_marginTop="4dp"
             android:background="@color/black" >
         </TableRow>
@@ -120,7 +120,7 @@
             android:layout_below="@+id/daily_value"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="9dp"
-            android:layout_marginRight="17dp"
+            android:layout_marginRight="9dp"
             android:layout_marginTop="2dp"
             android:background="@color/black" >
         </TableRow>
@@ -132,7 +132,7 @@
             android:layout_below="@+id/bar_light2"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="9dp"
-            android:layout_marginLeft="17dp"
+            android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
             android:orientation="vertical" >
 
