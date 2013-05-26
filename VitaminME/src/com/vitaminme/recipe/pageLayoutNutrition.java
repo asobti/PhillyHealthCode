@@ -44,20 +44,26 @@ public class pageLayoutNutrition extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		ViewGroup vg = (ViewGroup) inflater.inflate(
-				R.layout.nutrition_page_layout, null);
+		
+		if(recipe.getEnergy() == null){
+			
+			ViewGroup vg = (ViewGroup) inflater.inflate(
+					R.layout.nutrition_page_empty_layout, null);
+			return vg;
+		}
+		else{
+			ViewGroup vg = (ViewGroup) inflater.inflate(
+					R.layout.nutrition_page_layout, null);
 
-		TextView title = (TextView) vg.findViewById(R.id.nut_facts_header);
-		TextView calories = (TextView) vg.findViewById(R.id.calories);
-		calories.setSelected(true);
-		TextView servingPer = (TextView) vg.findViewById(R.id.servings_per);
-		TextView caloriesFromFat = (TextView) vg
-				.findViewById(R.id.calories_from_fat);
-
-		if (recipe.getEnergy() != null)
+			TextView title = (TextView) vg.findViewById(R.id.nut_facts_header);
+			TextView calories = (TextView) vg.findViewById(R.id.calories);
+			calories.setSelected(true);
+			TextView servingPer = (TextView) vg.findViewById(R.id.servings_per);
+			TextView caloriesFromFat = (TextView) vg
+					.findViewById(R.id.calories_from_fat);
+			
 			calories.setText("Calories " + recipe.getEnergy().value);
-		else
-			calories.setText("Calories NA");
+			
 		if (recipe.getFatNutrient() != null)
 		{
 			caloriesFromFat.setText("Calories from Fat "
@@ -82,9 +88,13 @@ public class pageLayoutNutrition extends Fragment
 		listView.requestLayout();
 		title.setFocusableInTouchMode(true);
 		title.requestFocus();
-
+		
 		return vg;
+		}
+		
+		
 
+	
 	}
 
 }

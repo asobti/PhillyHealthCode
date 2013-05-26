@@ -11,6 +11,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 {
 	private Context _context;
 	private Recipe recipe;
+	String[] pages = {"Nutrition", "Recipe", "Directions"};
+	
 
 	public ViewPagerAdapter(Context context, FragmentManager fm, Recipe recipe)
 	{
@@ -46,6 +48,11 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 	public int getCount()
 	{
 		return 3;
+	}
+	@Override
+	public CharSequence getPageTitle(int position)
+	{
+		return pages[position].toUpperCase();
 	}
 
 }
