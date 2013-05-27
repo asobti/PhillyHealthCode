@@ -53,7 +53,6 @@ public class Home extends BaseActivity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		showSplashScreen();
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_home);
@@ -65,15 +64,6 @@ public class Home extends BaseActivity
 
 		imageCounter = 0;
 		num_images = 0;
-
-		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_stub)
-				.showImageOnFail(R.drawable.ic_error).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getApplicationContext()).defaultDisplayImageOptions(options)
-				.build();
-		ImageLoader.getInstance().init(config);
 
 		ExpandableHeightGridView gv1 = (ExpandableHeightGridView) findViewById(R.id.gridView1);
 		gv1.setExpanded(true);
@@ -131,7 +121,15 @@ public class Home extends BaseActivity
 
 	private void performChecks()
 	{
-		setSupportProgressBarIndeterminateVisibility(false);
+		// Initialize global objects
+		options = new DisplayImageOptions.Builder().cacheInMemory()
+				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
+				.showImageForEmptyUri(R.drawable.ic_stub)
+				.showImageOnFail(R.drawable.ic_error).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getApplicationContext()).defaultDisplayImageOptions(options)
+				.build();
+		ImageLoader.getInstance().init(config);
 
 		// Update NutrientsDB
 		Intent intent = new Intent(this, UpdateNutrientsDB.class);

@@ -16,6 +16,11 @@ public class RecipeListViewPager extends BaseActivity
 {
 	String[] courseType = { "Breakfast", "Lunch", "Dinner", "Others" };
 
+	// FragmentPagerAdapter adapter;
+	// android.support.v4.view.ViewPager pager;
+	// TabPageIndicator indicator;
+	// Bundle bundle;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
@@ -24,27 +29,26 @@ public class RecipeListViewPager extends BaseActivity
 
 		Bundle bundle = getIntent().getExtras();
 
-		FragmentPagerAdapter adapter = new RecipeListAdapter(
-				getSupportFragmentManager(), bundle, this);
-
 		android.support.v4.view.ViewPager pager = (android.support.v4.view.ViewPager) findViewById(R.id.pager);
-		pager.setOffscreenPageLimit(courseType.length); // Cache all fragments in memory for fast switching
-		pager.setAdapter(adapter);
+		pager.setOffscreenPageLimit(courseType.length); // Cache all fragments
+														// in memory for fast
+														// switching
 
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+
+		FragmentPagerAdapter adapter = new RecipeListAdapter(
+				getSupportFragmentManager(), bundle);
+		pager.setAdapter(adapter);
 		indicator.setViewPager(pager);
 	}
 
 	class RecipeListAdapter extends FragmentPagerAdapter
 	{
-		private Context context;
 		private Bundle bundle;
 
-		public RecipeListAdapter(FragmentManager fm, Bundle bundle,
-				Context context)
+		public RecipeListAdapter(FragmentManager fm, Bundle bundle)
 		{
 			super(fm);
-			this.context = context;
 			this.bundle = bundle;
 		}
 
@@ -58,9 +62,8 @@ public class RecipeListViewPager extends BaseActivity
 		public Fragment getItem(int position)
 		{
 			Fragment f = new Fragment();
-			f = RecipeListFragment.newInstance(context);
-			((RecipeListFragment) f).constructor(context, bundle,
-					courseType[position]);
+			f = RecipeListFragment.newInstance();
+			((RecipeListFragment) f).constructor(bundle, courseType[position]);
 			return f;
 		}
 

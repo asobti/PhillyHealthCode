@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Window;
 import com.viewpagerindicator.TabPageIndicator;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
@@ -14,7 +15,6 @@ import com.vitaminme.data.Recipe;
 
 public class RecipeDetails extends BaseActivity
 {
-
 	String recipe_id = "";
 	private Recipe recipe;
 	private android.support.v4.view.ViewPager myViewPager;
@@ -31,7 +31,6 @@ public class RecipeDetails extends BaseActivity
 
 	private void setUpView()
 	{
-
 		setContentView(R.layout.activity_view_pager);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
@@ -45,8 +44,6 @@ public class RecipeDetails extends BaseActivity
 		TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(myViewPager);
 		myViewPager.setCurrentItem(1);
-		
-
 	}
 
 

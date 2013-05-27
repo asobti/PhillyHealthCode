@@ -50,7 +50,7 @@ public class BaseActivity extends SlidingFragmentActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Set ActionBar
-		
+
 		final AlertDialog.Builder helpDialog = new AlertDialog.Builder(this);
 		menu.add("Help").setIcon(R.drawable.info)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener()
@@ -58,7 +58,8 @@ public class BaseActivity extends SlidingFragmentActivity
 					@Override
 					public boolean onMenuItemClick(MenuItem item)
 					{
-						helpDialog.setTitle("Help")
+						helpDialog
+								.setTitle("Help")
 								.setMessage(helpMessage)
 								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
@@ -100,7 +101,8 @@ public class BaseActivity extends SlidingFragmentActivity
 								.findViewById(R.id.aboutYummlyLink);
 						tv3.setTypeface(tf2);
 
-						aboutDialog.setView(view)
+						aboutDialog
+								.setView(view)
 								.setIcon(R.drawable.info)
 								.setPositiveButton("OK",
 										new DialogInterface.OnClickListener()
@@ -128,6 +130,13 @@ public class BaseActivity extends SlidingFragmentActivity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onBackPressed()
+	{
+		super.onBackPressed();
+		finish();
 	}
 
 }

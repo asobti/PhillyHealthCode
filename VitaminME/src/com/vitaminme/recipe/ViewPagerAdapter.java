@@ -11,8 +11,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 {
 	private Context _context;
 	private Recipe recipe;
-	String[] pages = {"Nutrition", "Recipe", "Directions"};
-	
+	String[] pages = { "Nutrition", "Recipe", "Directions" };
 
 	public ViewPagerAdapter(Context context, FragmentManager fm, Recipe recipe)
 	{
@@ -49,6 +48,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 	{
 		return 3;
 	}
+
 	@Override
 	public CharSequence getPageTitle(int position)
 	{

@@ -1,6 +1,5 @@
 package com.vitaminme.recipe;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.vitaminme.data.Recipe;
 import com.vitaminme.android.R;
 
@@ -41,6 +41,7 @@ public class pageLayoutCook extends Fragment
 	{
 		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.cook_page_layout,
 				null);
+
 		Pbar = (ProgressBar) vg.findViewById(R.id.pB1);
 		box = (View) vg.findViewById(R.id.view1);
 		Pbar.bringToFront();
@@ -68,7 +69,6 @@ public class pageLayoutCook extends Fragment
 
 				}
 			}
-
 		});
 
 		wv.getSettings().setBuiltInZoomControls(true);

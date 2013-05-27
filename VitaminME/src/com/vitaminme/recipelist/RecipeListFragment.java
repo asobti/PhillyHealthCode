@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,8 +51,9 @@ public class RecipeListFragment extends Fragment
 {
 	Context context;
 	LayoutInflater inflater;
+	boolean firstDisplay;
 
-	ImageLoader imageLoader = ImageLoader.getInstance();
+	ImageLoader imageLoader;// = ImageLoader.getInstance();
 	DisplayImageOptions options;
 	ListView listView;
 	View footerView;
@@ -72,15 +74,14 @@ public class RecipeListFragment extends Fragment
 	List<Nutrient> nutrients = new ArrayList<Nutrient>();
 	List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-	public static Fragment newInstance(Context context)
+	public static Fragment newInstance()
 	{
 		RecipeListFragment f = new RecipeListFragment();
 		return f;
 	}
 
-	public void constructor(Context context, Bundle bundle, String courseType)
+	public void constructor(Bundle bundle, String courseType)
 	{
-		this.context = context;
 		this.courseType = courseType;
 
 		Serializable nutrientsExtra = bundle.getSerializable("Nutrients");
@@ -113,17 +114,17 @@ public class RecipeListFragment extends Fragment
 		return vg;
 	}
 
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		context = getActivity();
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		options = new DisplayImageOptions.Builder().cacheInMemory()
-				.cacheOnDisc().showStubImage(R.drawable.ic_launcher)
-				.showImageForEmptyUri(R.drawable.ic_stub)
-				.showImageOnFail(R.drawable.ic_error).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				context).defaultDisplayImageOptions(options).build();
-		ImageLoader.getInstance().init(config);
+		imageLoader = ImageLoader.getInstance();
 	}
 
 	public void fillListView()

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,8 +51,9 @@ public class pageLayoutRecipe extends Fragment
 		ViewGroup vg = (ViewGroup) inflater.inflate(
 				R.layout.recipe_page_layout, null);
 
-		
 		TextView recipeName = (TextView) vg.findViewById(R.id.textView1);
+		recipeName.setTypeface(Typeface.createFromAsset(getActivity()
+				.getAssets(), "fonts/Lato-Bold.ttf"));
 		TextView courseType = (TextView) vg.findViewById(R.id.courseType);
 		TextView cookingTime = (TextView) vg.findViewById(R.id.cookingTime);
 		mainImage = (ImageView) vg.findViewById(R.id.recipeImage);
@@ -59,30 +61,31 @@ public class pageLayoutRecipe extends Fragment
 				.findViewById(R.id.clock_icon);
 		ImageView courseTypeImage = (ImageView) vg
 				.findViewById(R.id.plate_icon);
-		
+
 		// add favorite icon unimplemented
-		ImageButton favorite = (ImageButton) vg.findViewById(R.id.favorite_icon);
+		ImageButton favorite = (ImageButton) vg
+				.findViewById(R.id.favorite_icon);
 		favorite.setVisibility(View.INVISIBLE);
-//		favorite.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//
-//				vib.vibrate(20);
-//				Toast.makeText(context, "Added to Favorites (not really)",
-//							Toast.LENGTH_SHORT).show();
-//			}
-//		});
-		
+		// favorite.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		//
+		// vib.vibrate(20);
+		// Toast.makeText(context, "Added to Favorites (not really)",
+		// Toast.LENGTH_SHORT).show();
+		// }
+		// });
+
 		recipeName.setSelected(true);
 		LinearLayout list = (LinearLayout) vg.findViewById(R.id.list);
-		ListAdapter adapter = new RecipeSelectedAdapter(getActivity(), recipe.ingredients);
-		for (int i = 0; i < adapter.getCount(); i++) {
-			  View item = adapter.getView(i, null, null);
-			  list.addView(item);
-			}
-		
-	
+		ListAdapter adapter = new RecipeSelectedAdapter(getActivity(),
+				recipe.ingredients);
+		for (int i = 0; i < adapter.getCount(); i++)
+		{
+			View item = adapter.getView(i, null, null);
+			list.addView(item);
+		}
 
 		recipeName.setTextColor(Color.WHITE);
 		recipeName.setText(recipe.name);
@@ -104,17 +107,18 @@ public class pageLayoutRecipe extends Fragment
 
 		// vg.findViewById(R.id.plate_icon).setVisibility(View.INVISIBLE);
 
-		if (recipe.cookingTime.toString().isEmpty()){
+		if (recipe.cookingTime.toString().isEmpty())
+		{
 			cookingTimeImage.setVisibility(View.INVISIBLE);
 			cookingTimeImage.getLayoutParams().height = 0;
 		}
 		else
 			cookingTime.setText(recipe.cookingTime.toString());
 
-//		mainImage.setImageResource(R.drawable.plate_icon);
+		// mainImage.setImageResource(R.drawable.plate_icon);
 		new GetImage().execute(recipe.images.get(ImageSize.LARGE));
 
-//		mainImage.setBackgroundColor(Color.BLACK);
+		// mainImage.setBackgroundColor(Color.BLACK);
 		return vg;
 
 	}
@@ -149,4 +153,3 @@ public class pageLayoutRecipe extends Fragment
 
 	}
 }
-

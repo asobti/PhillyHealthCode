@@ -34,6 +34,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.SearchView;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
@@ -71,8 +72,10 @@ public class SearchRecipes extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_ingredient_list);
+		setSupportProgressBarIndeterminateVisibility(false);
 
 		if (firstDisplay) // Only show loading screen when empty
 		// screen is loaded onCreate
