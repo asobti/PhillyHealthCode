@@ -352,27 +352,44 @@ public class SearchRecipes extends BaseActivity implements
 
 				if (query.length() > 2 && !searched)
 				{
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							query);
-
-					new getItems().execute(filter);
+					if(containsSpace(query)){
+						int spaceIndex = query.indexOf(" ");
+						String ps1 = query.substring(0, spaceIndex);
+						String ps2 = query.substring(spaceIndex + 1);
+						ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
+								ps1);
+						ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
+								ps2);
+						new getItems().execute(filter1, filter2);
+					}
+					else{
+						ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+								query);
+	
+						new getItems().execute(filter);
+					}
 					searched = true;
-				}
-				else if (query.length() == 2 && searched)
-				{
-					ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
-							query);
-					new getItems().execute(filter);
-					searched = false;
 				}
 				else if (query.length() != 0)
 				{
 
 					if (SearchRecipes.this.adapter != null)
 					{
-						ApiFilter filter = new ApiFilter("term",
-								ApiFilterOp.like, query);
-						new getItems().execute(filter);
+						if(containsSpace(query)){
+							int spaceIndex = query.indexOf(" ");
+							String ps1 = query.substring(0, spaceIndex);
+							String ps2 = query.substring(spaceIndex + 1);
+							ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
+									ps1);
+							ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
+									ps2);
+							new getItems().execute(filter1, filter2);
+						}
+						else{
+							ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
+									query);
+							new getItems().execute(filter);
+						}
 
 					}
 				}
@@ -390,4 +407,22 @@ public class SearchRecipes extends BaseActivity implements
 			}
 		}
 	};
+	public static boolean containsSpace(final String s)
+	{
+		if (s != null)
+		{
+			for (int i = 0; i < s.length(); i++)
+			{
+				if (Character.isWhitespace(s.charAt(i)))
+				{
+					//checks for a letter after the whitespace before returning true
+					if(s.length() > i){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 }
