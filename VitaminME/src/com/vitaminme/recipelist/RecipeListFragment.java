@@ -337,7 +337,8 @@ public class RecipeListFragment extends Fragment
 			 * "HIGH" : "LOW"; params.add(new SimpleEntry<String, String>(k,
 			 * v)); }
 			 */
-
+			
+		
 			for (Ingredient i : ingredients)
 			{
 				String k = (i.value == 1) ? "allowedIngredient[]"
