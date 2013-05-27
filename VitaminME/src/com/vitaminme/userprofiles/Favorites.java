@@ -92,7 +92,7 @@ public class Favorites extends BaseActivity
 			if (convertView == null)
 			{
 				view = getLayoutInflater().inflate(
-						R.layout.fragment_home_gridview_items, parent, false);
+						R.layout.expandable_gridview_items, parent, false);
 				holder = new ViewHolder();
 				holder.text1 = (TextView) view.findViewById(R.id.textHome);
 				holder.image = (ImageView) view.findViewById(R.id.imageHome);

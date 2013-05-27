@@ -88,6 +88,12 @@
             android:text="You have not viewed anything recently"
             android:textSize="14sp"
             android:visibility="invisible" />
+
+        <com.fima.cardsui.views.CardUI
+            android:id="@+id/cardsview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/emptyRecent" />
     </RelativeLayout>
 
 </ScrollView>

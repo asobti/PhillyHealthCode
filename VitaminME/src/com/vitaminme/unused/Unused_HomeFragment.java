@@ -52,7 +52,7 @@ public class Unused_HomeFragment extends Fragment
 		imageCounter = 0;
 		num_images = 0;
 
-		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.fragment_home,
+		ViewGroup vg = (ViewGroup) inflater.inflate(R.layout.activity_home,
 				null);
 
 		options = new DisplayImageOptions.Builder().cacheInMemory()
@@ -156,7 +156,7 @@ public class Unused_HomeFragment extends Fragment
 			if (convertView == null)
 			{
 				view = activity.getLayoutInflater().inflate(
-						R.layout.fragment_home_gridview_items, parent, false);
+						R.layout.expandable_gridview_items, parent, false);
 				holder = new ViewHolder();
 				holder.text1 = (TextView) view.findViewById(R.id.textHome);
 				holder.image = (ImageView) view.findViewById(R.id.imageHome);

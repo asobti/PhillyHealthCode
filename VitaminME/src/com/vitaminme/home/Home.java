@@ -23,6 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.Window;
+import com.vitaminme.widgets.ImageCard;
+import com.vitaminme.widgets.MyImageCard;
+import com.fima.cardsui.objects.CardStack;
+import com.fima.cardsui.views.CardUI;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -49,13 +53,15 @@ public class Home extends BaseActivity
 
 	static Home activity;
 
+	private CardUI mCardView;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		showSplashScreen();
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_home);
+		setContentView(R.layout.activity_home);
 
 		performChecks();
 
@@ -79,7 +85,7 @@ public class Home extends BaseActivity
 		final ExpandableHeightGridView gv2 = (ExpandableHeightGridView) findViewById(R.id.gridView2);
 		gv2.setExpanded(true);
 		gv2.setEmptyView(findViewById(R.id.emptyRecent));
-		gv2.setAdapter(new ImageAdapter());
+		// gv2.setAdapter(new ImageAdapter());
 
 		final Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		gv1.setOnItemClickListener(new OnItemClickListener()
@@ -117,6 +123,32 @@ public class Home extends BaseActivity
 			}
 		});
 
+		makeCards();
+
+	}
+
+	private void makeCards()
+	{
+		// Init CardView
+//		CardUI mCardView;
+		mCardView = (CardUI) findViewById(R.id.cardsview);
+		mCardView.setSwipeable(false);
+
+		// Add Cards to stack
+		CardStack stack = new CardStack();
+		System.out.println("carding and stuff");
+		{
+			// stack.add(new ImageCard("Recipe Title" + i,
+			// "http://vafoodbanks.org/wp-content/uploads/2012/06/fresh_food.jpg"));
+//			stack.add(new MyImageCard("Recipe Title" + i, R.drawable.yummly));
+		}
+
+		mCardView.addCard(new MyImageCard("Recipe Title ", R.drawable.yummly));
+		
+		// Add stack to cardView
+//		mCardView.addStack(stack);
+		// Draw cards
+		mCardView.refresh();
 	}
 
 	private void performChecks()
@@ -214,7 +246,7 @@ public class Home extends BaseActivity
 			if (convertView == null)
 			{
 				view = getLayoutInflater().inflate(
-						R.layout.fragment_home_gridview_items, parent, false);
+						R.layout.expandable_gridview_items, parent, false);
 				holder = new ViewHolder();
 				holder.text1 = (TextView) view.findViewById(R.id.textHome);
 				holder.image = (ImageView) view.findViewById(R.id.imageHome);

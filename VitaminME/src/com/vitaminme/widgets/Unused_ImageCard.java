@@ -1,57 +1,74 @@
-package com.fima.cardsui.objects;
+package com.vitaminme.widgets;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ImageView.ScaleType;
 
 import com.fima.cardsui.R;
 import com.fima.cardsui.Utils;
 
-public abstract class Card extends AbstractCard
+public abstract class Unused_ImageCard
 {
+	protected String title;
+	protected int image;
+	protected String desc;
+	protected String imageURL;
 
 	public interface OnCardSwiped
 	{
-		public void onCardSwiped(Card card, View layout);
+		public void onCardSwiped(Unused_ImageCard unused_ImageCard, View layout);
 	}
 
 	private OnCardSwiped onCardSwipedListener;
 	private OnClickListener mListener;
 	protected View mCardLayout;
 
-	public Card()
+	public Unused_ImageCard()
 	{
 
 	}
 
-	public Card(String title)
+	public Unused_ImageCard(String title)
 	{
 		this.title = title;
 	}
 
-	public Card(String title, int image)
+	public Unused_ImageCard(String title, int image)
 	{
 		this.title = title;
 		this.image = image;
 	}
 
-	public Card(String title, String desc, int image)
+	public Unused_ImageCard(String title, String imageURL)
+	{
+		this.title = title;
+		this.imageURL = imageURL;
+	}
+
+	public Unused_ImageCard(String title, String desc, int image)
 	{
 		this.title = title;
 		this.desc = desc;
 		this.image = image;
 	}
 
-	@Override
 	public View getView(Context context, boolean swipable)
 	{
 		return getView(context, false);
 	}
 
-	@Override
 	public View getView(Context context)
 	{
 
@@ -189,4 +206,64 @@ public abstract class Card extends AbstractCard
 		return R.layout.item_card_empty_first;
 	}
 
+	public String getTitle()
+	{
+		return title;
+	}
+
+	public String getDesc()
+	{
+		return desc;
+	}
+
+	public int getImage()
+	{
+		return image;
+	}
+
+	public Bitmap getImageBitmap(String imageURL)
+	{
+		try
+		{
+			URL url = new URL(
+					"http://vafoodbanks.org/wp-content/uploads/2012/06/fresh_food.jpg");
+			return BitmapFactory.decodeStream(url.openConnection()
+					.getInputStream());
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private class GetImageAsync extends AsyncTask<String, Void, Bitmap>
+	{
+		protected Bitmap doInBackground(String... params)
+		{
+			try
+			{
+				URL url = new URL(params[0]);
+				return BitmapFactory.decodeStream(url.openConnection()
+						.getInputStream());
+			}
+			catch (Exception e)
+			{
+				Log.e("vitaminme", "ERROR in AsyncTask: " + e.toString());
+				e.printStackTrace();
+				// image.setImageResource(R.drawable.ic_launcher);
+			}
+			return null;
+		}
+
+		protected void onPostExecute(Bitmap bm)
+		{
+			if (bm != null)
+			{
+//				image.setImageBitmap(bm);
+//				image.setScaleType(ScaleType.CENTER_CROP);
+			}
+		}
+
+	}
 }
