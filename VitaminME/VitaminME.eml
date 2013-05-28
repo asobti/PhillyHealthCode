@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component jdk="Android 4.2.2 Platform" jdk_type="Android SDK">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="gson-2.2.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/libs/gson-2.2.3.jar!/"/>
+	</lib>
+	<lib name="universal-image-loader-1.8.3-with-sources.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/libs/universal-image-loader-1.8.3-with-sources.jar!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.3-with-sources.jar!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/libs/universal-image-loader-1.8.3-with-sources.jar!/"/>
+	</lib>
+	<lib name="commons-lang3-3.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/libs/commons-lang3-3.1.jar!/"/>
+	</lib>
+	<lib name="C:\Users\m_gur_000\Documents\GitHub\PhillyHealthCode\VitaminME\libs\joda-time-2.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/libs/joda-time-2.2.jar!/"/>
+	</lib>
+</component>

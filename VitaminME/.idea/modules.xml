@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../CardsUILib/CardsUILib.iml" filepath="$PROJECT_DIR$/../CardsUILib/CardsUILib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../FacebookSDK_3.0.1/FacebookSDK_3.0.1.iml" filepath="$PROJECT_DIR$/../FacebookSDK_3.0.1/FacebookSDK_3.0.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" filepath="$PROJECT_DIR$/../SlidingMenu/SlidingMenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ViewPagerIndicator/ViewPagerIndicator.iml" filepath="$PROJECT_DIR$/../ViewPagerIndicator/ViewPagerIndicator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VitaminME.iml" filepath="$PROJECT_DIR$/VitaminME.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../actionbarsherlock/actionbarsherlock.iml" filepath="$PROJECT_DIR$/../actionbarsherlock/actionbarsherlock.iml" />
+    </modules>
+  </component>
+</project>
+
