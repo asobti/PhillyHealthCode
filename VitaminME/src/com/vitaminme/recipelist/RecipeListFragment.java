@@ -86,11 +86,11 @@ public class RecipeListFragment extends Fragment
 
 		Serializable nutrientsExtra = bundle.getSerializable("Nutrients");
 		if (nutrientsExtra != null)
-			nutrients = (List<Nutrient>) nutrientsExtra;
+			nutrients = (ArrayList<Nutrient>) nutrientsExtra;
 
 		Serializable ingExtra = bundle.getSerializable("Ingredients");
 		if (ingExtra != null)
-			ingredients = (List<Ingredient>) ingExtra;
+			ingredients = (ArrayList<Ingredient>) ingExtra;
 	}
 
 	@Override

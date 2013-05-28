@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -123,9 +124,21 @@ public class SearchRecipes extends BaseActivity implements
 
 				if (selectedItems != null && selectedItems.size() > 0)
 				{
+					ArrayList<Ingredient> ing = new ArrayList<Ingredient>();
+					ArrayList<Nutrient> nut = new ArrayList<Nutrient>();
+					for(DietObject i : selectedItems){
+						if(i instanceof Ingredient){
+							ing.add((Ingredient) i);
+						}
+						else{
+							nut.add((Nutrient) i);
+						}
+					}
+					
 					Intent intent = new Intent(SearchRecipes.this,
 							RecipeListViewPager.class);
-					intent.putExtra("Ingredients", selectedItems);
+					intent.putExtra("Ingredients", ing);
+					intent.putExtra("Nutrients", nut);
 					startActivity(intent);
 				}
 				else
@@ -358,9 +371,16 @@ public class SearchRecipes extends BaseActivity implements
 						String ps2 = query.substring(spaceIndex + 1);
 						ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
 								ps1);
-						ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
-								ps2);
-						new getItems().execute(filter1, filter2);
+						
+						if(ps2.length() > 1){
+							ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
+									ps2);
+							new getItems().execute(filter1, filter2);
+						}
+						else{
+							new getItems().execute(filter1);
+						}
+
 					}
 					else{
 						ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
@@ -372,18 +392,24 @@ public class SearchRecipes extends BaseActivity implements
 				}
 				else if (query.length() != 0)
 				{
-
 					if (SearchRecipes.this.adapter != null)
 					{
 						if(containsSpace(query)){
 							int spaceIndex = query.indexOf(" ");
 							String ps1 = query.substring(0, spaceIndex);
 							String ps2 = query.substring(spaceIndex + 1);
+							Log.v("mytag", "ps1 = " + ps1);
+
 							ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
 									ps1);
-							ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
-									ps2);
-							new getItems().execute(filter1, filter2);
+							if(ps2.length() > 1){
+								ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
+										ps2);
+								new getItems().execute(filter1, filter2);
+							}
+							else{
+								new getItems().execute(filter1);
+							}
 						}
 						else{
 							ApiFilter filter = new ApiFilter("term", ApiFilterOp.like,
@@ -416,9 +442,8 @@ public class SearchRecipes extends BaseActivity implements
 				if (Character.isWhitespace(s.charAt(i)))
 				{
 					//checks for a letter after the whitespace before returning true
-					if(s.length() > i){
 						return true;
-					}
+				
 				}
 			}
 		}
