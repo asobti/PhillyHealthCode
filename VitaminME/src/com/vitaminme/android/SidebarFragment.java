@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 import com.vitaminme.home.Home;
 import com.vitaminme.search.SearchRecipes;
+import com.vitaminme.search.SearchRecipesByName;
 import com.vitaminme.userprofiles.Favorites;
 import com.vitaminme.userprofiles.UserProfile;
 
@@ -167,6 +168,20 @@ public class SidebarFragment extends Fragment
 				closeSidebar(activity);
 
 				Intent intent = new Intent(activity, Home.class);
+				activity.startActivity(intent);
+			}
+			else
+			{
+				closeSidebar(activity);
+			}
+		}
+		else if (fragmentItemName.equals("RecipeNames"))
+		{
+			if (!(activity instanceof SearchRecipesByName))
+			{
+				closeSidebar(activity);
+
+				Intent intent = new Intent(activity, SearchRecipesByName.class);
 				activity.startActivity(intent);
 			}
 			else

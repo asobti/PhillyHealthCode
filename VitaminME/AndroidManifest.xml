@@ -45,6 +45,12 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.vitaminme.search.SearchRecipesByName"
+            android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
+            android:label="@string/title_activity_search_recipes"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.vitaminme.userprofiles.Favorites"
             android:configChanges="keyboardHidden|orientation|keyboard|screenSize"
             android:label="@string/title_activity_favorites"

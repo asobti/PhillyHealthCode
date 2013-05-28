@@ -367,12 +367,12 @@ public class SearchRecipes extends BaseActivity implements
 				{
 					if(containsSpace(query)){
 						int spaceIndex = query.indexOf(" ");
-						String ps1 = query.substring(0, spaceIndex);
+						String ps1 = query.substring(0, spaceIndex - 1);
 						String ps2 = query.substring(spaceIndex + 1);
 						ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
 								ps1);
 						
-						if(ps2.length() > 1){
+						if(ps2.length() > 0){
 							ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
 									ps2);
 							new getItems().execute(filter1, filter2);
@@ -396,13 +396,13 @@ public class SearchRecipes extends BaseActivity implements
 					{
 						if(containsSpace(query)){
 							int spaceIndex = query.indexOf(" ");
-							String ps1 = query.substring(0, spaceIndex);
+							String ps1 = query.substring(0, spaceIndex -1);
 							String ps2 = query.substring(spaceIndex + 1);
 							Log.v("mytag", "ps1 = " + ps1);
-
+							
 							ApiFilter filter1 = new ApiFilter("term", ApiFilterOp.like,
 									ps1);
-							if(ps2.length() > 1){
+							if(ps2.length() > 0){
 								ApiFilter filter2 = new ApiFilter("term", ApiFilterOp.like,
 										ps2);
 								new getItems().execute(filter1, filter2);
