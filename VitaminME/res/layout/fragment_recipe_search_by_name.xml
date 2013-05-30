@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/background_light_gray" >
+
+    <ListView
+        android:id="@+id/listView_IngredientsList"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom_options"
+        android:divider="@color/background_light_gray"
+        android:dividerHeight="6dp"
+        android:fastScrollEnabled="true"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:scrollbarStyle="outsideOverlay" />
+
+
+</RelativeLayout>

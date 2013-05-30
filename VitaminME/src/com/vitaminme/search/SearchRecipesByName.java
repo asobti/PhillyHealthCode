@@ -7,14 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.concurrent.atomic.AtomicReference;
-
-import org.apache.commons.lang3.text.WordUtils;
-
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -22,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +23,15 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.actionbarsherlock.widget.SearchView;
@@ -56,73 +43,59 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.vitaminme.android.BaseActivity;
 import com.vitaminme.android.R;
 import com.vitaminme.api.ApiAdapter;
-import com.vitaminme.api.ApiFilter;
-import com.vitaminme.api.ApiFilterOp;
 import com.vitaminme.data.DietObject;
-import com.vitaminme.data.Ingredient;
 import com.vitaminme.data.Nutrient;
 import com.vitaminme.data.Pagination;
 import com.vitaminme.data.RecipeSummary;
-import com.vitaminme.exceptions.APICallException;
 import com.vitaminme.recipe.RecipeDetails;
-import com.vitaminme.recipelist.RecipeListViewPager;
 
 
 public class SearchRecipesByName extends BaseActivity implements
 		SearchView.OnQueryTextListener {
 	Context context;
 	LayoutInflater inflater;
-
-	private ListView lv;
-	private Vibrator vib;
-	Boolean searched = false;
-	CharSequence search;
+	ImageLoader imageLoader;// = ImageLoader.getInstance();
+	DisplayImageOptions options;
+	Vibrator vib;
+	InputMethodManager imm;
+	
 	ItemAdapter adapter;
 	EditText inputSearch;
 	View footerView;
-	ArrayList<HashMap<String, String>> productList;
-	ArrayList<Nutrient> nutrients;
-	ArrayList<DietObject> allItems = new ArrayList<DietObject>();
-
+	ListView lv;
 	ProgressDialog progressDialog;
-	ImageButton x;
 	SearchView searchView;
 	MenuItem searchMenu;
-	boolean firstDisplay = true;
-	boolean firstQuery = true;
-	String courseType;
+	CharSequence search;
 
-	ImageLoader imageLoader;// = ImageLoader.getInstance();
-	DisplayImageOptions options;
+	String courseType;
 	int startIndex = 0;
 	int count = 20;
 	int firstVisibleItem = 0;
 	int totalNumResults = 1;
+	boolean firstDisplay = true;
 	boolean runningBg = false;
+	boolean searched = false;
 
 	List<RecipeSummary> recipeList;
 	List<String> images = new ArrayList<String>();
 	List<String> recipeNames = new ArrayList<String>();
 	List<String> notes = new ArrayList<String>();
 	List<String> ids = new ArrayList<String>();
+	ArrayList<HashMap<String, String>> productList;
+	ArrayList<Nutrient> nutrients;
+	ArrayList<DietObject> allItems = new ArrayList<DietObject>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment_ingredient_list);
+		setContentView(R.layout.fragment_recipe_search_by_name);
 		setSupportProgressBarIndeterminateVisibility(false);
 
 		this.context = getBaseContext();
-		if (firstDisplay) // Only show loading screen when empty
-		// screen is loaded onCreate
-		{
-			firstDisplay = false;
-		} else {
-			searchView.setQueryHint("Search");
-		}
-
 		vib = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		lv = (ListView) findViewById(R.id.listView_IngredientsList);
 		footerView = (View) getLayoutInflater().inflate(
@@ -277,15 +250,16 @@ public class SearchRecipesByName extends BaseActivity implements
 			} else {
 				holder = (ViewHolder) view.getTag();
 			}
-
+			
 			holder.text1.setText(recipeNames.get(position));
 			imageLoader = ImageLoader.getInstance();
 			imageLoader.displayImage(images.get(position), holder.image,
 					options, animateFirstListener);
-
+			
 			return view;
 		}
 	}
+	
 
 	private static class AnimateFirstDisplayListener extends
 			SimpleImageLoadingListener {
@@ -381,11 +355,14 @@ public class SearchRecipesByName extends BaseActivity implements
 					// getActivity().setTitle(
 					// "Recipe List: " + totalNumResults + " items found");
 					fillListView();
+					
 				}
 
 				if (startIndex >= totalNumResults) {
 					lv.removeFooterView(footerView);
 				}
+				setListeners();
+				imm.hideSoftInputFromWindow(lv.getWindowToken(), 0);
 			} else if (rec == null) {
 				// toast: Internet connection issue
 			} else if (rec.size() == 0) {

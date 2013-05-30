@@ -146,7 +146,7 @@
 
     <style name="TextAppearance.TabPageIndicator" parent="Widget">
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/spotify</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <!-- Application theme. -->
